@@ -30,4 +30,10 @@ public class TransacaoDAO extends BaseDAO {
 
 	}
 
+	public void criaTransacao(TransacaoVO transacaoVO) {
+		
+		getEntityManager().persist(transacaoVO);
+		
+	}
+
 }

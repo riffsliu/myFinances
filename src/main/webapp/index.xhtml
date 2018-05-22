@@ -1,21 +1,28 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
 <html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:f="http://xmlns.jcp.org/jsf/core"
-	xmlns:h="http://xmlns.jcp.org/jsf/html"
-	xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
-	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-	xmlns:p="http://primefaces.org/ui"
-	xmlns:c="http://java.sun.com/jsp/jstl/core"
-	xmlns:pe="http://primefaces.org/ui/extensions">
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"> 
+
+<h:head></h:head> 
+<body> 
+<h:form id="formPrincipal" enctype="multipart/form-data"
+	prependId="false">
+
+	<p:growl id="messages" showDetail="true" />
+
+	<p:fileUpload value="#{transacaoBean.file}" mode="simple" skinSimple="true"/>
+
+	<p:commandButton value="Submit" ajax="false"
+		actionListener="#{transacaoBean.upload}" />
+
+
+	<p:commandButton value="Popula Default" 
+		actionListener="#{transacaoBean.populaDefault()}" />
 	
-	<h:form>
-	Hello
-	<h:inputText value="#{transacaoBean.contaVO.descricaoConta}" />
-	
-	<h:commandButton action="#{transacaoBean.criaConta()}" value="Cria Conta" />
-	
-	
-	</h:form>
-	
+
+
+</h:form>
+</body> 
 </html>

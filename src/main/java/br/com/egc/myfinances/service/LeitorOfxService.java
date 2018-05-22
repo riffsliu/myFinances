@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +24,12 @@ import net.sf.ofx4j.domain.data.signon.SignonResponse;
 import net.sf.ofx4j.io.AggregateUnmarshaller;
 import net.sf.ofx4j.io.OFXParseException;
 
-public class LeitorOfxService {
+public class LeitorOfxService implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	public static void main(String[] args) {
 		try {
@@ -37,13 +43,10 @@ public class LeitorOfxService {
 
 	public static List<TransacaoVO> processarArquivoOfx(InputStream inputStreamFile) throws IOException, OFXParseException {
 
-		File file = new File("C:\\Users\\ecarvalho\\Downloads\\extrato.ofx");
-//		File file = new File("C:\\Users\\ecarvalho\\Downloads\\extratoOfxPf.ofx");
-
-		InputStream inputStream = new ByteArrayInputStream(FileUtils.readFileToByteArray(file));
-
+		List<TransacaoVO> listTransacaoVO = new ArrayList<>();
+		
 		AggregateUnmarshaller a = new AggregateUnmarshaller(ResponseEnvelope.class);
-		ResponseEnvelope re = (ResponseEnvelope) a.unmarshal(new FileInputStream(file));
+		ResponseEnvelope re = (ResponseEnvelope) a.unmarshal(inputStreamFile);
 
 		// objeto contendo informações como instituição financeira, idioma, data da
 		// conta.
@@ -64,6 +67,8 @@ public class LeitorOfxService {
 			
 			contaVO.setSaldoConta(BigDecimal.valueOf(-39.14));//saldo em 01/05/2018
 			
+			
+			
 			for (BankStatementResponseTransaction b : bank) {
 				System.out.println("cc: " + b.getMessage().getAccount().getAccountNumber());
 				System.out.println("ag: " + b.getMessage().getAccount().getBranchId());
@@ -78,6 +83,7 @@ public class LeitorOfxService {
 					transacaoVO.setTipoTransacao(transaction.getTransactionType().name());
 					transacaoVO.setIdTransacaoOriginal(Long.parseLong(transaction.getId()));
 					transacaoVO.setDataTransacao(transaction.getDatePosted());
+					transacaoVO.setDescricaoTransacao(transaction.getMemo());
 					transacaoVO.setValorTransacao(BigDecimal.valueOf(transaction.getAmount()));
 					
 					
@@ -93,13 +99,20 @@ public class LeitorOfxService {
 					System.out.println("valor: " + transaction.getAmount());
 					System.out.println("descricao: " + transaction.getMemo());
 					System.out.println("");
+					
+					listTransacaoVO.add(transacaoVO);
 				}
 			}
 			
 			System.out.println("Saldo Final:" +contaVO.getSaldoConta());
 		}
-		return null;
+		return listTransacaoVO;
 
 	}
+	
+	
+	
+	
+	
 
 }
