@@ -2,7 +2,9 @@ package br.com.egc.myfinances.controller;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
@@ -46,11 +48,28 @@ public class RendasBean implements Serializable {
 	@Inject
 	private CategoriaService categoriaService;
 
+	private Calendar calendarAtual;
+
+	@Getter
+	@Setter
+	private String mesSelecionado;
+
 	@PostConstruct
 	public void init() {
 
 		listTransacaoVO = transacaoService.listarTransacaoRendas();
 		listCategoriaVO = categoriaService.listarCategoriaRendas();
+
+		calendarAtual = Calendar.getInstance();
+		mesSelecionado = calendarAtual.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault());
+
+	}
+
+	public void listenerMesAnterior() {
+
+	}
+
+	public void listenerMesProximo() {
 
 	}
 

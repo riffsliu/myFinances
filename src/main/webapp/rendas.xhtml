@@ -16,6 +16,9 @@
 
 		<p:growl id="messages" showDetail="true" />
 
+		<p:commandLink value="anterior" actionListener="#{rendasBean.listenerMesAnterior()}"></p:commandLink>
+		<p:outputLabel value="#{rendasBean.mesSelecionado}"></p:outputLabel>
+		<p:commandLink value="proximo" actionListener="#{rendasBean.listenerMesProximo()}"></p:commandLink>
 		<p:dataTable var="item" value="#{rendasBean.listTransacaoVO}">
 			<p:column headerText="id">
 				<p:outputLabel value="#{item.idTransacao}"></p:outputLabel>
