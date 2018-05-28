@@ -5,6 +5,8 @@ import java.io.Serializable;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -24,8 +26,9 @@ public class CategoriaVO implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	public static String PADRAO = "padrão";
+	public static String SALARIO = "salário";
 	public static String EDUCACAO_MARIDO = "educacao marido";
 	public static String EDUCACAO_ESPOSA = "educacao esposa";
 	public static String EDUCACAO_FILHO1 = "educacao filho 1";
@@ -54,12 +57,18 @@ public class CategoriaVO implements Serializable {
 	@Getter
 	@Setter
 	private String descricaoCategoria;
-	
+
 	@Getter
 	@Setter
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "idCentroCusto")
 	private CentroCustoVO centroCustoVO;
+
+	@Getter
+	@Setter
+	@Enumerated(EnumType.ORDINAL)
+	@Column(name = "IDTIPOCATEGORIA")
+	private TipoCategoriaEnum tipoCategoriaEnum;
 
 	public CategoriaVO() {
 
@@ -67,6 +76,31 @@ public class CategoriaVO implements Serializable {
 
 	public CategoriaVO(String descricaoCategoria) {
 		this.descricaoCategoria = descricaoCategoria;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((idCategoria == null) ? 0 : idCategoria.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		CategoriaVO other = (CategoriaVO) obj;
+		if (idCategoria == null) {
+			if (other.idCategoria != null)
+				return false;
+		} else if (!idCategoria.equals(other.idCategoria))
+			return false;
+		return true;
 	}
 
 }

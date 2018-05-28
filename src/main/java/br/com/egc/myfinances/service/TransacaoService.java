@@ -23,9 +23,48 @@ public class TransacaoService implements Serializable{
 		
 		for (TransacaoVO transacaoVO : listTransacaoVO) {
 			
-			transacaoDAO.criaTransacao(transacaoVO);
+			if(!existeTransacao(transacaoVO.getIdTransacaoOriginal())) {
+				transacaoDAO.criaTransacao(transacaoVO);
+			}else {
+				System.out.println("idTransacaoOriginal já existe: "+transacaoVO.getIdTransacaoOriginal());
+			}
 			
 		}
+		
+	}
+	
+	public Boolean existeTransacao(Long idTransacaoOriginal) {
+		return transacaoDAO.existeTransacao(idTransacaoOriginal);
+	}
+
+	public List<TransacaoVO> listarTransacaoCategoriaDefault() {
+		
+		return transacaoDAO.listarTransacaoCategoriaDefault();
+		
+		
+	}
+
+	public void atualizarTransacao(List<TransacaoVO> listTransacaoVO) {
+		
+		for (TransacaoVO transacaoVO : listTransacaoVO) {
+			
+			transacaoDAO.atualizaTransacao(transacaoVO);
+			
+			
+		}
+		
+		
+	}
+
+	public List<TransacaoVO> listarTransacaoRendas() {
+		
+		return transacaoDAO.listarTransacaoRendas();
+		
+	}
+
+	public List<TransacaoVO> listarTransacaoDespesas() {
+		
+		return transacaoDAO.listarTransacaoDespesas();
 		
 	}
 

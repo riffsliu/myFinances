@@ -6,6 +6,11 @@ import br.com.egc.myfinances.entity.ContaVO;
 
 public class ContaDAO extends BaseDAO {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	public void criaContaDefault() {
 		ContaVO contaVO = new ContaVO();
 		contaVO.setNomeConta("itau");

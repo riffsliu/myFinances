@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
@@ -12,6 +13,7 @@ import javax.inject.Named;
 
 import org.primefaces.model.UploadedFile;
 
+import br.com.egc.myfinances.entity.CategoriaVO;
 import br.com.egc.myfinances.entity.ContaVO;
 import br.com.egc.myfinances.entity.TransacaoVO;
 import br.com.egc.myfinances.service.CategoriaService;
@@ -25,15 +27,9 @@ import net.sf.ofx4j.io.OFXParseException;
 
 @SessionScoped
 @Named
-public class TransacaoBean implements Serializable {
+public class ConciliacaoBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-
-	@Inject
-	private ContaService contaService;
-
-	@Inject
-	private LeitorOfxService leitorOfxService;
 
 	@Inject
 	private TransacaoService transacaoService;
@@ -41,47 +37,30 @@ public class TransacaoBean implements Serializable {
 	@Inject
 	private CategoriaService categoriaService;
 
-	@Inject
-	private CentroCustoService centroCustoService;
-
-	//
 	@Getter
-	private ContaVO contaVO;
+	@Setter
+	List<TransacaoVO> listTransacaoVO;
 
 	@Getter
 	@Setter
-	private UploadedFile file;
+	List<CategoriaVO> listCategoriaVO;
 
-	public void upload() {
-		if (file != null) {
+	@PostConstruct
+	public void init() {
 
-			FacesMessage message = new FacesMessage("Succesful", file.getFileName() + " is uploaded.");
-			FacesContext.getCurrentInstance().addMessage(null, message);
+		listTransacaoVO = transacaoService.listarTransacaoCategoriaDefault();
 
-			try {
-
-				List<TransacaoVO> listTransacaoVO = leitorOfxService.processarArquivoOfx(file.getInputstream());
-
-				transacaoService.adicionarListaTransacao(listTransacaoVO);
-
-			} catch (IOException | OFXParseException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
+		listCategoriaVO = categoriaService.listarCategoriaDespesas();
+		System.out.println("init");
 	}
 
-	public void listarConta() {
-
-		contaVO = contaService.listarConta();
-
-	}
-
-	public void populaDefault() {
-
-		contaService.criaContaDefault();
-		centroCustoService.criaCentroCustoDefault();
-		categoriaService.criarCategoriaDefault();
+	public void atualizarTransacao() {
+		
+		transacaoService.atualizarTransacao(listTransacaoVO);
+		
+		listTransacaoVO.clear();
+		
+		listTransacaoVO = transacaoService.listarTransacaoCategoriaDefault();
 
 	}
 
