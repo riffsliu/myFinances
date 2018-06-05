@@ -17,72 +17,121 @@
 
 		<p:growl id="messages" showDetail="true" />
 
-		<p:dataTable var="item" value="#{resumoBean.listResumoDTO}">
-			<p:column headerText="Descrição Categoria">
-				<p:outputLabel value="#{item.descricaoCategoria}"></p:outputLabel>
-			</p:column>
-			<p:column headerText="Janeiro">
-				<p:outputLabel value="#{item.mes01}">
-					<f:convertNumber type="currency" />
-				</p:outputLabel>
-			</p:column>
-			<p:column headerText="Fevereiro">
-				<p:outputLabel value="#{item.mes02}">
-					<f:convertNumber type="currency" />
-				</p:outputLabel>
-			</p:column>
-			<p:column headerText="Março">
-				<p:outputLabel value="#{item.mes03}">
-					<f:convertNumber type="currency" />
-				</p:outputLabel>
-			</p:column>
-			<p:column headerText="Abril">
-				<p:outputLabel value="#{item.mes04}">
-					<f:convertNumber type="currency" />
-				</p:outputLabel>
-			</p:column>
-			<p:column headerText="Maio">
-				<p:outputLabel value="#{item.mes05}">
-					<f:convertNumber type="currency" />
-				</p:outputLabel>
-			</p:column>
-			<p:column headerText="Junho">
-				<p:outputLabel value="#{item.mes06}">
-					<f:convertNumber type="currency" />
-				</p:outputLabel>
-			</p:column>
-			<p:column headerText="Julho">
-				<p:outputLabel value="#{item.mes07}">
-					<f:convertNumber type="currency" />
-				</p:outputLabel>
-			</p:column>
-			<p:column headerText="Agosto">
-				<p:outputLabel value="#{item.mes08}">
-					<f:convertNumber type="currency" />
-				</p:outputLabel>
-			</p:column>
-			<p:column headerText="Setembro">
-				<p:outputLabel value="#{item.mes09}">
-					<f:convertNumber type="currency" />
-				</p:outputLabel>
-			</p:column>
-			<p:column headerText="Outubro">
-				<p:outputLabel value="#{item.mes10}">
-					<f:convertNumber type="currency" />
-				</p:outputLabel>
-			</p:column>
-			<p:column headerText="Novembro">
-				<p:outputLabel value="#{item.mes11}">
-					<f:convertNumber type="currency" />
-				</p:outputLabel>
-			</p:column>
-			<p:column headerText="Dezembro">
-				<p:outputLabel value="#{item.mes12}">
-					<f:convertNumber type="currency" />
-				</p:outputLabel>
-			</p:column>
+		<p:dataTable var="team" value="#{resumoBean.listResumoDTO}">
+			<f:facet name="header">
+            Resultado
+        </f:facet>
 
+			<p:columnGroup type="header">
+				<p:row>
+					<p:column rowspan="2" headerText="Descrição" />
+					<p:column colspan="12" headerText="Resultado" />
+				</p:row>
+				<p:row>
+					<p:column headerText="Janeiro" />
+					<p:column headerText="Fevereiro" />
+					<p:column headerText="Março" />
+					<p:column headerText="Abril" />
+					<p:column headerText="Maio" />
+					<p:column headerText="Junho" />
+					<p:column headerText="Julho" />
+					<p:column headerText="Agosto" />
+					<p:column headerText="Setembro" />
+					<p:column headerText="Outubro" />
+					<p:column headerText="Novembro" />
+					<p:column headerText="Dezembro" />
+				</p:row>
+			</p:columnGroup>
+
+			<p:subTable var="stats" value="#{team.listResumoDTO}">
+				<f:facet name="header">
+					<h:outputText value="#{team.descricaoCategoria}" />
+				</f:facet>
+				<p:column headerText="Descrição Categoria">
+					<p:outputLabel value="#{stats.descricaoCategoria}"></p:outputLabel>
+				</p:column>
+				<p:column headerText="Janeiro">
+					<p:outputLabel value="#{stats.mes01}">
+						<f:convertNumber type="currency" />
+					</p:outputLabel>
+				</p:column>
+				<p:column headerText="Fevereiro">
+					<p:outputLabel value="#{stats.mes02}">
+						<f:convertNumber type="currency" />
+					</p:outputLabel>
+				</p:column>
+				<p:column headerText="Março">
+					<p:outputLabel value="#{stats.mes03}">
+						<f:convertNumber type="currency" />
+					</p:outputLabel>
+				</p:column>
+				<p:column headerText="Abril">
+					<p:outputLabel value="#{stats.mes04}">
+						<f:convertNumber type="currency" />
+					</p:outputLabel>
+				</p:column>
+				<p:column headerText="Maio">
+					<p:outputLabel value="#{stats.mes05}">
+						<f:convertNumber type="currency" />
+					</p:outputLabel>
+				</p:column>
+				<p:column headerText="Junho">
+					<p:outputLabel value="#{stats.mes06}">
+						<f:convertNumber type="currency" />
+					</p:outputLabel>
+				</p:column>
+				<p:column headerText="Julho">
+					<p:outputLabel value="#{stats.mes07}">
+						<f:convertNumber type="currency" />
+					</p:outputLabel>
+				</p:column>
+				<p:column headerText="Agosto">
+					<p:outputLabel value="#{stats.mes08}">
+						<f:convertNumber type="currency" />
+					</p:outputLabel>
+				</p:column>
+				<p:column headerText="Setembro">
+					<p:outputLabel value="#{stats.mes09}">
+						<f:convertNumber type="currency" />
+					</p:outputLabel>
+				</p:column>
+				<p:column headerText="Outubro">
+					<p:outputLabel value="#{stats.mes10}">
+						<f:convertNumber type="currency" />
+					</p:outputLabel>
+				</p:column>
+				<p:column headerText="Novembro">
+					<p:outputLabel value="#{stats.mes11}">
+						<f:convertNumber type="currency" />
+					</p:outputLabel>
+				</p:column>
+				<p:column headerText="Dezembro">
+					<p:outputLabel value="#{stats.mes12}">
+						<f:convertNumber type="currency" />
+					</p:outputLabel>
+				</p:column>
+
+				<p:columnGroup type="footer">
+					<p:row>
+						<p:column footerText="Totals: " style="text-align:right" />
+						<p:column footerText="#{team.totalMes01}" />
+						<p:column footerText="#{team.totalMes02}" />
+						<p:column footerText="#{team.totalMes03}" />
+						<p:column footerText="#{team.totalMes04}" />
+						<p:column footerText="#{team.totalMes05}" />
+						<p:column footerText="#{team.totalMes06}" />
+						<p:column footerText="#{team.totalMes07}" />
+						<p:column footerText="#{team.totalMes08}" />
+						<p:column footerText="#{team.totalMes09}" />
+						<p:column footerText="#{team.totalMes10}" />
+						<p:column footerText="#{team.totalMes11}" />
+						<p:column footerText="#{team.totalMes12}" />
+					</p:row>
+				</p:columnGroup>
+			</p:subTable>
 		</p:dataTable>
+
+
 
 
 

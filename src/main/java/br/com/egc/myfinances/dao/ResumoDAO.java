@@ -7,6 +7,7 @@ import java.util.List;
 import javax.persistence.Query;
 
 import br.com.egc.myfinances.dto.ResumoDTO;
+import br.com.egc.myfinances.entity.TipoCategoriaEnum;
 
 public class ResumoDAO extends BaseDAO {
 
@@ -16,7 +17,7 @@ public class ResumoDAO extends BaseDAO {
 	private static final long serialVersionUID = 1L;
 
 
-	public List<ResumoDTO> listarResumo(String ano){
+	public List<ResumoDTO> listarResumo(String ano, TipoCategoriaEnum tipoCategoriaEnum){
 		
 		
 		StringBuilder sb = new StringBuilder();
@@ -37,11 +38,14 @@ public class ResumoDAO extends BaseDAO {
 		sb.append(" sum(CASE WHEN to_char(t.datatransacao,'MM-YYYY') ='11-"+ano+"' THEN t.valortransacao ELSE 0 END) AS mes11,");
 		sb.append(" sum(CASE WHEN to_char(t.datatransacao,'MM-YYYY') ='12-"+ano+"' THEN t.valortransacao ELSE 0 END) AS mes12");
 		sb.append(" from transacao t inner join categoria cat on t.idcategoria=cat.idcategoria");
+		sb.append(" where cat.idtipocategoria= :pTipoCategoria");
 		sb.append(" group by"); 
 		sb.append(" cat.idcategoria");
 		sb.append(" order by cat.idtipocategoria desc");
 		
 		Query query = getEntityManager().createNativeQuery(sb.toString());
+		
+		query.setParameter("pTipoCategoria", tipoCategoriaEnum.getCodigo());
 		
 		List<Object[]> result = query.getResultList();
 		

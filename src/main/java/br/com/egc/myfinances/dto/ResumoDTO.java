@@ -1,6 +1,7 @@
 package br.com.egc.myfinances.dto;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -46,5 +47,46 @@ public class ResumoDTO {
 	@Getter
 	@Setter
 	private BigDecimal mes12;
+
+	@Getter
+	@Setter
+	private List<ResumoDTO> listResumoDTO;
+
+	@Getter
+	@Setter
+	private BigDecimal totalMes01 = BigDecimal.ZERO;
+	@Getter
+	@Setter
+	private BigDecimal totalMes02 = BigDecimal.ZERO;
+	@Getter
+	@Setter
+	private BigDecimal totalMes03 = BigDecimal.ZERO;
+	@Getter
+	@Setter
+	private BigDecimal totalMes04 = BigDecimal.ZERO;
+	@Getter
+	@Setter
+	private BigDecimal totalMes05 = BigDecimal.ZERO;
+	@Getter
+	@Setter
+	private BigDecimal totalMes06 = BigDecimal.ZERO;
+	@Getter
+	@Setter
+	private BigDecimal totalMes07 = BigDecimal.ZERO;
+	@Getter
+	@Setter
+	private BigDecimal totalMes08 = BigDecimal.ZERO;
+	@Getter
+	@Setter
+	private BigDecimal totalMes09 = BigDecimal.ZERO;
+	@Getter
+	@Setter
+	private BigDecimal totalMes10 = BigDecimal.ZERO;
+	@Getter
+	@Setter
+	private BigDecimal totalMes11 = BigDecimal.ZERO;
+	@Getter
+	@Setter
+	private BigDecimal totalMes12 = BigDecimal.ZERO;
 
 }
