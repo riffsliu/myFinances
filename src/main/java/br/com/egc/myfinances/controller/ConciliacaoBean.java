@@ -43,24 +43,38 @@ public class ConciliacaoBean implements Serializable {
 
 	@Getter
 	@Setter
-	List<CategoriaVO> listCategoriaVO;
+	List<CategoriaVO> listCategoriaDespesas;
+	@Getter
+	@Setter
+	List<CategoriaVO> listCategoriaRendas;
 
 	@PostConstruct
 	public void init() {
 
 		listTransacaoVO = transacaoService.listarTransacaoCategoriaDefault();
 
-		listCategoriaVO = categoriaService.listarCategoriaDespesas();
+		listCategoriaDespesas = categoriaService.listarCategoriaDespesas();
+		listCategoriaRendas = categoriaService.listarCategoriaRendas();
 		System.out.println("init");
 	}
 
 	public void atualizarTransacao() {
-		
+
 		transacaoService.atualizarTransacao(listTransacaoVO);
-		
+
 		listTransacaoVO.clear();
-		
+
 		listTransacaoVO = transacaoService.listarTransacaoCategoriaDefault();
+
+	}
+
+	public Boolean renderizaListaDespesa(TransacaoVO transacaoVO) {
+
+		if (transacaoVO.getTipoTransacao().equalsIgnoreCase("DEBIT")) {
+			return Boolean.TRUE;
+		} else {
+			return Boolean.FALSE;
+		}
 
 	}
 

@@ -1,0 +1,95 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head></h:head>
+<body>
+
+	<f:metadata>
+		<f:viewAction action="#{resumoBean.init()}"></f:viewAction>
+	</f:metadata>
+
+	<h:form id="formPrincipal" enctype="multipart/form-data"
+		prependId="false">
+
+		<p:growl id="messages" showDetail="true" />
+
+		<p:dataTable var="item" value="#{resumoBean.listResumoDTO}">
+			<p:column headerText="Descrição Categoria">
+				<p:outputLabel value="#{item.descricaoCategoria}"></p:outputLabel>
+			</p:column>
+			<p:column headerText="Janeiro">
+				<p:outputLabel value="#{item.mes01}">
+					<f:convertNumber type="currency" />
+				</p:outputLabel>
+			</p:column>
+			<p:column headerText="Fevereiro">
+				<p:outputLabel value="#{item.mes02}">
+					<f:convertNumber type="currency" />
+				</p:outputLabel>
+			</p:column>
+			<p:column headerText="Março">
+				<p:outputLabel value="#{item.mes03}">
+					<f:convertNumber type="currency" />
+				</p:outputLabel>
+			</p:column>
+			<p:column headerText="Abril">
+				<p:outputLabel value="#{item.mes04}">
+					<f:convertNumber type="currency" />
+				</p:outputLabel>
+			</p:column>
+			<p:column headerText="Maio">
+				<p:outputLabel value="#{item.mes05}">
+					<f:convertNumber type="currency" />
+				</p:outputLabel>
+			</p:column>
+			<p:column headerText="Junho">
+				<p:outputLabel value="#{item.mes06}">
+					<f:convertNumber type="currency" />
+				</p:outputLabel>
+			</p:column>
+			<p:column headerText="Julho">
+				<p:outputLabel value="#{item.mes07}">
+					<f:convertNumber type="currency" />
+				</p:outputLabel>
+			</p:column>
+			<p:column headerText="Agosto">
+				<p:outputLabel value="#{item.mes08}">
+					<f:convertNumber type="currency" />
+				</p:outputLabel>
+			</p:column>
+			<p:column headerText="Setembro">
+				<p:outputLabel value="#{item.mes09}">
+					<f:convertNumber type="currency" />
+				</p:outputLabel>
+			</p:column>
+			<p:column headerText="Outubro">
+				<p:outputLabel value="#{item.mes10}">
+					<f:convertNumber type="currency" />
+				</p:outputLabel>
+			</p:column>
+			<p:column headerText="Novembro">
+				<p:outputLabel value="#{item.mes11}">
+					<f:convertNumber type="currency" />
+				</p:outputLabel>
+			</p:column>
+			<p:column headerText="Dezembro">
+				<p:outputLabel value="#{item.mes12}">
+					<f:convertNumber type="currency" />
+				</p:outputLabel>
+			</p:column>
+
+		</p:dataTable>
+
+
+
+
+
+
+
+	</h:form>
+</body>
+</html>

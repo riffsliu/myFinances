@@ -12,6 +12,7 @@ import javax.inject.Named;
 
 import org.primefaces.model.UploadedFile;
 
+import br.com.egc.myfinances.dto.ResumoDTO;
 import br.com.egc.myfinances.entity.ContaVO;
 import br.com.egc.myfinances.entity.TransacaoVO;
 import br.com.egc.myfinances.service.CategoriaService;
@@ -50,6 +51,10 @@ public class TransacaoBean implements Serializable {
 
 	@Getter
 	@Setter
+	private List<ResumoDTO> listResumoDTO;
+
+	@Getter
+	@Setter
 	private UploadedFile file;
 
 	public void upload() {
@@ -82,6 +87,12 @@ public class TransacaoBean implements Serializable {
 		contaService.criaContaDefault();
 		centroCustoService.criaCentroCustoDefault();
 		categoriaService.criarCategoriaDefault();
+
+	}
+
+	public void initResumo() {
+
+		listResumoDTO = transacaoService.listarResumoDTO("2018");
 
 	}
 

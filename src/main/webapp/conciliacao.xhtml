@@ -34,12 +34,21 @@
 			</p:column>
 
 			<p:column headerText="Categoria">
-				<p:selectOneMenu value="#{item.categoriaVO}"
-					converter="#{categoriaConverter}">
+				<p:selectOneMenu
+					rendered="#{conciliacaoBean.renderizaListaDespesa(item)}"
+					value="#{item.categoriaVO}" converter="#{categoriaConverter}">
 					<f:selectItems var="categoria"
 						itemLabel="#{categoria.descricaoCategoria}"
 						itemValue="#{categoria}"
-						value="#{conciliacaoBean.listCategoriaVO}"></f:selectItems>
+						value="#{conciliacaoBean.listCategoriaDespesas}"></f:selectItems>
+				</p:selectOneMenu>
+				<p:selectOneMenu
+					rendered="#{!conciliacaoBean.renderizaListaDespesa(item)}"
+					value="#{item.categoriaVO}" converter="#{categoriaConverter}">
+					<f:selectItems var="categoria"
+						itemLabel="#{categoria.descricaoCategoria}"
+						itemValue="#{categoria}"
+						value="#{conciliacaoBean.listCategoriaRendas}"></f:selectItems>
 				</p:selectOneMenu>
 
 			</p:column>
