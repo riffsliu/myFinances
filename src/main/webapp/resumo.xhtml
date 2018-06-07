@@ -28,18 +28,18 @@
 					<p:column colspan="12" headerText="Resultado" />
 				</p:row>
 				<p:row>
-					<p:column headerText="Janeiro" />
-					<p:column headerText="Fevereiro" />
-					<p:column headerText="Março" />
-					<p:column headerText="Abril" />
-					<p:column headerText="Maio" />
-					<p:column headerText="Junho" />
-					<p:column headerText="Julho" />
-					<p:column headerText="Agosto" />
-					<p:column headerText="Setembro" />
-					<p:column headerText="Outubro" />
-					<p:column headerText="Novembro" />
-					<p:column headerText="Dezembro" />
+					<p:column headerText="Jan" style="text-align:right;font-size: 10px;"/>
+					<p:column headerText="Fev" style="text-align:right;font-size: 10px;"/>
+					<p:column headerText="Mar" style="text-align:right;font-size: 10px;"/>
+					<p:column headerText="Abr" style="text-align:right;font-size: 10px;"/>
+					<p:column headerText="Mai" style="text-align:right;font-size: 10px;"/>
+					<p:column headerText="Jun" style="text-align:right;font-size: 10px;"/>
+					<p:column headerText="Jul" style="text-align:right;font-size: 10px;"/>
+					<p:column headerText="Ago" style="text-align:right;font-size: 10px;"/>
+					<p:column headerText="Set" style="text-align:right;font-size: 10px;"/>
+					<p:column headerText="Out" style="text-align:right;font-size: 10px;"/>
+					<p:column headerText="Nov" style="text-align:right;font-size: 10px;"/>
+					<p:column headerText="Dez" style="text-align:right;font-size: 10px;"/>
 				</p:row>
 			</p:columnGroup>
 
@@ -47,85 +47,85 @@
 				<f:facet name="header">
 					<h:outputText value="#{team.descricaoCategoria}" />
 				</f:facet>
-				<p:column headerText="Descrição Categoria">
+				<p:column headerText="Descrição Categoria" style="text-align:right;font-size: 10px;">
 					<p:outputLabel value="#{stats.descricaoCategoria}"></p:outputLabel>
 				</p:column>
-				<p:column headerText="Janeiro">
+				<p:column headerText="Jan" style="text-align:right;font-size: 10px;">
 					<p:outputLabel value="#{stats.mes01}">
-						<f:convertNumber type="currency" />
+						<f:convertNumber pattern="#,##0.00;" />
 					</p:outputLabel>
 				</p:column>
-				<p:column headerText="Fevereiro">
+				<p:column headerText="Fev" style="text-align:right;font-size: 10px;">
 					<p:outputLabel value="#{stats.mes02}">
-						<f:convertNumber type="currency" />
+						<f:convertNumber pattern="#,##0.00;" />
 					</p:outputLabel>
 				</p:column>
-				<p:column headerText="Março">
+				<p:column headerText="Mar" style="text-align:right;font-size: 10px;">
 					<p:outputLabel value="#{stats.mes03}">
-						<f:convertNumber type="currency" />
+						<f:convertNumber pattern="#,##0.00;" />
 					</p:outputLabel>
 				</p:column>
-				<p:column headerText="Abril">
+				<p:column headerText="Abr" style="text-align:right;font-size: 10px;">
 					<p:outputLabel value="#{stats.mes04}">
-						<f:convertNumber type="currency" />
+						<f:convertNumber pattern="#,##0.00;" />
 					</p:outputLabel>
 				</p:column>
-				<p:column headerText="Maio">
+				<p:column headerText="Mai" style="text-align:right;font-size: 10px;">
 					<p:outputLabel value="#{stats.mes05}">
-						<f:convertNumber type="currency" />
+						<f:convertNumber pattern="#,##0.00;" />
 					</p:outputLabel>
 				</p:column>
-				<p:column headerText="Junho">
+				<p:column headerText="Jun" style="text-align:right;font-size: 10px;">
 					<p:outputLabel value="#{stats.mes06}">
-						<f:convertNumber type="currency" />
+						<f:convertNumber pattern="#,##0.00;" />
 					</p:outputLabel>
 				</p:column>
-				<p:column headerText="Julho">
+				<p:column headerText="Jul" style="text-align:right;font-size: 10px;">
 					<p:outputLabel value="#{stats.mes07}">
-						<f:convertNumber type="currency" />
+						<f:convertNumber pattern="#,##0.00;" />
 					</p:outputLabel>
 				</p:column>
-				<p:column headerText="Agosto">
+				<p:column headerText="Ago" style="text-align:right;font-size: 10px;">
 					<p:outputLabel value="#{stats.mes08}">
-						<f:convertNumber type="currency" />
+						<f:convertNumber pattern="#,##0.00;" />
 					</p:outputLabel>
 				</p:column>
-				<p:column headerText="Setembro">
+				<p:column headerText="Set" style="text-align:right;font-size: 10px;">
 					<p:outputLabel value="#{stats.mes09}">
-						<f:convertNumber type="currency" />
+						<f:convertNumber pattern="#,##0.00;" />
 					</p:outputLabel>
 				</p:column>
-				<p:column headerText="Outubro">
+				<p:column headerText="Out" style="text-align:right;font-size: 10px;">
 					<p:outputLabel value="#{stats.mes10}">
-						<f:convertNumber type="currency" />
+						<f:convertNumber pattern="#,##0.00;" />
 					</p:outputLabel>
 				</p:column>
-				<p:column headerText="Novembro">
+				<p:column headerText="Nov" style="text-align:right;font-size: 10px;">
 					<p:outputLabel value="#{stats.mes11}">
-						<f:convertNumber type="currency" />
+						<f:convertNumber pattern="#,##0.00;" />
 					</p:outputLabel>
 				</p:column>
-				<p:column headerText="Dezembro">
+				<p:column headerText="Dez" style="text-align:right;font-size: 10px;">
 					<p:outputLabel value="#{stats.mes12}">
-						<f:convertNumber type="currency" />
+						<f:convertNumber pattern="#,##0.00;" />
 					</p:outputLabel>
 				</p:column>
 
 				<p:columnGroup type="footer">
 					<p:row>
-						<p:column footerText="Totals: " style="text-align:right" />
-						<p:column footerText="#{team.totalMes01}" />
-						<p:column footerText="#{team.totalMes02}" />
-						<p:column footerText="#{team.totalMes03}" />
-						<p:column footerText="#{team.totalMes04}" />
-						<p:column footerText="#{team.totalMes05}" />
-						<p:column footerText="#{team.totalMes06}" />
-						<p:column footerText="#{team.totalMes07}" />
-						<p:column footerText="#{team.totalMes08}" />
-						<p:column footerText="#{team.totalMes09}" />
-						<p:column footerText="#{team.totalMes10}" />
-						<p:column footerText="#{team.totalMes11}" />
-						<p:column footerText="#{team.totalMes12}" />
+						<p:column footerText="Totals: " style="text-align:right;font-size: 10px;" />
+						<p:column footerText="#{team.totalMes01}" style="text-align:right;font-size: 10px;"></p:column>
+						<p:column footerText="#{team.totalMes02}" style="text-align:right;font-size: 10px;"></p:column>
+						<p:column footerText="#{team.totalMes03}" style="text-align:right;font-size: 10px;"></p:column>
+						<p:column footerText="#{team.totalMes04}" style="text-align:right;font-size: 10px;"></p:column>
+						<p:column footerText="#{team.totalMes05}" style="text-align:right;font-size: 10px;"></p:column>
+						<p:column footerText="#{team.totalMes06}" style="text-align:right;font-size: 10px;"></p:column>
+						<p:column footerText="#{team.totalMes07}" style="text-align:right;font-size: 10px;"></p:column>
+						<p:column footerText="#{team.totalMes08}" style="text-align:right;font-size: 10px;"></p:column>
+						<p:column footerText="#{team.totalMes09}" style="text-align:right;font-size: 10px;"></p:column>
+						<p:column footerText="#{team.totalMes10}" style="text-align:right;font-size: 10px;"></p:column>
+						<p:column footerText="#{team.totalMes11}" style="text-align:right;font-size: 10px;"></p:column>
+						<p:column footerText="#{team.totalMes12}" style="text-align:right;font-size: 10px;"></p:column>
 					</p:row>
 				</p:columnGroup>
 			</p:subTable>
