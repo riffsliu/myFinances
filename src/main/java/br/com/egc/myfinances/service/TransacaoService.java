@@ -6,8 +6,10 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
 
+import br.com.egc.myfinances.dao.CategoriaDAO;
 import br.com.egc.myfinances.dao.TransacaoDAO;
 import br.com.egc.myfinances.dto.ResumoDTO;
+import br.com.egc.myfinances.entity.CategoriaVO;
 import br.com.egc.myfinances.entity.TransacaoVO;
 
 @Transactional
@@ -20,11 +22,17 @@ public class TransacaoService implements Serializable {
 	@Inject
 	private TransacaoDAO transacaoDAO;
 
+	@Inject
+	private CategoriaDAO categoriaDAO;
+
 	public void adicionarListaTransacao(List<TransacaoVO> listTransacaoVO) {
 
 		for (TransacaoVO transacaoVO : listTransacaoVO) {
 
 			if (!existeTransacao(transacaoVO.getIdTransacaoOriginal())) {
+
+				transacaoVO.setCategoriaVO(categoriaDAO.buscarCategoriaPorId(1L));
+
 				transacaoDAO.criaTransacao(transacaoVO);
 			} else {
 				System.out.println("idTransacaoOriginal já existe: " + transacaoVO.getIdTransacaoOriginal());
