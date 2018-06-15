@@ -9,6 +9,7 @@ import javax.transaction.Transactional;
 
 import br.com.egc.myfinances.dao.CategoriaDAO;
 import br.com.egc.myfinances.dao.CentroCustoDAO;
+import br.com.egc.myfinances.entity.CategoriaPK;
 import br.com.egc.myfinances.entity.CategoriaVO;
 import br.com.egc.myfinances.entity.CentroCustoVO;
 import br.com.egc.myfinances.entity.TipoCategoriaEnum;
@@ -77,15 +78,24 @@ public class CategoriaService implements Serializable {
 
 	}
 
-	public void criaCategoria(CategoriaVO categoriaVO) {
+	public void salvarCategoria(CategoriaVO categoriaVO) {
 
 		// categoriaVO.setTipoCategoriaEnum(TipoCategoriaEnum.DESPESAS);
+		
+		CategoriaPK categoriaPK = new CategoriaPK(1L,categoriaDAO.nextIdCategoria(1L));
+		categoriaPK.setIdUsuario(1L);
+		categoriaVO.setCategoriaPK(categoriaPK);
+		
 		categoriaVO.setCentroCustoVO(centroCustoDAO.buscaCentroCustoPorId(CentroCustoVO.PADRAO1));
 
 		categoriaDAO.criaCategoria(categoriaVO);
 
 	}
 
+	public List<CategoriaVO> listarCategoria() {
+		
+		return categoriaDAO.listarCategoria();
+	}
 	public List<CategoriaVO> listarCategoriaDespesas() {
 
 		return categoriaDAO.listarCategoriaDespesas();

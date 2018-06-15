@@ -7,9 +7,12 @@ import javax.inject.Inject;
 import javax.transaction.Transactional;
 
 import br.com.egc.myfinances.dao.CategoriaDAO;
+import br.com.egc.myfinances.dao.ContaDAO;
 import br.com.egc.myfinances.dao.TransacaoDAO;
 import br.com.egc.myfinances.dto.ResumoDTO;
+import br.com.egc.myfinances.entity.CategoriaPK;
 import br.com.egc.myfinances.entity.CategoriaVO;
+import br.com.egc.myfinances.entity.ContaPK;
 import br.com.egc.myfinances.entity.TransacaoVO;
 
 @Transactional
@@ -24,14 +27,20 @@ public class TransacaoService implements Serializable {
 
 	@Inject
 	private CategoriaDAO categoriaDAO;
+	
+	@Inject
+	private ContaDAO contaDAO;
+	
 
 	public void adicionarListaTransacao(List<TransacaoVO> listTransacaoVO) {
 
 		for (TransacaoVO transacaoVO : listTransacaoVO) {
 
 			if (!existeTransacao(transacaoVO.getIdTransacaoOriginal())) {
+				
+				transacaoVO.setContaVO(contaDAO.buscarContaPorId(new ContaPK(1L, 1L)));
 
-				transacaoVO.setCategoriaVO(categoriaDAO.buscarCategoriaPorId(1L));
+				transacaoVO.setCategoriaVO(categoriaDAO.buscarCategoriaPorId(new CategoriaPK(1L, 1L)));
 
 				transacaoDAO.criaTransacao(transacaoVO);
 			} else {

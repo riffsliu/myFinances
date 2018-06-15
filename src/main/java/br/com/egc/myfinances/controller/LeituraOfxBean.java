@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
@@ -13,10 +14,10 @@ import javax.inject.Named;
 import org.primefaces.model.UploadedFile;
 
 import br.com.egc.myfinances.dto.ResumoDTO;
+import br.com.egc.myfinances.entity.CategoriaVO;
 import br.com.egc.myfinances.entity.ContaVO;
 import br.com.egc.myfinances.entity.TransacaoVO;
 import br.com.egc.myfinances.service.CategoriaService;
-import br.com.egc.myfinances.service.CentroCustoService;
 import br.com.egc.myfinances.service.ContaService;
 import br.com.egc.myfinances.service.LeitorOfxService;
 import br.com.egc.myfinances.service.TransacaoService;
@@ -26,12 +27,9 @@ import net.sf.ofx4j.io.OFXParseException;
 
 @SessionScoped
 @Named
-public class TransacaoBean implements Serializable {
+public class LeituraOfxBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-
-	@Inject
-	private ContaService contaService;
 
 	@Inject
 	private LeitorOfxService leitorOfxService;
@@ -42,10 +40,6 @@ public class TransacaoBean implements Serializable {
 	@Inject
 	private CategoriaService categoriaService;
 
-	@Inject
-	private CentroCustoService centroCustoService;
-
-	//
 	@Getter
 	private ContaVO contaVO;
 
@@ -55,7 +49,42 @@ public class TransacaoBean implements Serializable {
 
 	@Getter
 	@Setter
+	private List<TransacaoVO> listTransacaoVO;
+
+	@Getter
+	@Setter
+	private List<CategoriaVO> listCategoriaDespesas;
+	@Getter
+	@Setter
+	private List<CategoriaVO> listCategoriaRendas;
+
+	@Getter
+	@Setter
 	private UploadedFile file;
+
+	@PostConstruct
+	public void init() {
+
+		listCategoriaDespesas = categoriaService.listarCategoriaDespesas();
+		listCategoriaRendas = categoriaService.listarCategoriaRendas();
+
+	}
+
+	public Boolean renderizaListaDespesa(TransacaoVO transacaoVO) {
+
+		if (transacaoVO != null) {
+			if (transacaoVO.getTipoTransacao().equalsIgnoreCase("DEBIT")) {
+				return Boolean.TRUE;
+			} else {
+				return Boolean.FALSE;
+			}
+
+		} else {
+			return Boolean.FALSE;
+
+		}
+
+	}
 
 	public void upload() {
 		if (file != null) {
@@ -65,34 +94,19 @@ public class TransacaoBean implements Serializable {
 
 			try {
 
-				List<TransacaoVO> listTransacaoVO = leitorOfxService.processarArquivoOfx(file.getInputstream());
-
-				transacaoService.adicionarListaTransacao(listTransacaoVO);
+				listTransacaoVO = leitorOfxService.processarArquivoOfx(file.getInputstream());
 
 			} catch (IOException | OFXParseException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
 	}
 
-	public void listarConta() {
+	public void listenerSalvar() {
 
-//		contaVO = contaService.listarConta();
+		transacaoService.adicionarListaTransacao(listTransacaoVO);
 
-	}
-
-	public void populaDefault() {
-
-		contaService.criaContaDefault();
-		centroCustoService.criaCentroCustoDefault();
-		categoriaService.criarCategoriaDefault();
-
-	}
-
-	public void initResumo() {
-
-		listResumoDTO = transacaoService.listarResumoDTO("2018");
+		listTransacaoVO.clear();
 
 	}
 

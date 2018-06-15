@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -19,7 +20,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-@Table(name = "CONTA")
+@Table(name = "NEWCONTA")
 public class ContaVO implements Serializable {
 
 	/**
@@ -27,13 +28,18 @@ public class ContaVO implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 
+//	@Getter
+//	@Setter
+//	@Id
+//	@Column
+//	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "conta_generator")
+//	@SequenceGenerator(name = "conta_generator", sequenceName = "conta_idconta_seq", allocationSize = 1)
+//	private Long idConta;
+	
 	@Getter
 	@Setter
-	@Id
-	@Column
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "conta_generator")
-	@SequenceGenerator(name = "conta_generator", sequenceName = "conta_idconta_seq", allocationSize = 1)
-	private Long idConta;
+	@EmbeddedId
+	private ContaPK contaPK;
 
 	@Getter
 	@Setter

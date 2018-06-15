@@ -11,6 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -19,7 +20,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-@Table(name = "TRANSACAO")
+@Table(name = "NEWTRANSACAO")
 public class TransacaoVO implements Serializable {
 
 	/**
@@ -58,13 +59,22 @@ public class TransacaoVO implements Serializable {
 	@Getter
 	@Setter
 	@ManyToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "idConta")
+	@JoinColumns({
+		@JoinColumn(name = "idConta",referencedColumnName="idConta"),
+		@JoinColumn(name = "idUsuarioConta",referencedColumnName="idUsuario")
+		
+	})
 	private ContaVO contaVO;
 
 	@Getter
 	@Setter
 	@ManyToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "idCategoria")
+//	@JoinColumn(name = "idCategoria")
+	@JoinColumns({
+		@JoinColumn(name = "idCategoria",referencedColumnName="idCategoria"),
+		@JoinColumn(name = "idUsuarioCategoria",referencedColumnName="idUsuario")
+		
+	})
 	private CategoriaVO categoriaVO;
 
 }
