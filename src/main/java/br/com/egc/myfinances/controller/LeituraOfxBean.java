@@ -70,6 +70,14 @@ public class LeituraOfxBean implements Serializable {
 
 	}
 
+	public void initLeituraOfx() {
+		System.out.println("LeituraOfxBean.initLeituraOfx()");
+		listCategoriaDespesas = categoriaService.listarCategoriaDespesas();
+		listCategoriaRendas = categoriaService.listarCategoriaRendas();
+		
+	}
+	
+
 	public Boolean renderizaListaDespesa(TransacaoVO transacaoVO) {
 
 		if (transacaoVO != null) {

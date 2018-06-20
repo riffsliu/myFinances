@@ -65,6 +65,14 @@ public class RendasBean implements Serializable {
 
 	}
 
+	public void initRendas() {
+		System.out.println("RendasBean.initRendas()");
+		listTransacaoVO = transacaoService.listarTransacaoRendas();
+		listCategoriaVO = categoriaService.listarCategoriaRendas();
+		
+
+	}
+
 	public void listenerMesAnterior() {
 
 	}

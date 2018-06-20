@@ -18,7 +18,7 @@ import lombok.Setter;
 
 @SessionScoped
 @Named
-public class CategoriaBean implements Serializable {
+public class CategoriaBean extends BaseBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -51,6 +51,19 @@ public class CategoriaBean implements Serializable {
 		listCategoriaRendas = categoriaService.listarCategoriaRendas();
 
 	}
+	
+	
+	public void initCategoriaRendas() {
+		System.out.println("CategoriaBean.initCategoriaRendas()");
+		listCategoriaRendas = categoriaService.listarCategoriaRendas();
+		
+	}
+
+	public void initCategoriaDespesas() {
+		System.out.println("CategoriaBean.actionCategoriaDespesas()");
+		listCategoriaDespesas = categoriaService.listarCategoriaDespesas();
+	}
+	
 
 	public void listenerSalvarCategoriaDespesa() {
 

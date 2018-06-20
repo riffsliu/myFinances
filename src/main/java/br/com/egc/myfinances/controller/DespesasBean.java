@@ -42,6 +42,12 @@ public class DespesasBean implements Serializable {
 		listCategoriaVO = categoriaService.listarCategoriaDespesas();
 
 	}
+	public void initDespesas() {
+		System.out.println("DespesasBean.initDespesas()");
+		listTransacaoVO = transacaoService.listarTransacaoDespesas();
+		listCategoriaVO = categoriaService.listarCategoriaDespesas();
+		
+	}
 
 	public void atualizarTransacao() {
 

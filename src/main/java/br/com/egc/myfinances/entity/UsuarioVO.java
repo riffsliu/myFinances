@@ -43,4 +43,12 @@ public class UsuarioVO implements Serializable {
 	@Setter
 	private String loginUsuario;
 
+	@Getter
+	@Setter
+	private String emailUsuario;
+
+	@Getter
+	@Setter
+	private String senhaUsuario;
+
 }

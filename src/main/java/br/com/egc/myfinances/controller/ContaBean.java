@@ -51,6 +51,12 @@ public class ContaBean implements Serializable {
 
 	}
 
+	public void initContas() {
+		System.out.println("ContaBean.initContas()");
+		listContaVO = contaService.listarConta();
+		
+	}
+
 	public void listenerSalvarConta() {
 
 		try {

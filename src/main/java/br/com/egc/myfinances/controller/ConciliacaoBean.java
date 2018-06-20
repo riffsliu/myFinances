@@ -27,7 +27,7 @@ import net.sf.ofx4j.io.OFXParseException;
 
 @SessionScoped
 @Named
-public class ConciliacaoBean implements Serializable {
+public class ConciliacaoBean extends BaseBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
