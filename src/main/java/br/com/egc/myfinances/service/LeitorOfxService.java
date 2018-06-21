@@ -7,7 +7,11 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.egc.myfinances.entity.ContaVO;
+import javax.inject.Inject;
+
+import br.com.egc.myfinances.dao.CategoriaDAO;
+import br.com.egc.myfinances.entity.CategoriaPK;
+import br.com.egc.myfinances.entity.CategoriaVO;
 import br.com.egc.myfinances.entity.TransacaoVO;
 import net.sf.ofx4j.domain.data.MessageSetType;
 import net.sf.ofx4j.domain.data.ResponseEnvelope;
@@ -20,6 +24,9 @@ import net.sf.ofx4j.io.OFXParseException;
 
 public class LeitorOfxService implements Serializable {
 
+	@Inject
+	private CategoriaDAO categoriaDAO;
+
 	/**
 	 * 
 	 */
@@ -27,6 +34,10 @@ public class LeitorOfxService implements Serializable {
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public List<TransacaoVO> processarArquivoOfx(InputStream inputStreamFile) throws IOException, OFXParseException {
+
+		
+		CategoriaVO categoriaDespesaPadraoVO = categoriaDAO.buscarCategoriaDespesaPadrao(Util.getUsuarioNaSession().getIdUsuario());
+		CategoriaVO categoriaReceitaPadraoVO = categoriaDAO.buscarCategoriaReceitaPadrao(Util.getUsuarioNaSession().getIdUsuario());
 
 		List<TransacaoVO> listTransacaoVO = new ArrayList<>();
 
@@ -47,18 +58,20 @@ public class LeitorOfxService implements Serializable {
 
 			System.out.println("");
 
-			ContaVO contaVO = new ContaVO();
-			contaVO.setListTransacaoVO(new ArrayList<TransacaoVO>());
-
-			contaVO.setSaldoConta(BigDecimal.valueOf(-39.14));// saldo em 01/05/2018
+			// ContaVO contaVO = new ContaVO();
+			// contaVO.setListTransacaoVO(new ArrayList<TransacaoVO>());
+			//
+			// contaVO.setSaldoConta(BigDecimal.valueOf(-39.14));// saldo em 01/05/2018
 
 			for (BankStatementResponseTransaction b : bank) {
-				System.out.println("cc: " + b.getMessage().getAccount().getAccountNumber());
-				System.out.println("ag: " + b.getMessage().getAccount().getBranchId());
-				System.out.println("balanço final: " + b.getMessage().getLedgerBalance().getAmount());
-				System.out.println("dataDoArquivo: " + b.getMessage().getLedgerBalance().getAsOfDate());
+				// System.out.println("cc: " + b.getMessage().getAccount().getAccountNumber());
+				// System.out.println("ag: " + b.getMessage().getAccount().getBranchId());
+				// System.out.println("balanço final: " +
+				// b.getMessage().getLedgerBalance().getAmount());
+				// System.out.println("dataDoArquivo: " +
+				// b.getMessage().getLedgerBalance().getAsOfDate());
 				List<Transaction> list = b.getMessage().getTransactionList().getTransactions();
-				System.out.println("TRANSAÇÕES\n");
+				// System.out.println("TRANSAÇÕES\n");
 				for (Transaction transaction : list) {
 
 					TransacaoVO transacaoVO = new TransacaoVO();
@@ -67,23 +80,32 @@ public class LeitorOfxService implements Serializable {
 					transacaoVO.setDataTransacao(transaction.getDatePosted());
 					transacaoVO.setDescricaoTransacao(transaction.getMemo());
 					transacaoVO.setValorTransacao(BigDecimal.valueOf(transaction.getAmount()));
+					if(transacaoVO.getTipoTransacao().equals("DEBIT")) {
+						transacaoVO.setCategoriaVO(categoriaDespesaPadraoVO);
+						
+					}
+					if(transacaoVO.getTipoTransacao().equals("CREDIT")) {
+						transacaoVO.setCategoriaVO(categoriaReceitaPadraoVO);
+						
+					}
+					
 
-					contaVO.getListTransacaoVO().add(transacaoVO);
+					// contaVO.getListTransacaoVO().add(transacaoVO);
+					//
+					// contaVO.setSaldoConta(contaVO.getSaldoConta().add(transacaoVO.getValorTransacao()));
 
-					contaVO.setSaldoConta(contaVO.getSaldoConta().add(transacaoVO.getValorTransacao()));
-
-					System.out.println("tipo: " + transaction.getTransactionType().name());
-					System.out.println("id: " + transaction.getId());
-					System.out.println("data: " + transaction.getDatePosted());
-					System.out.println("valor: " + transaction.getAmount());
-					System.out.println("descricao: " + transaction.getMemo());
-					System.out.println("");
+					// System.out.println("tipo: " + transaction.getTransactionType().name());
+					// System.out.println("id: " + transaction.getId());
+					// System.out.println("data: " + transaction.getDatePosted());
+					// System.out.println("valor: " + transaction.getAmount());
+					// System.out.println("descricao: " + transaction.getMemo());
+					// System.out.println("");
 
 					listTransacaoVO.add(transacaoVO);
 				}
 			}
 
-			//System.out.println("Saldo Final:" + contaVO.getSaldoConta());
+			// System.out.println("Saldo Final:" + contaVO.getSaldoConta());
 		}
 		return listTransacaoVO;
 

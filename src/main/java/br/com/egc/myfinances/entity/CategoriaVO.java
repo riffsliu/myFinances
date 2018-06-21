@@ -83,6 +83,31 @@ public class CategoriaVO implements Serializable {
 		this.descricaoCategoria = descricaoCategoria;
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((categoriaPK == null) ? 0 : categoriaPK.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		CategoriaVO other = (CategoriaVO) obj;
+		if (categoriaPK == null) {
+			if (other.categoriaPK != null)
+				return false;
+		} else if (!categoriaPK.equals(other.categoriaPK))
+			return false;
+		return true;
+	}
+
 	
 
 }

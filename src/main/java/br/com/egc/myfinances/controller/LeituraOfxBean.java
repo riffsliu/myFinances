@@ -2,6 +2,7 @@ package br.com.egc.myfinances.controller;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -67,6 +68,10 @@ public class LeituraOfxBean implements Serializable {
 
 		listCategoriaDespesas = categoriaService.listarCategoriaDespesas();
 		listCategoriaRendas = categoriaService.listarCategoriaRendas();
+		
+		listTransacaoVO = new ArrayList<>();
+		
+		file =null;
 
 	}
 
@@ -74,6 +79,9 @@ public class LeituraOfxBean implements Serializable {
 		System.out.println("LeituraOfxBean.initLeituraOfx()");
 		listCategoriaDespesas = categoriaService.listarCategoriaDespesas();
 		listCategoriaRendas = categoriaService.listarCategoriaRendas();
+		listTransacaoVO = new ArrayList<>();
+		
+		file =null;
 		
 	}
 	
@@ -103,6 +111,7 @@ public class LeituraOfxBean implements Serializable {
 			try {
 
 				listTransacaoVO = leitorOfxService.processarArquivoOfx(file.getInputstream());
+				System.out.println("");
 
 			} catch (IOException | OFXParseException e) {
 				e.printStackTrace();

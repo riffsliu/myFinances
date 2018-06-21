@@ -6,17 +6,21 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
 
+import br.com.egc.myfinances.controller.BaseBean;
 import br.com.egc.myfinances.dao.CategoriaDAO;
 import br.com.egc.myfinances.dao.ContaDAO;
 import br.com.egc.myfinances.dao.TransacaoDAO;
+import br.com.egc.myfinances.dao.UsuarioDAO;
 import br.com.egc.myfinances.dto.ResumoDTO;
 import br.com.egc.myfinances.entity.CategoriaPK;
 import br.com.egc.myfinances.entity.CategoriaVO;
 import br.com.egc.myfinances.entity.ContaPK;
+import br.com.egc.myfinances.entity.ContaVO;
 import br.com.egc.myfinances.entity.TransacaoVO;
+import br.com.egc.myfinances.entity.UsuarioVO;
 
 @Transactional
-public class TransacaoService implements Serializable {
+public class TransacaoService extends BaseBean implements Serializable {
 
 	/**
 	 * 
@@ -31,16 +35,26 @@ public class TransacaoService implements Serializable {
 	@Inject
 	private ContaDAO contaDAO;
 	
+	@Inject
+	private UsuarioDAO usuarioDAO;
+	
 
 	public void adicionarListaTransacao(List<TransacaoVO> listTransacaoVO) {
+		
+		
+		 UsuarioVO usuarioVO =usuarioDAO.buscarUsuario(Util.getUsuarioNaSession().getEmailUsuario());
+		
+		ContaVO contaVO = contaDAO.buscarContaPorId(new ContaPK(usuarioVO.getIdUsuario(), 1L));
+		
 
 		for (TransacaoVO transacaoVO : listTransacaoVO) {
 
 			if (!existeTransacao(transacaoVO.getIdTransacaoOriginal())) {
 				
-				transacaoVO.setContaVO(contaDAO.buscarContaPorId(new ContaPK(1L, 1L)));
+				transacaoVO.setUsuarioVO(usuarioVO);
+				transacaoVO.setContaVO(contaVO);
 
-				transacaoVO.setCategoriaVO(categoriaDAO.buscarCategoriaPorId(new CategoriaPK(1L, 1L)));
+				transacaoVO.setCategoriaVO(categoriaDAO.buscarCategoriaPorId(transacaoVO.getCategoriaVO().getCategoriaPK()));
 
 				transacaoDAO.criaTransacao(transacaoVO);
 			} else {

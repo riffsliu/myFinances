@@ -55,6 +55,13 @@ public class TransacaoVO implements Serializable {
 	@Getter
 	@Setter
 	private String descricaoTransacao;
+	
+	@Getter
+	@Setter
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "idUsuario")
+	
+	private UsuarioVO usuarioVO;
 
 	@Getter
 	@Setter

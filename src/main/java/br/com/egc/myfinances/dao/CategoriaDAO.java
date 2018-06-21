@@ -15,6 +15,21 @@ public class CategoriaDAO extends BaseDAO {
 	 */
 	private static final long serialVersionUID = 1L;
 
+	public CategoriaVO buscarCategoriaDespesaPadrao(Long idUsuario) {
+		
+		CategoriaPK categoriaPK = new CategoriaPK(idUsuario, 1L);
+		
+		return getEntityManager().find(CategoriaVO.class, categoriaPK);
+		
+	}
+	public CategoriaVO buscarCategoriaReceitaPadrao(Long idUsuario) {
+		
+		CategoriaPK categoriaPK = new CategoriaPK(idUsuario, 2L);
+		
+		return getEntityManager().find(CategoriaVO.class, categoriaPK);
+		
+	}
+	
 	public CategoriaVO buscarCategoriaPorId(CategoriaPK categoriaPK) {
 
 		return getEntityManager().find(CategoriaVO.class, categoriaPK);

@@ -25,23 +25,20 @@ public class UsuarioService implements Serializable {
 	public UsuarioVO buscarUsuario(String emailUsuario, String senhaUsuario) throws Exception {
 
 		UsuarioVO usuarioVO = usuarioDAO.buscarUsuario(emailUsuario);
-		
-		if(usuarioVO==null) {
-			
+
+		if (usuarioVO == null) {
+
 			throw new Exception("Usuario não Localizado.");
 		}
-		
-		if(!usuarioVO.getSenhaUsuario().equals(senhaUsuario)) {
-		
+
+		if (!usuarioVO.getSenhaUsuario().equals(senhaUsuario)) {
+
 			throw new Exception("Senha Informada Inválida.");
-			
+
 		}
-		
-		HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext()
-				.getRequest();
-		HttpSession session = request.getSession();
-		session.setAttribute("USUARIO",usuarioVO );
-		
+
+		Util.setUsuarioNaSession(usuarioVO);
+
 		return usuarioVO;
 	}
 }

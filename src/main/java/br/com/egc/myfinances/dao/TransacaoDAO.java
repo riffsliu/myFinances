@@ -137,7 +137,7 @@ public class TransacaoDAO extends BaseDAO {
 		sb.append(" sum(CASE WHEN to_char(t.datatransacao,'MM-YYYY') ='10-"+ano+"' THEN t.valortransacao ELSE 0 END) AS mes10,");
 		sb.append(" sum(CASE WHEN to_char(t.datatransacao,'MM-YYYY') ='11-"+ano+"' THEN t.valortransacao ELSE 0 END) AS mes11,");
 		sb.append(" sum(CASE WHEN to_char(t.datatransacao,'MM-YYYY') ='12-"+ano+"' THEN t.valortransacao ELSE 0 END) AS mes12");
-		sb.append(" from transacao t inner join categoria cat on t.idcategoria=cat.idcategoria");
+		sb.append(" from newtransacao t inner join newcategoria cat on t.idcategoria=cat.idcategoria and t.idusuario=cat.idusuario");
 		sb.append(" group by"); 
 		sb.append(" cat.idcategoria");
 		sb.append(" order by cat.idtipocategoria desc");

@@ -75,7 +75,7 @@
 							<!-- /.box-header -->
 							<div class="box-body">
 
-								<table id="example2" class="table table-bordered table-hover">
+								<table  class="table table-bordered table-hover">
 
 									<thead>
 										<tr>
@@ -84,6 +84,7 @@
 											<th>Tipo</th>
 											<th>Descrição</th>
 											<th>Valor</th>
+											<th>Categoria</th>
 											<th>Categoria</th>
 
 										</tr>
@@ -99,7 +100,9 @@
 												<td><h:outputText value="#{item.tipoTransacao}"></h:outputText></td>
 												<td><h:outputText value="#{item.descricaoTransacao}"></h:outputText></td>
 												<td><h:outputText value="#{item.valorTransacao}"></h:outputText></td>
+												<td><h:outputText value="#{item.categoriaVO.descricaoCategoria}"></h:outputText></td>
 												<td> 
+													
 													<h:selectOneMenu styleClass="form-control"	style="width: 100%;"													
 															rendered="#{leituraOfxBean.renderizaListaDespesa(item)}"
 															value="#{item.categoriaVO}"
