@@ -10,6 +10,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import br.com.egc.myfinances.dao.CategoriaDAO;
+import br.com.egc.myfinances.dao.TransacaoDAO;
 import br.com.egc.myfinances.entity.CategoriaPK;
 import br.com.egc.myfinances.entity.CategoriaVO;
 import br.com.egc.myfinances.entity.TransacaoVO;
@@ -26,6 +27,9 @@ public class LeitorOfxService implements Serializable {
 
 	@Inject
 	private CategoriaDAO categoriaDAO;
+	@Inject
+	private TransacaoDAO transacaoDAO;
+	
 
 	/**
 	 * 
@@ -100,8 +104,10 @@ public class LeitorOfxService implements Serializable {
 					// System.out.println("valor: " + transaction.getAmount());
 					// System.out.println("descricao: " + transaction.getMemo());
 					// System.out.println("");
-
-					listTransacaoVO.add(transacaoVO);
+					if(!transacaoDAO.existeTransacao(transacaoVO.getIdTransacaoOriginal())) {
+						listTransacaoVO.add(transacaoVO);
+						
+					}
 				}
 			}
 

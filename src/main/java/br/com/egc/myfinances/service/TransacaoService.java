@@ -85,22 +85,34 @@ public class TransacaoService extends BaseBean implements Serializable {
 
 	}
 
-	public List<TransacaoVO> listarTransacaoRendas() {
+	public List<TransacaoVO> listarTransacaoRendas(String mesAnoSelecionado) {
 
-		return transacaoDAO.listarTransacaoRendas();
-
-	}
-
-	public List<TransacaoVO> listarTransacaoDespesas() {
-
-		return transacaoDAO.listarTransacaoDespesas();
+		return transacaoDAO.listarTransacaoRendas(mesAnoSelecionado);
 
 	}
 
-	public List<ResumoDTO> listarResumoDTO(String ano) {
+	public List<TransacaoVO> listarTransacaoDespesas(String mesAnoSelecionado) {
 
-		return transacaoDAO.listarResumo(ano);
+		return transacaoDAO.listarTransacaoDespesas(mesAnoSelecionado);
 
 	}
+
+//	public List<ResumoDTO> listarResumoDTO(String ano) {
+//
+//		return transacaoDAO.listarResumo(ano);
+//
+//	}
+	
+	public List<TransacaoVO> listarTransacao(String mesAnoSelecionado, CategoriaPK categoriaPK){
+		
+		return transacaoDAO.listarTransacao(mesAnoSelecionado, categoriaPK);
+	}
+
+	public void atualizarTransacao(TransacaoVO transacaoVO) {
+		
+		transacaoDAO.atualizaTransacao(transacaoVO);
+		
+	}
+	
 
 }

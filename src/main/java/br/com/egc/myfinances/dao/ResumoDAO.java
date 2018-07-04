@@ -1,6 +1,7 @@
 package br.com.egc.myfinances.dao;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,6 +25,7 @@ public class ResumoDAO extends BaseDAO {
 		
 		
 		sb.append(" select"); 
+		sb.append(" cat.idcategoria,");
 		sb.append(" cat.descricaocategoria,");
 		sb.append(" sum(CASE WHEN to_char(t.datatransacao,'MM-YYYY') ='01-"+ano+"' THEN t.valortransacao ELSE 0 END) AS mes01,");
 		sb.append(" sum(CASE WHEN to_char(t.datatransacao,'MM-YYYY') ='02-"+ano+"' THEN t.valortransacao ELSE 0 END) AS mes02,");
@@ -40,8 +42,8 @@ public class ResumoDAO extends BaseDAO {
 		sb.append(" from newtransacao t inner join newcategoria cat on t.idcategoria=cat.idcategoria and t.idusuariocategoria=cat.idusuario");
 		sb.append(" where cat.idtipocategoria= :pTipoCategoria");
 		sb.append(" group by"); 
-		sb.append(" cat.descricaocategoria, cat.idtipocategoria");
-		sb.append(" order by cat.idtipocategoria desc");
+		sb.append(" cat.idcategoria, cat.descricaocategoria, cat.idtipocategoria");
+		sb.append(" order by cat.descricaocategoria");
 		
 		Query query = getEntityManager().createNativeQuery(sb.toString());
 		
@@ -55,19 +57,20 @@ public class ResumoDAO extends BaseDAO {
 			
 			ResumoDTO resumoDTO = new ResumoDTO();
 			
-			resumoDTO.setDescricaoCategoria((String) objects[0]);
-			resumoDTO.setMes01((BigDecimal) objects[1]);
-			resumoDTO.setMes02((BigDecimal) objects[2]);
-			resumoDTO.setMes03((BigDecimal) objects[3]);
-			resumoDTO.setMes04((BigDecimal) objects[4]);
-			resumoDTO.setMes05((BigDecimal) objects[5]);
-			resumoDTO.setMes06((BigDecimal) objects[6]);
-			resumoDTO.setMes07((BigDecimal) objects[7]);
-			resumoDTO.setMes08((BigDecimal) objects[8]);
-			resumoDTO.setMes09((BigDecimal) objects[9]);
-			resumoDTO.setMes10((BigDecimal) objects[10]);
-			resumoDTO.setMes11((BigDecimal) objects[11]);
-			resumoDTO.setMes12((BigDecimal) objects[12]);
+			resumoDTO.setIdCategoria(((BigInteger) objects[0]).longValue());
+			resumoDTO.setDescricaoCategoria((String) objects[1]);
+			resumoDTO.setMes01((BigDecimal) objects[2]);
+			resumoDTO.setMes02((BigDecimal) objects[3]);
+			resumoDTO.setMes03((BigDecimal) objects[4]);
+			resumoDTO.setMes04((BigDecimal) objects[5]);
+			resumoDTO.setMes05((BigDecimal) objects[6]);
+			resumoDTO.setMes06((BigDecimal) objects[7]);
+			resumoDTO.setMes07((BigDecimal) objects[8]);
+			resumoDTO.setMes08((BigDecimal) objects[9]);
+			resumoDTO.setMes09((BigDecimal) objects[10]);
+			resumoDTO.setMes10((BigDecimal) objects[11]);
+			resumoDTO.setMes11((BigDecimal) objects[12]);
+			resumoDTO.setMes12((BigDecimal) objects[13]);
 			
 			listResumoDTO.add(resumoDTO);
 			

@@ -7,6 +7,10 @@ import javax.enterprise.context.SessionScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
+import br.com.egc.myfinances.entity.UsuarioVO;
 
 @SessionScoped
 @Named
@@ -15,11 +19,27 @@ public class BaseBean implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	public static void redirect(String url) {
+		
 		ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
 		try {
 			externalContext.redirect(externalContext.getRequestContextPath() + "/" + url);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public static UsuarioVO getUsuarioLogado() {
+
+		try {
+			HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext()
+					.getRequest();
+			HttpSession session = request.getSession();
+			
+			return (UsuarioVO) session.getAttribute("USUARIO");
+			
+		} catch (Exception e) {
+			return null;
+		}
+
 	}
 }

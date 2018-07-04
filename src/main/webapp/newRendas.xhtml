@@ -23,7 +23,7 @@
 			<!-- Content Header (Page header) -->
 			<section class="content-header">
 			<h1>
-				Rendas<small>Visualize suas rendas</small>
+				Resumo<small>Visualize suas rendas</small>
 			</h1>
 			<ol class="breadcrumb">
 				<li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
@@ -34,11 +34,6 @@
 			<!-- Main content -->
 			<section class="content container-fluid"> <h:form
 				id="formContent" prependId="false">
-				<f:metadata>
-					<f:viewAction
-						action="#{rendasBean.initRendas()}"></f:viewAction>
-				</f:metadata>
-
 				<div class="row">
 					<div class="col-xs-12">
 						<div class="box">
@@ -49,43 +44,21 @@
 							<div class="box-body">
 
 
-								<!-- <p:dataTable var="item" value="#{despesasBean.listTransacaoVO}"
-									styleClass="table" paginator="true" rows="15">
-									<p:column headerText="id" styleClass="text-primary">
-										<p:outputLabel value="#{item.idTransacao}"></p:outputLabel>
-									</p:column>
-									<p:column headerText="Data" styleClass="text-primary">
-										<p:outputLabel value="#{item.dataTransacao}">
-											<f:convertDateTime pattern="dd/MM/yyyy"></f:convertDateTime>
-										</p:outputLabel>
-									</p:column>
-									<p:column headerText="Descrição"
-										sortBy="#{item.descricaoTransacao}" styleClass="text-primary">
-										<p:outputLabel value="#{item.descricaoTransacao}"></p:outputLabel>
-									</p:column>
-									<p:column headerText="Valor" styleClass="text-primary">
-										<p:outputLabel value="#{item.valorTransacao}"></p:outputLabel>
-									</p:column> -->
-
-									<!-- <p:column headerText="Categoria">
-				<p:selectOneMenu value="#{item.categoriaVO}"
-					converter="#{categoriaConverter}">
-					<f:selectItems var="categoria"
-						itemLabel="#{categoria.descricaoCategoria}"
-						itemValue="#{categoria}" value="#{despesasBean.listCategoriaVO}"></f:selectItems>
-				</p:selectOneMenu>
-
-			</p:column> -->
-
-								<!-- </p:dataTable> -->
+								<div class="box-header">
+									<h:commandLink action="#{rendasBean.listenerMesAnterior()}">
+										<i class="glyphicon glyphicon-chevron-left"></i>
+									</h:commandLink>
+									<h:outputText value="#{rendasBean.mesAnoSelecionado}"
+										styleClass="box-title" />
+									<h:commandLink action="#{rendasBean.listenerMesProximo()}">
+										<span class="glyphicon glyphicon-chevron-right"></span>
+									</h:commandLink>
+								</div>
 
 
 
 
-
-
-
-								<table id="example2" class="table table-bordered table-hover">
+								<table id="dataTable" class="table table-bordered table-hover">
 
 									<thead>
 										<tr>
@@ -93,16 +66,22 @@
 											<th>Data</th>
 											<th>Descrição</th>
 											<th>Valor</th>
+											<th>Categoria</th>
 
 										</tr>
 									</thead>
 									<tbody>
-										<ui:repeat var="item" value="#{despesasBean.listTransacaoVO}">
+										<ui:repeat var="item" value="#{rendasBean.listTransacaoVO}">
 											<tr>
 												<td><h:outputText value="#{item.idTransacao}"></h:outputText></td>
-												<td><h:outputText value="#{item.dataTransacao}"></h:outputText></td>
+												<td><h:outputText value="#{item.dataTransacao}">
+														<f:convertDateTime pattern="dd/MM/yyyy">
+														</f:convertDateTime>
+													</h:outputText></td>
 												<td><h:outputText value="#{item.descricaoTransacao}"></h:outputText></td>
 												<td><h:outputText value="#{item.valorTransacao}"></h:outputText></td>
+												<td><h:outputText
+														value="#{item.categoriaVO.descricaoCategoria}"></h:outputText></td>
 
 											</tr>
 										</ui:repeat>

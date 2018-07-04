@@ -90,10 +90,5 @@ public class TransacaoBean implements Serializable {
 
 	}
 
-	public void initResumo() {
-
-		listResumoDTO = transacaoService.listarResumoDTO("2018");
-
-	}
 
 }

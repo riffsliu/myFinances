@@ -16,16 +16,16 @@
 			<p class="login-box-msg">Sign in to start your session</p>
 			<h:form id="form">
 				<div class="form-group has-feedback">
-					<h:inputText id="email" value="#{loginBean.emailUsuario}" class="form-control" />
+					<h:inputText id="myEmail" value="#{loginBean.emailUsuario}" class="form-control" />
 					<span class="glyphicon glyphicon-envelope form-control-feedback"></span>
 				</div>
 				<div class="form-group has-feedback">
-					<h:inputSecret id="password" value="#{loginBean.senhaUsuario}" class="form-control" />
+					<h:inputSecret id="myPassword" value="#{loginBean.senhaUsuario}" class="form-control" />
 					<span class="glyphicon glyphicon-lock form-control-feedback"></span>
 				</div>
 				<div class="row">
 					<div class="col-xs-12">
-						<h:commandButton value="Sign In" class="btn btn-primary btn-block btn-flat" action="#{loginBean.actionEntrar()}"></h:commandButton>
+						<h:commandButton id="MySignIn" value="Sign In" class="btn btn-primary btn-block btn-flat" action="#{loginBean.actionEntrar()}"></h:commandButton>
 					</div>
 				</div>
 			</h:form>

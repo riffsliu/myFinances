@@ -40,7 +40,7 @@ public class CategoriaBean extends BaseBean implements Serializable {
 	@Getter
 	@Setter
 	private TipoCategoriaEnum[] listTipoCategoriaEnum;
-
+	
 	@PostConstruct
 	public void init() {
 		categoriaVO = new CategoriaVO();

@@ -23,8 +23,8 @@
 			<!-- Content Header (Page header) -->
 			<section class="content-header">
 			<h1>
-				Processar Arquivo OFX <small>Processe seus arquivos e escolha as categorias de suas movimentações
-					</small>
+				Resumo<small>Visualize aqui toda a sua movimentação agrupada
+					por categorias</small>
 			</h1>
 			<ol class="breadcrumb">
 				<li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
@@ -34,107 +34,118 @@
 
 			<!-- Main content -->
 			<section class="content container-fluid"> <h:form
-				id="formContent" prependId="false" enctype="multipart/form-data">
-				<f:metadata>
-					<f:viewAction action="#{leituraOfxBean.initLeituraOfx()}"></f:viewAction>
-				</f:metadata>
-				<div class="box box-primary">
-					<div class="box-header with-border">
-						<!-- <h3 class="box-title">Quick Example</h3> -->
-					</div>
-					<!-- /.box-header -->
-					<!-- form start -->
-
-					<div class="box-body">
-						<div class="form-group">
-							<!-- <label for="exampleInputFile">File input</label> -->
-							
-							<p:fileUpload value="#{leituraOfxBean.file}" mode="simple" 
-								skinSimple="true" />
-
-							<p class="help-block">Clique no botão para escolher o arquivo OFX.</p>
-						</div>
-
-					</div>
-					<!-- /.box-body -->
-
-					<div class="box-footer">
-						<h:commandButton value="Processar"
-							actionListener="#{leituraOfxBean.upload()}"
-							styleClass="btn btn-primary" />
-					</div>
-
-				</div>
-
+				id="formContent" prependId="false">
 				<div class="row">
 					<div class="col-xs-12">
 						<div class="box">
-							<div class="box-header">
-								<h3 class="box-title">Hover Data Table</h3>
-							</div>
+							<!-- <div class="box-header">
+								<h3 class="box-title">Resumo</h3>
+							</div> -->
 							<!-- /.box-header -->
 							<div class="box-body">
 
-								<table class="table table-bordered table-hover">
+								<div class="box-header">
+									<h:commandLink action="#{resumoBean.listenerAnoAnterior()}">
+										<i class="glyphicon glyphicon-chevron-left"></i>
+									</h:commandLink>
+									<h:outputText value="#{resumoBean.anoSelecionado}"
+										styleClass="box-title" />
+									<h:commandLink action="#{resumoBean.listenerAnoProximo()}">
+										<span class="glyphicon glyphicon-chevron-right"></span>
+									</h:commandLink>
+								</div>
 
-									<thead>
-										<tr>
-											<th>Id Original</th>
-											<th>Data</th>
-											<th>Tipo</th>
-											<th>Descrição</th>
-											<th>Valor</th>
-											<th>Categoria</th>
 
-										</tr>
-									</thead>
-									<tbody>
-										<ui:repeat var="item"
-											value="#{leituraOfxBean.listTransacaoVO}">
+								<div style="overflow-x: auto;">
+									<table id="dataTable" class="table table-bordered table-hover">
+
+										<thead>
 											<tr>
-												<td><h:outputText value="#{item.idTransacaoOriginal}"></h:outputText></td>
-												<td><h:outputText value="#{item.dataTransacao}">
-														<f:convertDateTime pattern="dd/MM/yyyy"></f:convertDateTime>
-													</h:outputText></td>
-												<td><h:outputText value="#{item.tipoTransacao}"></h:outputText></td>
-												<td><h:outputText value="#{item.descricaoTransacao}"></h:outputText></td>
-												<td><h:outputText value="#{item.valorTransacao}"></h:outputText></td>
-												<td><h:selectOneMenu styleClass="form-control"
-														style="width: 100%;"
-														rendered="#{leituraOfxBean.renderizaListaDespesa(item)}"
-														value="#{item.categoriaVO}"
-														converter="#{categoriaConverter}">
-														<f:selectItem itemLabel="SELECIONE" />
-														<f:selectItems var="categoria"
-															itemLabel="#{categoria.descricaoCategoria}"
-															itemValue="#{categoria}"
-															value="#{leituraOfxBean.listCategoriaDespesas}"></f:selectItems>
-													</h:selectOneMenu> <h:selectOneMenu styleClass="form-control"
-														style="width: 100%;"
-														rendered="#{!leituraOfxBean.renderizaListaDespesa(item)}"
-														value="#{item.categoriaVO}"
-														converter="#{categoriaConverter}">
-														<f:selectItem itemLabel="SELECIONE" />
-														<f:selectItems var="categoria"
-															itemLabel="#{categoria.descricaoCategoria}"
-															itemValue="#{categoria}"
-															value="#{leituraOfxBean.listCategoriaRendas}"></f:selectItems>
-													</h:selectOneMenu></td>
+												<th>Categoria</th>
+												<th>Jan</th>
+												<th>Fev</th>
+												<th>Mar</th>
+												<th>Abr</th>
+												<th>Mai</th>
+												<th>Jun</th>
+												<th>Jul</th>
+												<th>Ago</th>
+												<th>Set</th>
+												<th>Out</th>
+												<th>Nov</th>
+												<th>Dez</th>
+
 
 											</tr>
-										</ui:repeat>
-									</tbody>
+										</thead>
+										<tbody>
+											<ui:repeat var="item" value="#{resumoBean.listResumoDTO}">
+												<tr>
+													<td><h:outputText value="#{item.descricaoCategoria}"></h:outputText></td>
 
-								</table>
+													<ui:repeat var="sub" value="#{item.listResumoDTO}">
+														<tr>
+															<td><h:outputText value="#{sub.descricaoCategoria}"></h:outputText></td>
+															<td><h:outputText value="#{sub.mes01}"></h:outputText></td>
+															<td><h:outputText value="#{sub.mes02}"></h:outputText></td>
+															<td><h:outputText value="#{sub.mes03}"></h:outputText></td>
+															<td><h:commandLink
+																	action="#{resumoBean.actionResumoPorCategoria(sub.idCategoria,'04-2018')}"
+																	value="#{sub.mes04}" /></td>
+															<td><h:commandLink
+																	action="#{resumoBean.actionResumoPorCategoria(sub.idCategoria,'05-2018')}"
+																	value="#{sub.mes05}" /></td>
+															<td><h:commandLink
+																	action="#{resumoBean.actionResumoPorCategoria(sub.idCategoria,'06-2018')}"
+																	value="#{sub.mes06}" /></td>
+															<td><h:commandLink
+																	action="#{resumoBean.actionResumoPorCategoria(sub.idCategoria,'07-2018')}"
+																	value="#{sub.mes07}" /></td>
+															<td><h:commandLink
+																	action="#{resumoBean.actionResumoPorCategoria(sub.idCategoria,'08-2018')}"
+																	value="#{sub.mes08}" /></td>
+															<td><h:commandLink
+																	action="#{resumoBean.actionResumoPorCategoria(sub.idCategoria,'09-2018')}"
+																	value="#{sub.mes09}" /></td>
+															<td><h:commandLink
+																	action="#{resumoBean.actionResumoPorCategoria(sub.idCategoria,'10-2018')}"
+																	value="#{sub.mes10}" /></td>
+															<td><h:commandLink
+																	action="#{resumoBean.actionResumoPorCategoria(sub.idCategoria,'11-2018')}"
+																	value="#{sub.mes11}" /></td>
+															<td><h:commandLink
+																	action="#{resumoBean.actionResumoPorCategoria(sub.idCategoria,'12-2018')}"
+																	value="#{sub.mes12}" /></td>
+
+														</tr>
+													</ui:repeat>
+													<th>Total</th>
+													<th><h:outputText value="#{item.totalMes01}"></h:outputText></th>
+													<th><h:outputText value="#{item.totalMes02}"></h:outputText></th>
+													<th><h:outputText value="#{item.totalMes03}"></h:outputText></th>
+													<th><h:outputText value="#{item.totalMes04}"></h:outputText></th>
+													<th><h:outputText value="#{item.totalMes05}"></h:outputText></th>
+													<th><h:outputText value="#{item.totalMes06}"></h:outputText></th>
+													<th><h:outputText value="#{item.totalMes07}"></h:outputText></th>
+													<th><h:outputText value="#{item.totalMes08}"></h:outputText></th>
+													<th><h:outputText value="#{item.totalMes09}"></h:outputText></th>
+													<th><h:outputText value="#{item.totalMes10}"></h:outputText></th>
+													<th><h:outputText value="#{item.totalMes11}"></h:outputText></th>
+													<th><h:outputText value="#{item.totalMes12}"></h:outputText></th>
+
+												</tr>
+											</ui:repeat>
+
+
+										</tbody>
+
+									</table>
+								</div>
 							</div>
 							<!-- /.box-body -->
 						</div>
 						<!-- /.box -->
-						<div class="box-footer">
-							<h:commandButton value="Salvar"
-								actionListener="#{leituraOfxBean.listenerSalvar()}"
-								styleClass="btn btn-primary" />
-						</div>
+
 
 
 					</div>

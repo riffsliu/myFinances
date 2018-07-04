@@ -10,6 +10,10 @@ public class ResumoDTO {
 
 	@Getter
 	@Setter
+	private Long idCategoria;
+	
+	@Getter
+	@Setter
 	private String descricaoCategoria;
 	@Getter
 	@Setter

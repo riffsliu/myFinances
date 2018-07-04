@@ -111,8 +111,11 @@ public class LeituraOfxBean implements Serializable {
 			try {
 
 				listTransacaoVO = leitorOfxService.processarArquivoOfx(file.getInputstream());
-				System.out.println("");
 
+				
+				
+				
+				
 			} catch (IOException | OFXParseException e) {
 				e.printStackTrace();
 			}

@@ -1,23 +1,23 @@
 package br.com.egc.myfinances.controller;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
 
-import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
 import br.com.egc.myfinances.entity.CategoriaVO;
 import br.com.egc.myfinances.entity.TransacaoVO;
-import br.com.egc.myfinances.service.CategoriaService;
 import br.com.egc.myfinances.service.TransacaoService;
 import lombok.Getter;
 import lombok.Setter;
 
 @SessionScoped
 @Named
-public class DespesasBean implements Serializable {
+public class DespesasBean extends BaseBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -32,30 +32,54 @@ public class DespesasBean implements Serializable {
 	@Inject
 	private TransacaoService transacaoService;
 
-	@Inject
-	private CategoriaService categoriaService;
+	@Getter
+	@Setter
+	private String mesAnoSelecionado;
 
-	@PostConstruct
+	private Calendar calendarAtual;
+
 	public void init() {
 
-		listTransacaoVO = transacaoService.listarTransacaoDespesas();
-		listCategoriaVO = categoriaService.listarCategoriaDespesas();
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM-YYYY");
+
+		calendarAtual = Calendar.getInstance();
+
+		mesAnoSelecionado = simpleDateFormat.format(calendarAtual.getTime());
+
+		listTransacaoVO = transacaoService.listarTransacaoDespesas(mesAnoSelecionado);
 
 	}
-	public void initDespesas() {
-		System.out.println("DespesasBean.initDespesas()");
-		listTransacaoVO = transacaoService.listarTransacaoDespesas();
-		listCategoriaVO = categoriaService.listarCategoriaDespesas();
-		
+
+	public void actionDespesas() {
+		System.out.println("DespesasBean.actionDespesas()");
+
+		init();
+
+		redirect("newDespesas.xhtml");
+
 	}
 
-	public void atualizarTransacao() {
+	public void listenerMesAnterior() {
 
-		transacaoService.atualizarTransacao(listTransacaoVO);
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM-YYYY");
 
-		listTransacaoVO.clear();
+		calendarAtual.add(Calendar.MONTH, -1);
 
-		listTransacaoVO = transacaoService.listarTransacaoDespesas();
+		mesAnoSelecionado = simpleDateFormat.format(calendarAtual.getTime());
+
+		listTransacaoVO = transacaoService.listarTransacaoDespesas(mesAnoSelecionado);
+
+	}
+
+	public void listenerMesProximo() {
+
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM-YYYY");
+
+		calendarAtual.add(Calendar.MONTH, 1);
+
+		mesAnoSelecionado = simpleDateFormat.format(calendarAtual.getTime());
+
+		listTransacaoVO = transacaoService.listarTransacaoDespesas(mesAnoSelecionado);
 
 	}
 
