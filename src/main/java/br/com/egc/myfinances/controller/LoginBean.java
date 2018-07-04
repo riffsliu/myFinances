@@ -9,6 +9,7 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import br.com.egc.myfinances.entity.UsuarioVO;
 import br.com.egc.myfinances.service.UsuarioService;
 import lombok.Getter;
 import lombok.Setter;
@@ -33,6 +34,7 @@ public class LoginBean implements Serializable {
 	public void actionEntrar() {
 
 		try {
+			
 			usuarioService.buscarUsuario(emailUsuario, senhaUsuario);
 
 			redirect("dashboard.xhtml");

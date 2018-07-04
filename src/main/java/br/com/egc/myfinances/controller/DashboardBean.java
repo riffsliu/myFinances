@@ -9,6 +9,7 @@ import javax.inject.Named;
 
 import br.com.egc.myfinances.entity.ContaVO;
 import br.com.egc.myfinances.service.ContaService;
+import br.com.egc.myfinances.service.Util;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -25,11 +26,20 @@ public class DashboardBean extends BaseBean implements Serializable {
 	@Inject
 	private ContaService contaService;
 
-	@PostConstruct
-	public void init() {
+	public void initDashboard() {
 
 		contaVO = contaService.listarConta().get(0);
+		
+		Util.setContaNaSession(contaVO);
+		
 
+	}
+
+	public void actionDashboard() {
+		
+		redirect("dashboard.xhtml");
+		
+		
 	}
 
 }

@@ -72,4 +72,10 @@ public class ContaDAO extends BaseDAO {
 		return result+1;
 	}
 
+	public void atualizaConta(ContaVO contaVO) {
+		
+		getEntityManager().merge(contaVO);
+		
+	}
+
 }

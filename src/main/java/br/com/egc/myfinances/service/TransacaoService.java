@@ -44,7 +44,7 @@ public class TransacaoService extends BaseBean implements Serializable {
 		
 		 UsuarioVO usuarioVO =usuarioDAO.buscarUsuario(Util.getUsuarioNaSession().getEmailUsuario());
 		
-		ContaVO contaVO = contaDAO.buscarContaPorId(new ContaPK(usuarioVO.getIdUsuario(), 1L));
+		ContaVO contaVO = contaDAO.buscarContaPorId(Util.getContaNaSession().getContaPK());
 		
 
 		for (TransacaoVO transacaoVO : listTransacaoVO) {
@@ -57,9 +57,14 @@ public class TransacaoService extends BaseBean implements Serializable {
 				transacaoVO.setCategoriaVO(categoriaDAO.buscarCategoriaPorId(transacaoVO.getCategoriaVO().getCategoriaPK()));
 
 				transacaoDAO.criaTransacao(transacaoVO);
+				
+				contaVO.setSaldoConta(contaVO.getSaldoConta().add(transacaoVO.getValorTransacao()));
+				
 			} else {
 				System.out.println("idTransacaoOriginal já existe: " + transacaoVO.getIdTransacaoOriginal());
 			}
+			
+			contaDAO.atualizaConta(contaVO);
 
 		}
 

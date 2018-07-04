@@ -37,13 +37,16 @@
 		<li class="header">HEADER</li>
 		<!-- Optionally, you can add icons to the links -->
 
-		<li><a href="#"><i class="fa fa-link"></i> <span>Dashboard</span></a></li>
+		<li><h:commandLink action="#{dashboardBean.actionDashboard()}">
+				<i class="fa fa-link"></i>
+				<span>Dashboard</span>
+			</h:commandLink></li>
 		<li><a href="newContas.xhtml"><i class="fa fa-link"></i> <span>Contas</span></a></li>
 		<li><a href="newCategoriaRendas.xhtml"><i class="fa fa-link"></i>
 				<span>Categorias de Renda</span></a></li>
 		<li><a href="newCategoriaDespesas.xhtml"><i
 				class="fa fa-link"></i> <span>Categorias de Despesa</span></a></li>
-		
+
 		<li><h:commandLink action="#{rendasBean.actionRendas()}">
 				<i class="fa fa-link"></i>
 				<span>Minhas rendas</span>
@@ -58,8 +61,8 @@
 				<i class="fa fa-link"></i>
 				<span>Resumo</span>
 			</h:commandLink></li>
-		
-		
+
+
 		<li><a href="newProcessarArquivos.xhtml"><i
 				class="fa fa-link"></i><span>Processar Arquivos</span></a></li>
 

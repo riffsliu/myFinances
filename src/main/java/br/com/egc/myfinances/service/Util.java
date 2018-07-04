@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
 
+import br.com.egc.myfinances.entity.ContaVO;
 import br.com.egc.myfinances.entity.UsuarioVO;
 
 @Transactional
@@ -33,5 +34,23 @@ public class Util implements Serializable {
 		HttpSession session = request.getSession();
 		return (UsuarioVO) session.getAttribute("USUARIO");
 
+	}
+
+	public static ContaVO getContaNaSession() {
+		
+		HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext()
+				.getRequest();
+		HttpSession session = request.getSession();
+		return (ContaVO) session.getAttribute("CONTA");
+		
+	}
+
+	public static void  setContaNaSession(ContaVO contaVO) {
+		
+		HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext()
+				.getRequest();
+		HttpSession session = request.getSession();
+		session.setAttribute("CONTA", contaVO);
+		
 	}
 }

@@ -23,8 +23,7 @@
 			<!-- Content Header (Page header) -->
 			<section class="content-header">
 			<h1>
-				Despesas <small>Cadastre e visualize suas
-					categorias</small>
+				Contas <small>Cadastre e visualize suas contas</small>
 			</h1>
 			<ol class="breadcrumb">
 				<li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
@@ -36,8 +35,7 @@
 			<section class="content container-fluid"> <h:form
 				id="formContent" prependId="false">
 				<f:metadata>
-					<f:viewAction
-						action="#{contaBean.initContas()}"></f:viewAction>
+					<f:viewAction action="#{contaBean.initContas()}"></f:viewAction>
 				</f:metadata>
 				<div class="box box-primary">
 					<div class="box-header with-border">
@@ -49,20 +47,17 @@
 					<div class="box-body">
 						<div class="form-group">
 							<h:outputLabel value="Nome Conta" />
-							<h:inputText
-								value="#{contaBean.contaVO.nomeConta}"
+							<h:inputText value="#{contaBean.contaVO.nomeConta}"
 								styleClass="form-control" />
 						</div>
 						<div class="form-group">
 							<h:outputLabel value="Descrição Conta" />
-							<h:inputText
-								value="#{contaBean.contaVO.descricaoConta}"
+							<h:inputText value="#{contaBean.contaVO.descricaoConta}"
 								styleClass="form-control" />
 						</div>
 						<div class="form-group">
 							<h:outputLabel value="Saldo Conta" />
-							<h:inputText
-								value="#{contaBean.contaVO.saldoConta}"
+							<h:inputText value="#{contaBean.contaVO.saldoConta}"
 								styleClass="form-control" />
 						</div>
 					</div>
@@ -91,6 +86,7 @@
 											<th>Nome Conta</th>
 											<th>Descrição</th>
 											<th>Saldo</th>
+											<th>Ações</th>
 
 										</tr>
 									</thead>
@@ -101,6 +97,9 @@
 												<td><h:outputText value="#{item.nomeConta}"></h:outputText></td>
 												<td><h:outputText value="#{item.descricaoConta}"></h:outputText></td>
 												<td><h:outputText value="#{item.saldoConta}"></h:outputText></td>
+												<td><h:commandButton value="Editar"
+														actionListener="#{contaBean.listenerPrepararEdicao(item)}"
+														styleClass="btn btn-primary" /></td>
 
 											</tr>
 										</ui:repeat>
@@ -217,18 +216,6 @@
 	<!-- Optionally, you can add Slimscroll and FastClick plugins.
      Both of these plugins are recommended to enhance the
      user experience. -->
-	<script>
-		$(function() {
-			$('#example1').DataTable()
-			$('#example2').DataTable({
-				'paging' : true,
-				'lengthChange' : false,
-				'searching' : false,
-				'ordering' : true,
-				'info' : true,
-				'autoWidth' : false
-			})
-		})
-	</script>
+
 </body>
 </html>

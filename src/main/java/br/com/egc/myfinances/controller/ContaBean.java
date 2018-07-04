@@ -57,11 +57,25 @@ public class ContaBean implements Serializable {
 		
 	}
 
+	public void listenerPrepararEdicao(ContaVO contaVO) {
+		
+		this.contaVO = contaVO;
+		
+		
+		
+	}
+	
 	public void listenerSalvarConta() {
 
 		try {
 
-			contaService.salvarConta(contaVO);
+			if(contaVO.getContaPK() ==null) {
+				contaService.salvarConta(contaVO);
+			}else {
+				contaService.atualizarConta(contaVO);
+				
+			}
+			
 
 			contaVO = new ContaVO();
 

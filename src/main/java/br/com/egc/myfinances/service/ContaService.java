@@ -47,4 +47,10 @@ public class ContaService implements Serializable {
 		contaDAO.criaConta(contaVO);
 	}
 
+	public void atualizarConta(ContaVO contaVO) {
+		
+		contaDAO.atualizaConta(contaVO);
+		
+	}
+
 }
