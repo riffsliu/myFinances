@@ -60,7 +60,7 @@ public class CategoriaService implements Serializable {
 
 			categoriaVO.setCentroCustoVO(centroCustoDAO.buscaCentroCustoPorId(CentroCustoVO.PADRAO1));
 
-			categoriaDAO.criaCategoria(categoriaVO);
+			categoriaDAO.criarCategoria(categoriaVO);
 
 		}
 
@@ -72,7 +72,7 @@ public class CategoriaService implements Serializable {
 
 			categoriaVO.setCentroCustoVO(centroCustoDAO.buscaCentroCustoPorId(CentroCustoVO.PADRAO1));
 
-			categoriaDAO.criaCategoria(categoriaVO);
+			categoriaDAO.criarCategoria(categoriaVO);
 
 		}
 
@@ -88,7 +88,7 @@ public class CategoriaService implements Serializable {
 		
 		categoriaVO.setCentroCustoVO(centroCustoDAO.buscaCentroCustoPorId(CentroCustoVO.PADRAO1));
 
-		categoriaDAO.criaCategoria(categoriaVO);
+		categoriaDAO.criarCategoria(categoriaVO);
 
 	}
 
@@ -104,6 +104,11 @@ public class CategoriaService implements Serializable {
 	public List<CategoriaVO> listarCategoriaRendas() {
 
 		return categoriaDAO.listarCategoriaRendas();
+	}
+
+	public void atualizarCategoria(CategoriaVO categoriaVO) {
+		categoriaDAO.atualizarCategoria(categoriaVO);
+		
 	}
 
 }

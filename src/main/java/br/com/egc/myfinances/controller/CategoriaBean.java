@@ -11,6 +11,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import br.com.egc.myfinances.entity.CategoriaVO;
+import br.com.egc.myfinances.entity.ContaVO;
 import br.com.egc.myfinances.entity.TipoCategoriaEnum;
 import br.com.egc.myfinances.service.CategoriaService;
 import lombok.Getter;
@@ -40,7 +41,7 @@ public class CategoriaBean extends BaseBean implements Serializable {
 	@Getter
 	@Setter
 	private TipoCategoriaEnum[] listTipoCategoriaEnum;
-	
+
 	@PostConstruct
 	public void init() {
 		categoriaVO = new CategoriaVO();
@@ -51,19 +52,17 @@ public class CategoriaBean extends BaseBean implements Serializable {
 		listCategoriaRendas = categoriaService.listarCategoriaRendas();
 
 	}
-	
-	
+
 	public void initCategoriaRendas() {
 		System.out.println("CategoriaBean.initCategoriaRendas()");
 		listCategoriaRendas = categoriaService.listarCategoriaRendas();
-		
+
 	}
 
 	public void initCategoriaDespesas() {
 		System.out.println("CategoriaBean.actionCategoriaDespesas()");
 		listCategoriaDespesas = categoriaService.listarCategoriaDespesas();
 	}
-	
 
 	public void listenerSalvarCategoriaDespesa() {
 
@@ -71,7 +70,13 @@ public class CategoriaBean extends BaseBean implements Serializable {
 
 			categoriaVO.setTipoCategoriaEnum(TipoCategoriaEnum.DESPESAS);
 
-			categoriaService.salvarCategoria(categoriaVO);
+			if (categoriaVO.getCategoriaPK() == null) {
+				categoriaService.salvarCategoria(categoriaVO);
+
+			} else {
+				categoriaService.atualizarCategoria(categoriaVO);
+
+			}
 
 			categoriaVO = new CategoriaVO();
 
@@ -91,7 +96,14 @@ public class CategoriaBean extends BaseBean implements Serializable {
 
 		try {
 			categoriaVO.setTipoCategoriaEnum(TipoCategoriaEnum.RENDAS);
-			categoriaService.salvarCategoria(categoriaVO);
+
+			if (categoriaVO.getCategoriaPK() == null) {
+				categoriaService.salvarCategoria(categoriaVO);
+
+			} else {
+				categoriaService.atualizarCategoria(categoriaVO);
+
+			}
 
 			categoriaVO = new CategoriaVO();
 
@@ -104,6 +116,12 @@ public class CategoriaBean extends BaseBean implements Serializable {
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage(), "Error"));
 		}
+
+	}
+
+	public void listenerPrepararEdicao(CategoriaVO categoriaVO) {
+
+		this.categoriaVO = categoriaVO;
 
 	}
 

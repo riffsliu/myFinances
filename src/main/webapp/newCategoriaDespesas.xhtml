@@ -53,19 +53,7 @@
 								value="#{categoriaBean.categoriaVO.descricaoCategoria}"
 								styleClass="form-control" />
 						</div>
-						<!-- <div class="form-group">
-							<h:outputLabel value="Tipo Categoria" />
-							<h:selectOneMenu styleClass="form-control"
-								value="#{categoriaBean.categoriaVO.tipoCategoriaEnum}">
-								<f:selectItem itemLabel="SELECIONE" />
-								<f:selectItems var="tipo"
-									value="#{categoriaBean.listTipoCategoriaEnum}"
-									itemLabel="#{tipo.descricao}" itemValue="#{tipo}"></f:selectItems>
-							</h:selectOneMenu>
-						</div> -->
-					</div>
-					<!-- /.box-body -->
-
+						
 					<div class="box-footer">
 						<h:commandButton value="Gravar"
 							actionListener="#{categoriaBean.listenerSalvarCategoriaDespesa()}"
@@ -87,9 +75,9 @@
 
 									<thead>
 										<tr>
-											<th>Id</th>
 											<th>Descrição</th>
 											<th>Tipo</th>
+											<th>Ações</th>
 
 										</tr>
 									</thead>
@@ -97,11 +85,12 @@
 										<ui:repeat var="item"
 											value="#{categoriaBean.listCategoriaDespesas}">
 											<tr>
-												<td><h:outputText
-														value="#{item.categoriaPK.idCategoria}"></h:outputText></td>
 												<td><h:outputText value="#{item.descricaoCategoria}"></h:outputText></td>
 												<td><h:outputText
 														value="#{item.tipoCategoriaEnum.descricao}"></h:outputText></td>
+												<td><h:commandButton value="Editar"
+														actionListener="#{categoriaBean.listenerPrepararEdicao(item)}"
+														styleClass="btn btn-primary" /></td>		
 
 											</tr>
 										</ui:repeat>

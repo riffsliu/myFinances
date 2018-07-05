@@ -36,7 +36,7 @@ public class CategoriaDAO extends BaseDAO {
 
 	}
 
-	public void criaCategoria(CategoriaVO categoriaVO) {
+	public void criarCategoria(CategoriaVO categoriaVO) {
 
 		getEntityManager().persist(categoriaVO);
 
@@ -59,6 +59,8 @@ public class CategoriaDAO extends BaseDAO {
 
 		sql.append("SELECT categoriaVO FROM CategoriaVO categoriaVO ");
 		sql.append("WHERE categoriaVO.tipoCategoriaEnum = 0 ");
+		sql.append("ORDER BY categoriaVO.descricaoCategoria ");
+		
 
 		Query query = getEntityManager().createQuery(sql.toString());
 
@@ -71,6 +73,7 @@ public class CategoriaDAO extends BaseDAO {
 		
 		sql.append("SELECT categoriaVO FROM CategoriaVO categoriaVO ");
 		sql.append("WHERE categoriaVO.tipoCategoriaEnum = 1 ");
+		sql.append("ORDER BY categoriaVO.descricaoCategoria ");
 		
 		Query query = getEntityManager().createQuery(sql.toString());
 		
@@ -97,6 +100,10 @@ public class CategoriaDAO extends BaseDAO {
 		}
 		
 		return result+1;
+	}
+	public void atualizarCategoria(CategoriaVO categoriaVO) {
+		getEntityManager().merge(categoriaVO);
+		
 	}
 
 }

@@ -71,7 +71,6 @@
 												<th>Descrição</th>
 												<th>Valor</th>
 												<th>Categoria</th>
-												<th>Categoria</th>
 
 											</tr>
 										</thead>
@@ -85,9 +84,6 @@
 														</h:outputText></td>
 													<td><h:outputText value="#{item.descricaoTransacao}"></h:outputText></td>
 													<td><h:outputText value="#{item.valorTransacao}"></h:outputText></td>
-													<td><h:outputText
-															value="#{item.categoriaVO.descricaoCategoria}"></h:outputText></td>
-
 													<td><h:selectOneMenu value="#{item.categoriaVO}"
 															converter="#{categoriaConverter}"
 															styleClass="form-control" style="width: 100%;">
