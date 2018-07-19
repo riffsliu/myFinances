@@ -119,6 +119,8 @@ public class CategoriaBean extends BaseBean implements Serializable {
 
 	}
 
+	
+
 	public void listenerPrepararEdicao(CategoriaVO categoriaVO) {
 
 		this.categoriaVO = categoriaVO;

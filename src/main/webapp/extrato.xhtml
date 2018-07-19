@@ -23,8 +23,7 @@
 			<!-- Content Header (Page header) -->
 			<section class="content-header">
 			<h1>
-				Processar Arquivo OFX <small>Processe seus arquivos e escolha as categorias de suas movimentações
-					</small>
+				Extrato <small>Visualize suas transações</small>
 			</h1>
 			<ol class="breadcrumb">
 				<li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
@@ -34,54 +33,47 @@
 
 			<!-- Main content -->
 			<section class="content container-fluid"> <h:form
-				id="formContent" prependId="false" enctype="multipart/form-data">
-				<f:metadata>
-					<f:viewAction action="#{leituraOfxBean.initLeituraOfx()}"></f:viewAction>
-				</f:metadata>
-				<div class="box box-primary">
-					<div class="box-header with-border">
-						<!-- <h3 class="box-title">Quick Example</h3> -->
-					</div>
-					<!-- /.box-header -->
-					<!-- form start -->
-
-					<div class="box-body">
-						<div class="form-group">
-							<!-- <label for="exampleInputFile">File input</label> -->
-							
-							<p:fileUpload value="#{leituraOfxBean.file}" mode="simple" 
-								skinSimple="true" />
-
-							<p class="help-block">Clique no botão para escolher o arquivo OFX.</p>
-						</div>
-
-					</div>
-					<!-- /.box-body -->
-
-					<div class="box-footer">
-						<h:commandButton value="Processar"
-							actionListener="#{leituraOfxBean.upload()}"
-							styleClass="btn btn-primary" />
-					</div>
-
-				</div>
-
+				id="formContent" prependId="false">
 				<div class="row">
 					<div class="col-xs-12">
 						<div class="box">
 							<div class="box-header">
-								<h3 class="box-title">Hover Data Table</h3>
+								<h3 class="box-title">Extrato</h3>
 							</div>
 							<!-- /.box-header -->
 							<div class="box-body">
 
-								<table class="table table-bordered table-hover">
+
+
+								<div class="box-header">
+									<h3>
+										<h:outputText value="#{extratoBean.contaVO.saldoConta}" />
+									</h3>
+
+									<p>
+										<h:outputText value="#{extratoBean.contaVO.nomeConta}" />
+									</p>
+									<h:commandLink action="#{extratoBean.listenerMesAnterior()}">
+										<i class="glyphicon glyphicon-chevron-left"></i>
+									</h:commandLink>
+									<h:outputText value="#{extratoBean.mesAnoSelecionado}"
+										styleClass="box-title" />
+									<h:commandLink action="#{despesasBean.listenerMesProximo()}">
+										<span class="glyphicon glyphicon-chevron-right"></span>
+									</h:commandLink>
+								</div>
+
+
+
+
+
+
+								<table id="dataTable" class="table table-bordered table-hover">
 
 									<thead>
 										<tr>
-											<th>Id Original</th>
+											<th>Id</th>
 											<th>Data</th>
-											<th>Tipo</th>
 											<th>Descrição</th>
 											<th>Valor</th>
 											<th>Categoria</th>
@@ -89,40 +81,27 @@
 										</tr>
 									</thead>
 									<tbody>
-										<ui:repeat var="item"
-											value="#{leituraOfxBean.listTransacaoVO}">
+										<ui:repeat var="item" value="#{extratoBean.listTransacaoVO}">
 											<tr>
-												<td><h:outputText value="#{item.idTransacaoOriginal}"></h:outputText></td>
+												<td><h:outputText value="#{item.idTransacao}"></h:outputText></td>
 												<td><h:outputText value="#{item.dataTransacao}">
-														<f:convertDateTime pattern="dd/MM/yyyy"></f:convertDateTime>
+														<f:convertDateTime pattern="dd/MM/yyyy">
+														</f:convertDateTime>
 													</h:outputText></td>
-												<td><h:outputText value="#{item.tipoTransacao}"></h:outputText></td>
 												<td><h:outputText value="#{item.descricaoTransacao}"></h:outputText></td>
 												<td><h:outputText value="#{item.valorTransacao}"></h:outputText></td>
-												<td><h:selectOneMenu styleClass="form-control"
-														style="width: 100%;"
-														rendered="#{leituraOfxBean.renderizaListaDespesa(item)}"
-														value="#{item.categoriaVO}"
-														converter="#{categoriaConverter}">
-														<f:selectItem itemLabel="SELECIONE" />
-														<f:selectItems var="categoria"
-															itemLabel="#{categoria.descricaoCategoria}"
-															itemValue="#{categoria}"
-															value="#{leituraOfxBean.listCategoriaDespesas}"></f:selectItems>
-													</h:selectOneMenu> <h:selectOneMenu styleClass="form-control"
-														style="width: 100%;"
-														rendered="#{!leituraOfxBean.renderizaListaDespesa(item)}"
-														value="#{item.categoriaVO}"
-														converter="#{categoriaConverter}">
-														<f:selectItem itemLabel="SELECIONE" />
-														<f:selectItems var="categoria"
-															itemLabel="#{categoria.descricaoCategoria}"
-															itemValue="#{categoria}"
-															value="#{leituraOfxBean.listCategoriaRendas}"></f:selectItems>
-													</h:selectOneMenu></td>
+												<td><h:outputText
+														value="#{item.categoriaVO.descricaoCategoria}"></h:outputText></td>
+												<td><p:commandButton value="Remover"
+														actionListener="#{extratoBean.listenerRemover(item)}"
+														styleClass="btn btn-primary">
+
+													</p:commandButton></td>
 
 											</tr>
 										</ui:repeat>
+
+
 									</tbody>
 
 								</table>
@@ -130,11 +109,7 @@
 							<!-- /.box-body -->
 						</div>
 						<!-- /.box -->
-						<div class="box-footer">
-							<h:commandButton value="Salvar"
-								actionListener="#{leituraOfxBean.listenerSalvar()}"
-								styleClass="btn btn-primary" />
-						</div>
+
 
 
 					</div>

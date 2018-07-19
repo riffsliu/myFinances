@@ -4,14 +4,16 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import javax.inject.Inject;
 
 import br.com.egc.myfinances.dao.CategoriaDAO;
 import br.com.egc.myfinances.dao.TransacaoDAO;
-import br.com.egc.myfinances.entity.CategoriaPK;
+import br.com.egc.myfinances.dto.ConciliacaoDTO;
 import br.com.egc.myfinances.entity.CategoriaVO;
 import br.com.egc.myfinances.entity.TransacaoVO;
 import net.sf.ofx4j.domain.data.MessageSetType;
@@ -29,7 +31,6 @@ public class LeitorOfxService implements Serializable {
 	private CategoriaDAO categoriaDAO;
 	@Inject
 	private TransacaoDAO transacaoDAO;
-	
 
 	/**
 	 * 
@@ -37,13 +38,12 @@ public class LeitorOfxService implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public List<TransacaoVO> processarArquivoOfx(InputStream inputStreamFile) throws IOException, OFXParseException {
+	public List<ConciliacaoDTO> processarArquivoOfx(InputStream inputStreamFile) throws IOException, OFXParseException {
 
-		
 		CategoriaVO categoriaDespesaPadraoVO = categoriaDAO.buscarCategoriaDespesaPadrao(Util.getUsuarioNaSession().getIdUsuario());
 		CategoriaVO categoriaReceitaPadraoVO = categoriaDAO.buscarCategoriaReceitaPadrao(Util.getUsuarioNaSession().getIdUsuario());
 
-		List<TransacaoVO> listTransacaoVO = new ArrayList<>();
+		List<ConciliacaoDTO> listConciliacaoDTO = new ArrayList<>();
 
 		AggregateUnmarshaller a = new AggregateUnmarshaller(ResponseEnvelope.class);
 		ResponseEnvelope re = (ResponseEnvelope) a.unmarshal(inputStreamFile);
@@ -57,6 +57,13 @@ public class LeitorOfxService implements Serializable {
 		// fiz esse codigo para capturar a lista de transações
 		MessageSetType type = MessageSetType.banking;
 		ResponseMessageSet message = re.getMessageSet(type);
+
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM-YYYY");
+
+		// calendarAtual = Calendar.getInstance();
+
+		// mesAnoSelecionado = simpleDateFormat.format(calendarAtual.getTime());
+
 		if (message != null) {
 			List<BankStatementResponseTransaction> bank = ((BankingResponseMessageSet) message).getStatementResponses();
 
@@ -76,44 +83,52 @@ public class LeitorOfxService implements Serializable {
 				// b.getMessage().getLedgerBalance().getAsOfDate());
 				List<Transaction> list = b.getMessage().getTransactionList().getTransactions();
 				// System.out.println("TRANSAÇÕES\n");
+
+				int index = 0;
+
 				for (Transaction transaction : list) {
 
-					TransacaoVO transacaoVO = new TransacaoVO();
-					transacaoVO.setTipoTransacao(transaction.getTransactionType().name());
-					transacaoVO.setIdTransacaoOriginal(Long.parseLong(transaction.getId()));
-					transacaoVO.setDataTransacao(transaction.getDatePosted());
-					transacaoVO.setDescricaoTransacao(transaction.getMemo());
-					transacaoVO.setValorTransacao(BigDecimal.valueOf(transaction.getAmount()));
-					if(transacaoVO.getTipoTransacao().equals("DEBIT")) {
-						transacaoVO.setCategoriaVO(categoriaDespesaPadraoVO);
-						
+					TransacaoVO transacaoOfx = new TransacaoVO();
+					transacaoOfx.setTipoTransacao(transaction.getTransactionType().name());
+					transacaoOfx.setIdTransacaoOriginal(Long.parseLong(transaction.getId()));
+					transacaoOfx.setDataTransacao(transaction.getDatePosted());
+					transacaoOfx.setDescricaoTransacao(transaction.getMemo());
+					transacaoOfx.setValorTransacao(BigDecimal.valueOf(transaction.getAmount()));
+					if (transacaoOfx.getTipoTransacao().equals("DEBIT")) {
+						transacaoOfx.setCategoriaVO(categoriaDespesaPadraoVO);
+
 					}
-					if(transacaoVO.getTipoTransacao().equals("CREDIT")) {
-						transacaoVO.setCategoriaVO(categoriaReceitaPadraoVO);
-						
+					if (transacaoOfx.getTipoTransacao().equals("CREDIT")) {
+						transacaoOfx.setCategoriaVO(categoriaReceitaPadraoVO);
+
 					}
+
 					
+					TransacaoVO transacaoVO = transacaoDAO.buscarTransacaoParaConciliacao(transacaoOfx.getValorTransacao(), transacaoOfx.getDescricaoTransacao(), transacaoOfx.getDataTransacao());
 
-					// contaVO.getListTransacaoVO().add(transacaoVO);
-					//
-					// contaVO.setSaldoConta(contaVO.getSaldoConta().add(transacaoVO.getValorTransacao()));
-
-					// System.out.println("tipo: " + transaction.getTransactionType().name());
-					// System.out.println("id: " + transaction.getId());
-					// System.out.println("data: " + transaction.getDatePosted());
-					// System.out.println("valor: " + transaction.getAmount());
-					// System.out.println("descricao: " + transaction.getMemo());
-					// System.out.println("");
-					if(!transacaoDAO.existeTransacao(transacaoVO.getIdTransacaoOriginal())) {
-						listTransacaoVO.add(transacaoVO);
+					if (transacaoVO == null) {
 						
+						ConciliacaoDTO conciliacaoDTO = new ConciliacaoDTO();
+
+						conciliacaoDTO.setIndex(index);
+
+						System.out.println("idx" + conciliacaoDTO.getIndex());
+
+
+						// conciliacaoDTO.setTransacaoVO(transacaoVO);
+						conciliacaoDTO.setTransacaoOfx(transacaoOfx);
+
+						listConciliacaoDTO.add(conciliacaoDTO);
+						index++;
+
 					}
+
 				}
 			}
 
 			// System.out.println("Saldo Final:" + contaVO.getSaldoConta());
 		}
-		return listTransacaoVO;
+		return listConciliacaoDTO;
 
 	}
 

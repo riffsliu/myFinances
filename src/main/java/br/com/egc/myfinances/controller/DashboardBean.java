@@ -1,6 +1,9 @@
 package br.com.egc.myfinances.controller;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
@@ -9,6 +12,7 @@ import javax.inject.Named;
 
 import br.com.egc.myfinances.entity.ContaVO;
 import br.com.egc.myfinances.service.ContaService;
+import br.com.egc.myfinances.service.DashboardService;
 import br.com.egc.myfinances.service.Util;
 import lombok.Getter;
 import lombok.Setter;
@@ -23,23 +27,45 @@ public class DashboardBean extends BaseBean implements Serializable {
 	@Setter
 	private ContaVO contaVO;
 
+	@Getter
+	private BigDecimal saldoAtual;
+	@Getter
+	private BigDecimal totalDespesas;
+	@Getter
+	private BigDecimal totalRendas;
+	@Getter
+	private BigDecimal balanco;
+
 	@Inject
-	private ContaService contaService;
+	private DashboardService dashboardService;
 
 	public void initDashboard() {
 
-		contaVO = contaService.listarConta().get(0);
-		
+		contaVO = dashboardService.listarConta().get(0);
+
+		saldoAtual = contaVO.getSaldoConta();
+
+		String mesAnoSelecionado;
+		Calendar calendarAtual;
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM-YYYY");
+
+		calendarAtual = Calendar.getInstance();
+
+		mesAnoSelecionado = simpleDateFormat.format(calendarAtual.getTime());
+
+		totalDespesas = dashboardService.buscarTotalDespesas(mesAnoSelecionado);
+		totalRendas = dashboardService.buscarTotalRendas(mesAnoSelecionado);
+		balanco = BigDecimal.ZERO;
+		balanco = totalRendas.add(totalDespesas);
+
 		Util.setContaNaSession(contaVO);
-		
 
 	}
 
 	public void actionDashboard() {
-		
+
 		redirect("dashboard.xhtml");
-		
-		
+
 	}
 
 }

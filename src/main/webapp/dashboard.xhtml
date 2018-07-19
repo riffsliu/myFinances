@@ -39,11 +39,11 @@
 						<div class="small-box bg-aqua">
 							<div class="inner">
 								<h3>
-									<h:outputLabel value="#{dashboardBean.contaVO.saldoConta}" />
+									<h:outputLabel value="#{dashboardBean.saldoAtual}" ><f:convertNumber pattern="#,##0.00;" /></h:outputLabel>
 								</h3>
 
 								<p>
-									<h:outputLabel value="#{dashboardBean.contaVO.nomeConta}" />
+									Current
 								</p>
 							</div>
 							<div class="icon">
@@ -59,10 +59,10 @@
 						<div class="small-box bg-green">
 							<div class="inner">
 								<h3>
-									53<sup style="font-size: 20px">%</sup>
+									<h:outputLabel value="#{dashboardBean.totalRendas}" ><f:convertNumber pattern="#,##0.00;" /></h:outputLabel>
 								</h3>
 
-								<p>Bounce Rate</p>
+								<p>Income</p>
 							</div>
 							<div class="icon">
 								<i class="ion ion-stats-bars"></i>
@@ -74,11 +74,28 @@
 					<!-- ./col -->
 					<div class="col-lg-3 col-xs-6">
 						<!-- small box -->
+						<div class="small-box bg-red">
+							<div class="inner">
+								<h3><h:outputLabel value="#{dashboardBean.totalDespesas}" ><f:convertNumber pattern="#,##0.00;" /></h:outputLabel></h3>
+
+								<p>Expensives</p>
+							</div>
+							<div class="icon">
+								<i class="ion ion-stats-bars"></i>
+							</div>
+							<a href="#" class="small-box-footer">More info <i
+								class="fa fa-arrow-circle-right"></i></a>
+						</div>
+					</div>
+					<!-- ./col -->
+					<!-- ./col -->
+					<div class="col-lg-3 col-xs-6">
+						<!-- small box -->
 						<div class="small-box bg-yellow">
 							<div class="inner">
-								<h3>44</h3>
+								<h3><h:outputLabel value="#{dashboardBean.balanco}" ><f:convertNumber pattern="#,##0.00;" /></h:outputLabel></h3>
 
-								<p>User Registrations</p>
+								<p>Balance</p>
 							</div>
 							<div class="icon">
 								<i class="ion ion-person-add"></i>
@@ -87,23 +104,7 @@
 								class="fa fa-arrow-circle-right"></i></a>
 						</div>
 					</div>
-					<!-- ./col -->
-					<div class="col-lg-3 col-xs-6">
-						<!-- small box -->
-						<div class="small-box bg-red">
-							<div class="inner">
-								<h3>65</h3>
-
-								<p>Unique Visitors</p>
-							</div>
-							<div class="icon">
-								<i class="ion ion-pie-graph"></i>
-							</div>
-							<a href="#" class="small-box-footer">More info <i
-								class="fa fa-arrow-circle-right"></i></a>
-						</div>
-					</div>
-					<!-- ./col -->
+					
 				</div>
 				<!-- /.row -->
 				<!-- Main row -->

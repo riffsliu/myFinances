@@ -4,11 +4,19 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.org/ui">
-<head>
-<ui:include src="contentHead.xhtml" />
-</head>
+<h:head>
+	<ui:include src="contentHead.xhtml" />
 
-<body class="hold-transition skin-blue sidebar-mini">
+	<style>
+.ui-growl {
+	position: fixed;
+	top: 7%;
+	width: 301px;
+}
+</style>
+</h:head>
+
+<h:body class="hold-transition skin-blue sidebar-mini">
 	<div class="wrapper">
 
 		<!-- Main Header -->
@@ -23,7 +31,8 @@
 			<!-- Content Header (Page header) -->
 			<section class="content-header">
 			<h1>
-				Despesas <small>Cadastre e visualize suas categorias</small>
+				Processar Arquivo OFX <small>Processe seus arquivos e
+					escolha as categorias de suas movimentações </small>
 			</h1>
 			<ol class="breadcrumb">
 				<li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
@@ -33,9 +42,9 @@
 
 			<!-- Main content -->
 			<section class="content container-fluid"> <h:form
-				id="formContent" prependId="false">
+				id="formContent" prependId="false" enctype="multipart/form-data">
 				<f:metadata>
-					<f:viewAction action="#{categoriaBean.initCategoriaDespesas()}"></f:viewAction>
+					<f:viewAction action="#{conciliacaoBean.initLeituraOfx()}"></f:viewAction>
 				</f:metadata>
 				<div class="box box-primary">
 					<div class="box-header with-border">
@@ -46,56 +55,98 @@
 
 					<div class="box-body">
 						<div class="form-group">
-							<h:outputLabel value="Descrição Categoria" />
-							<h:inputText
-								value="#{categoriaBean.categoriaVO.descricaoCategoria}"
-								styleClass="form-control" />
+							<!-- <label for="exampleInputFile">File input</label> -->
+
+							<p:fileUpload value="#{conciliacaoBean.file}" mode="simple"
+								skinSimple="true" />
+
+							<p class="help-block">Clique no botão para escolher o arquivo
+								OFX.</p>
 						</div>
+
 					</div>
 					<!-- /.box-body -->
 
 					<div class="box-footer">
-						<h:commandButton value="Gravar"
-							actionListener="#{categoriaBean.listenerSalvarCategoriaDespesa()}"
+						<h:commandButton value="Processar"
+							actionListener="#{conciliacaoBean.upload()}"
 							styleClass="btn btn-primary" />
 					</div>
 
 				</div>
+			</h:form> <h:form prependId="false" id="formConciliacao">
+				<p:growl autoUpdate="true"></p:growl>
 
 				<div class="row">
 					<div class="col-xs-12">
 						<div class="box">
 							<div class="box-header">
-								<h3 class="box-title">Categorias de Despesas</h3>
+								<h3 class="box-title">Movimentações</h3>
 							</div>
 							<!-- /.box-header -->
 							<div class="box-body">
 
-								<table id="dataTable" class="table table-bordered table-hover">
+
+								<table class="table table-bordered table-hover">
 
 									<thead>
 										<tr>
-											<th>Descrição</th>
+											<th>idx</th>
+											<th>Data</th>
 											<th>Tipo</th>
+											<th>Descrição</th>
+											<th>Valor</th>
+											<th>Categoria</th>
 											<th>Ações</th>
 
 										</tr>
 									</thead>
 									<tbody>
 										<ui:repeat var="item"
-											value="#{categoriaBean.listCategoriaDespesas}">
+											value="#{conciliacaoBean.listConciliacaoDTO}">
 											<tr>
-												<td><h:outputText value="#{item.descricaoCategoria}"></h:outputText></td>
+												<td><h:outputText value="#{item.index}">
+
+													</h:outputText></td>
 												<td><h:outputText
-														value="#{item.tipoCategoriaEnum.descricao}"></h:outputText></td>
-												<td><h:commandButton value="Editar"
-														actionListener="#{categoriaBean.listenerPrepararEdicao(item)}"
-														styleClass="btn btn-primary" /></td>
+														value="#{item.transacaoOfx.dataTransacao}">
+														<f:convertDateTime pattern="dd/MM/yyyy"></f:convertDateTime>
+													</h:outputText></td>
+												<td><h:outputText
+														value="#{item.transacaoOfx.tipoTransacao}"></h:outputText></td>
+												<td><h:outputText
+														value="#{item.transacaoOfx.descricaoTransacao}"></h:outputText></td>
+												<td><h:outputText
+														value="#{item.transacaoOfx.valorTransacao}"></h:outputText></td>
+												<td><h:selectOneMenu styleClass="form-control"
+														style="width: 100%;"
+														rendered="#{conciliacaoBean.renderizaListaDespesa(item.transacaoOfx)}"
+														value="#{item.transacaoOfx.categoriaVO}"
+														converter="#{categoriaConverter}">
+														<f:selectItem itemLabel="SELECIONE" />
+														<f:selectItems var="categoria"
+															itemLabel="#{categoria.descricaoCategoria}"
+															itemValue="#{categoria}"
+															value="#{conciliacaoBean.listCategoriaDespesas}"></f:selectItems>
+													</h:selectOneMenu> <h:selectOneMenu styleClass="form-control"
+														style="width: 100%;"
+														rendered="#{!conciliacaoBean.renderizaListaDespesa(item.transacaoOfx)}"
+														value="#{item.transacaoOfx.categoriaVO}"
+														converter="#{categoriaConverter}">
+														<f:selectItem itemLabel="SELECIONE" />
+														<f:selectItems var="categoria"
+															itemLabel="#{categoria.descricaoCategoria}"
+															itemValue="#{categoria}"
+															value="#{conciliacaoBean.listCategoriaRendas}"></f:selectItems>
+													</h:selectOneMenu></td>
+												<td><p:commandButton value="Atualizar"
+														actionListener="#{conciliacaoBean.listenerConciliar(item)}"
+														styleClass="btn btn-primary" update="formConciliacao">
+
+													</p:commandButton></td>
 
 											</tr>
 										</ui:repeat>
-
-
 									</tbody>
 
 								</table>
@@ -103,7 +154,7 @@
 							<!-- /.box-body -->
 						</div>
 						<!-- /.box -->
-
+						<div class="box-footer"></div>
 
 
 					</div>
@@ -220,5 +271,5 @@
 			})
 		})
 	</script>
-</body>
+</h:body>
 </html>

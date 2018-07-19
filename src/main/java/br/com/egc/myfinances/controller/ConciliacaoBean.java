@@ -1,29 +1,25 @@
 package br.com.egc.myfinances.controller;
 
-import java.io.IOException;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
-import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
-import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.primefaces.model.UploadedFile;
 
+import br.com.egc.myfinances.dto.ConciliacaoDTO;
+import br.com.egc.myfinances.dto.ResumoDTO;
 import br.com.egc.myfinances.entity.CategoriaVO;
 import br.com.egc.myfinances.entity.ContaVO;
 import br.com.egc.myfinances.entity.TransacaoVO;
 import br.com.egc.myfinances.service.CategoriaService;
-import br.com.egc.myfinances.service.CentroCustoService;
-import br.com.egc.myfinances.service.ContaService;
 import br.com.egc.myfinances.service.LeitorOfxService;
 import br.com.egc.myfinances.service.TransacaoService;
 import lombok.Getter;
 import lombok.Setter;
-import net.sf.ofx4j.io.OFXParseException;
 
 @SessionScoped
 @Named
@@ -32,48 +28,115 @@ public class ConciliacaoBean extends BaseBean implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Inject
+	private LeitorOfxService leitorOfxService;
+
+	@Inject
 	private TransacaoService transacaoService;
 
 	@Inject
 	private CategoriaService categoriaService;
 
 	@Getter
-	@Setter
-	List<TransacaoVO> listTransacaoVO;
+	private ContaVO contaVO;
 
 	@Getter
 	@Setter
-	List<CategoriaVO> listCategoriaDespesas;
+	private List<ResumoDTO> listResumoDTO;
+
 	@Getter
 	@Setter
-	List<CategoriaVO> listCategoriaRendas;
+	private List<ConciliacaoDTO> listConciliacaoDTO;
 
-	@PostConstruct
-	public void init() {
+	@Getter
+	@Setter
+	private List<CategoriaVO> listCategoriaDespesas;
+	@Getter
+	@Setter
+	private List<CategoriaVO> listCategoriaRendas;
 
-		listTransacaoVO = transacaoService.listarTransacaoCategoriaDefault();
+	@Getter
+	@Setter
+	private UploadedFile file;
 
-		listCategoriaDespesas = categoriaService.listarCategoriaDespesas();
-		listCategoriaRendas = categoriaService.listarCategoriaRendas();
-		System.out.println("init");
-	}
+	// @PostConstruct
+	// public void init() {
+	//
+	// listCategoriaDespesas = categoriaService.listarCategoriaDespesas();
+	// listCategoriaRendas = categoriaService.listarCategoriaRendas();
+	//
+	// listConciliacaoDTO = new ArrayList<>();
+	//
+	// file = null;
+	//
+	// }
 
-	public void atualizarTransacao() {
+	public void initLeituraOfx() {
+		
+		try {
+			
+			listCategoriaDespesas = categoriaService.listarCategoriaDespesas();
+			
+			listCategoriaRendas = categoriaService.listarCategoriaRendas();
+			
+			listConciliacaoDTO = new ArrayList<>();
+			
+			file = null;
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			addErrorMessage(e.getMessage());
+		}
 
-		transacaoService.atualizarTransacao(listTransacaoVO);
-
-		listTransacaoVO.clear();
-
-		listTransacaoVO = transacaoService.listarTransacaoCategoriaDefault();
 
 	}
 
 	public Boolean renderizaListaDespesa(TransacaoVO transacaoVO) {
 
-		if (transacaoVO.getTipoTransacao().equalsIgnoreCase("DEBIT")) {
-			return Boolean.TRUE;
+		if (transacaoVO != null) {
+			if (transacaoVO.getTipoTransacao().equalsIgnoreCase("DEBIT")) {
+				return Boolean.TRUE;
+			} else {
+				return Boolean.FALSE;
+			}
+
 		} else {
 			return Boolean.FALSE;
+
+		}
+
+	}
+
+	public void upload() {
+
+		try {
+
+			listConciliacaoDTO = leitorOfxService.processarArquivoOfx(file.getInputstream());
+
+			addInfoMessage("Arquivo carregado com sucesso.");
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			addErrorMessage(e.getMessage());
+		}
+
+	}
+
+	public void listenerConciliar(ConciliacaoDTO conciliacaoDTO) {
+
+		try {
+
+			conciliacaoDTO.getTransacaoOfx().setFlagConciliado(Boolean.TRUE);
+			transacaoService.adicionarTransacao(conciliacaoDTO.getTransacaoOfx());
+
+			System.out.println("idx"+ conciliacaoDTO.getIndex());
+			
+			listConciliacaoDTO.remove(conciliacaoDTO);
+
+			addInfoMessage("Conciliado com sucesso.");
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			addErrorMessage(e.getMessage());
 		}
 
 	}

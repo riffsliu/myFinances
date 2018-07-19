@@ -58,22 +58,22 @@ public class TransacaoBean implements Serializable {
 	private UploadedFile file;
 
 	public void upload() {
-		if (file != null) {
-
-			FacesMessage message = new FacesMessage("Succesful", file.getFileName() + " is uploaded.");
-			FacesContext.getCurrentInstance().addMessage(null, message);
-
-			try {
-
-				List<TransacaoVO> listTransacaoVO = leitorOfxService.processarArquivoOfx(file.getInputstream());
-
-				transacaoService.adicionarListaTransacao(listTransacaoVO);
-
-			} catch (IOException | OFXParseException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
+//		if (file != null) {
+//
+//			FacesMessage message = new FacesMessage("Succesful", file.getFileName() + " is uploaded.");
+//			FacesContext.getCurrentInstance().addMessage(null, message);
+//
+//			try {
+//
+////				List<TransacaoVO> listTransacaoVO = leitorOfxService.processarArquivoOfx(file.getInputstream());
+//
+////				transacaoService.adicionarListaTransacao(listTransacaoVO);
+//
+//			} catch (IOException | OFXParseException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+//		}
 	}
 
 	public void listarConta() {

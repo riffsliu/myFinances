@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -35,6 +34,11 @@ public class TransacaoVO implements Serializable {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "lancamento_generator")
 	@SequenceGenerator(name = "lancamento_generator", sequenceName = "lancamento_idlancamento_seq", allocationSize = 1)
 	private Long idTransacao;
+	
+//	@Getter
+//	@Setter
+//	@EmbeddedId
+//	private TransacaoPK transacaoPK;
 
 	@Getter
 	@Setter
@@ -58,14 +62,17 @@ public class TransacaoVO implements Serializable {
 	
 	@Getter
 	@Setter
-	@ManyToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "idUsuario")
+	private Boolean flagConciliado;
 	
+	@Getter
+	@Setter
+	@ManyToOne()
+	@JoinColumn(name = "idUsuario")
 	private UsuarioVO usuarioVO;
 
 	@Getter
 	@Setter
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne()
 	@JoinColumns({
 		@JoinColumn(name = "idConta",referencedColumnName="idConta"),
 		@JoinColumn(name = "idUsuarioConta",referencedColumnName="idUsuario")
@@ -75,7 +82,7 @@ public class TransacaoVO implements Serializable {
 
 	@Getter
 	@Setter
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne()
 //	@JoinColumn(name = "idCategoria")
 	@JoinColumns({
 		@JoinColumn(name = "idCategoria",referencedColumnName="idCategoria"),

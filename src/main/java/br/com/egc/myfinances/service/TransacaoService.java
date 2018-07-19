@@ -11,10 +11,7 @@ import br.com.egc.myfinances.dao.CategoriaDAO;
 import br.com.egc.myfinances.dao.ContaDAO;
 import br.com.egc.myfinances.dao.TransacaoDAO;
 import br.com.egc.myfinances.dao.UsuarioDAO;
-import br.com.egc.myfinances.dto.ResumoDTO;
 import br.com.egc.myfinances.entity.CategoriaPK;
-import br.com.egc.myfinances.entity.CategoriaVO;
-import br.com.egc.myfinances.entity.ContaPK;
 import br.com.egc.myfinances.entity.ContaVO;
 import br.com.egc.myfinances.entity.TransacaoVO;
 import br.com.egc.myfinances.entity.UsuarioVO;
@@ -31,54 +28,12 @@ public class TransacaoService extends BaseBean implements Serializable {
 
 	@Inject
 	private CategoriaDAO categoriaDAO;
-	
+
 	@Inject
 	private ContaDAO contaDAO;
-	
+
 	@Inject
 	private UsuarioDAO usuarioDAO;
-	
-
-	public void adicionarListaTransacao(List<TransacaoVO> listTransacaoVO) {
-		
-		
-		 UsuarioVO usuarioVO =usuarioDAO.buscarUsuario(Util.getUsuarioNaSession().getEmailUsuario());
-		
-		ContaVO contaVO = contaDAO.buscarContaPorId(Util.getContaNaSession().getContaPK());
-		
-
-		for (TransacaoVO transacaoVO : listTransacaoVO) {
-
-			if (!existeTransacao(transacaoVO.getIdTransacaoOriginal())) {
-				
-				transacaoVO.setUsuarioVO(usuarioVO);
-				transacaoVO.setContaVO(contaVO);
-
-				transacaoVO.setCategoriaVO(categoriaDAO.buscarCategoriaPorId(transacaoVO.getCategoriaVO().getCategoriaPK()));
-
-				transacaoDAO.criaTransacao(transacaoVO);
-				
-				contaVO.setSaldoConta(contaVO.getSaldoConta().add(transacaoVO.getValorTransacao()));
-				
-			} else {
-				System.out.println("idTransacaoOriginal já existe: " + transacaoVO.getIdTransacaoOriginal());
-			}
-			
-			contaDAO.atualizaConta(contaVO);
-
-		}
-
-	}
-
-	public Boolean existeTransacao(Long idTransacaoOriginal) {
-		return transacaoDAO.existeTransacao(idTransacaoOriginal);
-	}
-
-	public List<TransacaoVO> listarTransacaoCategoriaDefault() {
-
-		return transacaoDAO.listarTransacaoCategoriaDefault();
-
-	}
 
 	public void atualizarTransacao(List<TransacaoVO> listTransacaoVO) {
 
@@ -102,22 +57,45 @@ public class TransacaoService extends BaseBean implements Serializable {
 
 	}
 
-//	public List<ResumoDTO> listarResumoDTO(String ano) {
-//
-//		return transacaoDAO.listarResumo(ano);
-//
-//	}
-	
-	public List<TransacaoVO> listarTransacao(String mesAnoSelecionado, CategoriaPK categoriaPK){
-		
+	public List<TransacaoVO> listarTransacaoTodas(String mesAnoSelecionado) {
+
+		return transacaoDAO.listarTransacaoTodas(mesAnoSelecionado);
+
+	}
+
+	public List<TransacaoVO> listarTransacao(String mesAnoSelecionado, CategoriaPK categoriaPK) {
+
 		return transacaoDAO.listarTransacao(mesAnoSelecionado, categoriaPK);
 	}
 
-	public void atualizarTransacao(TransacaoVO transacaoVO) {
-		
-		transacaoDAO.atualizaTransacao(transacaoVO);
-		
+	public void adicionarTransacao(TransacaoVO transacaoVO) {
+
+		UsuarioVO usuarioVO = usuarioDAO.buscarUsuario(Util.getUsuarioNaSession().getEmailUsuario());
+
+		ContaVO contaVO = contaDAO.buscarContaPorId(Util.getContaNaSession().getContaPK());
+
+		transacaoVO.setUsuarioVO(usuarioVO);
+		transacaoVO.setContaVO(contaVO);
+
+		transacaoVO.setCategoriaVO(categoriaDAO.buscarCategoriaPorId(transacaoVO.getCategoriaVO().getCategoriaPK()));
+
+		contaVO.setSaldoConta(contaVO.getSaldoConta().add(transacaoVO.getValorTransacao()));
+
+		transacaoDAO.adicionarTransacao(transacaoVO);
+
+		contaDAO.atualizaConta(contaVO);
+
 	}
-	
+
+	public void removerTransacao(TransacaoVO transacaoVO) {
+
+		ContaVO contaVO = contaDAO.buscarContaPorId(Util.getContaNaSession().getContaPK());
+		contaVO.setSaldoConta(contaVO.getSaldoConta().subtract(transacaoVO.getValorTransacao()));
+
+		transacaoDAO.removerTransacao(transacaoVO);
+
+		contaDAO.atualizaConta(contaVO);
+
+	}
 
 }

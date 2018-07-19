@@ -67,6 +67,7 @@
 										<thead>
 											<tr>
 												<th>Id</th>
+												<th>Id Banco</th>
 												<th>Data</th>
 												<th>Descrição</th>
 												<th>Valor</th>
@@ -78,6 +79,7 @@
 											<ui:repeat var="item" value="#{resumoBean.listTransacaoVO}">
 												<tr>
 													<td><h:outputText value="#{item.idTransacao}"></h:outputText></td>
+													<td><h:outputText value="#{item.idTransacaoOriginal}"></h:outputText></td>
 													<td><h:outputText value="#{item.dataTransacao}">
 															<f:convertDateTime pattern="dd/MM/yyyy">
 															</f:convertDateTime>
