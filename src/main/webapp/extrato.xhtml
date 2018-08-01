@@ -67,46 +67,48 @@
 
 
 
+								<div style="overflow-x: auto;">
+									<table id="dataTable" class="table table-bordered table-hover">
 
-								<table id="dataTable" class="table table-bordered table-hover">
-
-									<thead>
-										<tr>
-											<th>Id</th>
-											<th>Data</th>
-											<th>Descrição</th>
-											<th>Personalizada</th>
-											<th>Valor</th>
-											<th>Categoria</th>
-
-										</tr>
-									</thead>
-									<tbody>
-										<ui:repeat var="item" value="#{extratoBean.listTransacaoVO}">
+										<thead>
 											<tr>
-												<td><h:outputText value="#{item.idTransacao}"></h:outputText></td>
-												<td><h:outputText value="#{item.dataTransacao}">
-														<f:convertDateTime pattern="dd/MM/yyyy">
-														</f:convertDateTime>
-													</h:outputText></td>
-												<td><h:outputText value="#{item.descricaoTransacao}"></h:outputText></td>
-												<td><h:outputText value="#{item.descricaoPersonalizada}"></h:outputText></td>
-												<td><h:outputText value="#{item.valorTransacao}"></h:outputText></td>
-												<td><h:outputText
-														value="#{item.categoriaVO.descricaoCategoria}"></h:outputText></td>
-												<td><p:commandButton value="Remover"
-														actionListener="#{extratoBean.listenerRemover(item)}"
-														styleClass="btn btn-primary">
-
-													</p:commandButton></td>
+												<th>Id</th>
+												<th>Data</th>
+												<th>Descrição</th>
+												<th>Personalizada</th>
+												<th>Valor</th>
+												<th>Categoria</th>
 
 											</tr>
-										</ui:repeat>
+										</thead>
+										<tbody>
+											<ui:repeat var="item" value="#{extratoBean.listTransacaoVO}">
+												<tr>
+													<td><h:outputText value="#{item.idTransacao}"></h:outputText></td>
+													<td><h:outputText value="#{item.dataTransacao}">
+															<f:convertDateTime pattern="dd/MM/yyyy">
+															</f:convertDateTime>
+														</h:outputText></td>
+													<td><h:outputText value="#{item.descricaoTransacao}"></h:outputText></td>
+													<td><h:outputText
+															value="#{item.descricaoPersonalizada}"></h:outputText></td>
+													<td><h:outputText value="#{item.valorTransacao}"></h:outputText></td>
+													<td><h:outputText
+															value="#{item.categoriaVO.descricaoCategoria}"></h:outputText></td>
+													<td><p:commandButton value="Remover"
+															actionListener="#{extratoBean.listenerRemover(item)}"
+															styleClass="btn btn-primary">
+
+														</p:commandButton></td>
+
+												</tr>
+											</ui:repeat>
 
 
-									</tbody>
+										</tbody>
 
-								</table>
+									</table>
+								</div>
 							</div>
 							<!-- /.box-body -->
 						</div>

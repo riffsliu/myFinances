@@ -84,7 +84,7 @@
 								<h3 class="box-title">Movimentações</h3>
 							</div>
 							<!-- /.box-header -->
-							<div class="box-body">
+							<div style="overflow-x: auto;">
 
 
 								<table class="table table-bordered table-hover">
@@ -118,8 +118,9 @@
 												<td><h:outputText
 														value="#{item.transacaoOfx.descricaoTransacao}"></h:outputText></td>
 												<td><h:inputText styleClass="form-control"
-														value="#{item.transacaoOfx.descricaoPersonalizada}" maxlength="50"></h:inputText></td>
-												<td><h:outputText 
+														value="#{item.transacaoOfx.descricaoPersonalizada}"
+														maxlength="50"></h:inputText></td>
+												<td><h:outputText
 														value="#{item.transacaoOfx.valorTransacao}"></h:outputText></td>
 												<td><h:selectOneMenu styleClass="form-control"
 														style="width: 100%;"
