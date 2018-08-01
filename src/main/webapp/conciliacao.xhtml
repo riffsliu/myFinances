@@ -95,6 +95,7 @@
 											<th>Data</th>
 											<th>Tipo</th>
 											<th>Descrição</th>
+											<th>Descrição Personalizada</th>
 											<th>Valor</th>
 											<th>Categoria</th>
 											<th>Ações</th>
@@ -116,7 +117,9 @@
 														value="#{item.transacaoOfx.tipoTransacao}"></h:outputText></td>
 												<td><h:outputText
 														value="#{item.transacaoOfx.descricaoTransacao}"></h:outputText></td>
-												<td><h:outputText
+												<td><h:inputText styleClass="form-control"
+														value="#{item.transacaoOfx.descricaoPersonalizada}" maxlength="50"></h:inputText></td>
+												<td><h:outputText 
 														value="#{item.transacaoOfx.valorTransacao}"></h:outputText></td>
 												<td><h:selectOneMenu styleClass="form-control"
 														style="width: 100%;"

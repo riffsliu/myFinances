@@ -22,23 +22,30 @@ public class DashboardService implements Serializable {
 	private static final long serialVersionUID = 1L;
 	@Inject
 	private ContaDAO contaDAO;
-	
+
 	@Inject
 	private TransacaoDAO transacaoDAO;
-	
-	
-
-
 
 	public BigDecimal buscarTotalDespesas(String mesAnoSelecionado) {
-		
-		
-		return transacaoDAO.buscarTotalDespesas(mesAnoSelecionado);
+
+		BigDecimal total = transacaoDAO.buscarTotalDespesas(mesAnoSelecionado);
+		if (total == null) {
+			return BigDecimal.ZERO;
+		} else {
+			return total;
+
+		}
 	}
-	
+
 	public BigDecimal buscarTotalRendas(String mesAnoSelecionado) {
-		
-		return transacaoDAO.buscarTotalRendas(mesAnoSelecionado);
+
+		BigDecimal total = transacaoDAO.buscarTotalRendas(mesAnoSelecionado);
+		if (total == null) {
+			return BigDecimal.ZERO;
+		} else {
+			return total;
+
+		}
 	}
 
 	public List<ContaVO> listarConta() {
@@ -46,12 +53,5 @@ public class DashboardService implements Serializable {
 		return contaDAO.listarConta();
 
 	}
-
-	
-
-
-
-
-	
 
 }

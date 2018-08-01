@@ -59,6 +59,10 @@ public class TransacaoVO implements Serializable {
 	@Getter
 	@Setter
 	private String descricaoTransacao;
+
+	@Getter
+	@Setter
+	private String descricaoPersonalizada;
 	
 	@Getter
 	@Setter
