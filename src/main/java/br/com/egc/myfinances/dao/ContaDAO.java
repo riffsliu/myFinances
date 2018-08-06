@@ -20,7 +20,7 @@ public class ContaDAO extends BaseDAO {
 		ContaVO contaVO = new ContaVO();
 		contaVO.setNomeConta("itau");
 		contaVO.setDescricaoConta("conta corrente");
-		contaVO.setSaldoConta(new BigDecimal("-39.14"));
+		contaVO.setSaldoAtual(new BigDecimal("-39.14"));
 
 		getEntityManager().getTransaction().begin();
 		getEntityManager().persist(contaVO);

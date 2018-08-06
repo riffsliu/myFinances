@@ -4,11 +4,11 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.org/ui">
-<head>
-<ui:include src="contentHead.xhtml" />
-</head>
+<h:head>
+	<ui:include src="contentHead.xhtml" />
+</h:head>
 
-<body class="hold-transition skin-blue sidebar-mini">
+<h:body class="hold-transition skin-blue sidebar-mini">
 	<div class="wrapper">
 
 		<!-- Main Header -->
@@ -34,6 +34,58 @@
 			<!-- Main content -->
 			<section class="content container-fluid"> <h:form
 				id="formContent" prependId="false">
+				<p:growl autoUpdate="true"></p:growl>
+
+				<div class="box box-primary">
+					<div class="box-header with-border">
+						<!-- <h3 class="box-title">Quick Example</h3> -->
+					</div>
+					<!-- /.box-header -->
+					<!-- form start -->
+
+					<div class="box-body">
+						<div class="form-group">
+							<h:outputLabel value="Valor" />
+							<p:inputText value="#{despesasBean.transacaoVO.valorTransacao}"
+								styleClass="form-control" />
+						</div>
+						<div class="form-group">
+							<h:outputLabel value="Data" />
+							<p:calendar locale="pt" pattern="dd/MM/yyyy"
+								value="#{despesasBean.transacaoVO.dataTransacao}"></p:calendar>
+						</div>
+						<div class="form-group">
+							<h:outputLabel value="Descrição" />
+							<p:inputText
+								value="#{despesasBean.transacaoVO.descricaoTransacao}"
+								styleClass="form-control" />
+						</div>
+						<div class="form-group">
+							<h:outputLabel value="Categoria" />
+							<f:selectItem itemLabel="SELECIONE" />
+							<h:selectOneMenu value="#{despesasBean.transacaoVO.categoriaVO}"
+								converter="#{categoriaConverter}" styleClass="form-control"
+								style="width: 100%;">
+								<f:selectItems var="categoria"
+									itemLabel="#{categoria.descricaoCategoria}"
+									itemValue="#{categoria}"
+									value="#{despesasBean.listCategoriaVO}"></f:selectItems>
+							</h:selectOneMenu>
+
+						</div>
+
+					</div>
+					<div class="box-footer">
+						<h:commandButton value="Gravar"
+							actionListener="#{despesasBean.listenerSalvarDespesa()}"
+							styleClass="btn btn-primary" />
+					</div>
+
+				</div>
+
+
+
+
 				<div class="row">
 					<div class="col-xs-12">
 						<div class="box">
@@ -215,5 +267,21 @@
 			})
 		})
 	</script>
-</body>
+
+
+	<!-- <p:dialog header="teste" id="dlgDespesa"
+	widgetVar="dlgDespesa" modal="true" showEffect="fade" resizable="false"
+	width="80%" closable="false" position="center" positionType="absolute"> -->
+	<p:dialog header="teste" id="dlgDespesa" widgetVar="dlgDespesa">
+		<!-- <h:form prependId="false">
+		
+		
+		<br />
+		<p:commandButton value="Adicionar" styleClass="btn primary"
+			onclick="PF('dlgDespesa').hide()" />
+	</h:form> -->
+	</p:dialog>
+
+
+</h:body>
 </html>

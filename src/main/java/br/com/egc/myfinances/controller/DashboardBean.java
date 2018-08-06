@@ -53,7 +53,7 @@ public class DashboardBean extends BaseBean implements Serializable {
 
 		contaVO = dashboardService.listarConta().get(0);
 
-		saldoAtual = contaVO.getSaldoConta();
+		saldoAtual = contaVO.getSaldoAtual();
 
 		String mesAnoSelecionado;
 		Calendar calendarAtual;

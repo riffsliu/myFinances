@@ -28,7 +28,7 @@ public class CategoriaConverter implements Converter {
 
 		} else {
 
-			return "";
+			return null;
 		}
 
 	}

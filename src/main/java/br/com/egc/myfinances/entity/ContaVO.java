@@ -2,6 +2,7 @@ package br.com.egc.myfinances.entity;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -51,7 +52,13 @@ public class ContaVO implements Serializable {
 
 	@Getter
 	@Setter
-	private BigDecimal saldoConta;
+	private BigDecimal saldoAtual;
+	@Getter
+	@Setter
+	private BigDecimal saldoInicial;
+	@Getter
+	@Setter
+	private Date dataSaldoInicial;
 
 	@Getter
 	@Setter

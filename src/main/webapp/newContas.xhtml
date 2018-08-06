@@ -4,11 +4,11 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.org/ui">
-<head>
-<ui:include src="contentHead.xhtml" />
-</head>
+<h:head>
+	<ui:include src="contentHead.xhtml" />
+</h:head>
 
-<body class="hold-transition skin-blue sidebar-mini">
+<h:body class="hold-transition skin-blue sidebar-mini">
 	<div class="wrapper">
 
 		<!-- Main Header -->
@@ -56,9 +56,19 @@
 								styleClass="form-control" />
 						</div>
 						<div class="form-group">
-							<h:outputLabel value="Saldo Conta" />
-							<h:inputText value="#{contaBean.contaVO.saldoConta}"
+							<h:outputLabel value="Saldo Inicial" />
+							<h:inputText value="#{contaBean.contaVO.saldoInicial}"
 								styleClass="form-control" />
+						</div>
+						<div class="form-group">
+							<h:outputLabel value="Saldo Atual" />
+							<h:inputText value="#{contaBean.contaVO.saldoAtual}"
+								styleClass="form-control" />
+						</div>
+						<div class="form-group">
+							<h:outputLabel value="Data Saldo Inicial" />
+							<p:calendar locale="pt" pattern="dd/MM/yyyy"
+								value="#{contaBean.contaVO.dataSaldoInicial}"></p:calendar>
 						</div>
 					</div>
 					<div class="box-footer">
@@ -85,7 +95,9 @@
 											<th>Id</th>
 											<th>Nome Conta</th>
 											<th>Descrição</th>
-											<th>Saldo</th>
+											<th>Saldo Inicial</th>
+											<th>Data Saldo Inicial</th>
+											<th>Data Saldo Atual</th>
 											<th>Ações</th>
 
 										</tr>
@@ -96,7 +108,9 @@
 												<td><h:outputText value="#{item.contaPK.idConta}"></h:outputText></td>
 												<td><h:outputText value="#{item.nomeConta}"></h:outputText></td>
 												<td><h:outputText value="#{item.descricaoConta}"></h:outputText></td>
-												<td><h:outputText value="#{item.saldoConta}"></h:outputText></td>
+												<td><h:outputText value="#{item.saldoInicial}"></h:outputText></td>
+												<td><h:outputText value="#{item.dataSaldoInicial}"></h:outputText></td>
+												<td><h:outputText value="#{item.saldoAtual}"></h:outputText></td>
 												<td><h:commandButton value="Editar"
 														actionListener="#{contaBean.listenerPrepararEdicao(item)}"
 														styleClass="btn btn-primary" /></td>
@@ -217,5 +231,5 @@
      Both of these plugins are recommended to enhance the
      user experience. -->
 
-</body>
+</h:body>
 </html>

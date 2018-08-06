@@ -34,12 +34,12 @@ public class ExtratoBean extends BaseBean implements Serializable {
 
 	@Inject
 	private TransacaoService transacaoService;
-	
+
 	@Getter
 	@Setter
 	@Inject
 	private ContaService contaService;
-	
+
 	@Getter
 	@Setter
 	private ContaVO contaVO;
@@ -59,35 +59,7 @@ public class ExtratoBean extends BaseBean implements Serializable {
 		mesAnoSelecionado = simpleDateFormat.format(calendarAtual.getTime());
 
 		listTransacaoVO = transacaoService.listarTransacaoTodas(mesAnoSelecionado);
-		
-		
-		BigDecimal saldo = BigDecimal.ZERO;
-		for (TransacaoVO transacaoVO : listTransacaoVO) {
-			
-			SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
-			
-			System.out.println(transacaoVO.getDataTransacao() +" "+ transacaoVO.getValorTransacao());
-			
-			if(sdf.format(transacaoVO.getDataTransacao()).equals(sdf.format(transacaoVO.getDataTransacao()))) {
-				saldo = saldo.add(transacaoVO.getValorTransacao());
-				
-				
-			}else {
-				System.out.println("Saldo "+ transacaoVO.getValorTransacao());
-				saldo = BigDecimal.ZERO;
-				
-			}
-			
-		}
-		
-		
-		
-		
-		
-		
-		
-		
-		
+
 		contaVO = contaService.listarConta().get(0);
 
 	}
@@ -123,12 +95,13 @@ public class ExtratoBean extends BaseBean implements Serializable {
 		listTransacaoVO = transacaoService.listarTransacaoTodas(mesAnoSelecionado);
 
 	}
+
 	public void listenerRemover(TransacaoVO transacaoVO) {
-		
+
 		transacaoService.removerTransacao(transacaoVO);
-		
+
 		listTransacaoVO = transacaoService.listarTransacaoTodas(mesAnoSelecionado);
-		
+
 		contaVO = contaService.listarConta().get(0);
 	}
 

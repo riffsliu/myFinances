@@ -151,6 +151,21 @@ public class TransacaoDAO extends BaseDAO {
 		return query.getResultList();
 	}
 
+	public List<TransacaoVO> listarTransacaoTodas() {
+		StringBuilder sql = new StringBuilder();
+		
+		sql.append("SELECT transacaoVO FROM TransacaoVO transacaoVO ");
+		// sql.append("WHERE transacaoVO.categoriaVO.tipoCategoriaEnum=0 ");
+		//sql.append("WHERE to_char(transacaoVO.dataTransacao,'MM-YYYY') = :pMesAnoSelecionado");
+		sql.append(" ORDER BY transacaoVO.dataTransacao, transacaoVO.idTransacao ");
+		
+		Query query = getEntityManager().createQuery(sql.toString());
+		
+//		query.setParameter("pMesAnoSelecionado", mesAnoSelecionado);
+		
+		return query.getResultList();
+	}
+
 	public List<TransacaoVO> listarTransacao(String mesAnoSelecionado, CategoriaPK categoriaPK) {
 		StringBuilder sql = new StringBuilder();
 

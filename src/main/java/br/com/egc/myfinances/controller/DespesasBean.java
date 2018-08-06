@@ -11,6 +11,7 @@ import javax.inject.Named;
 
 import br.com.egc.myfinances.entity.CategoriaVO;
 import br.com.egc.myfinances.entity.TransacaoVO;
+import br.com.egc.myfinances.service.CategoriaService;
 import br.com.egc.myfinances.service.TransacaoService;
 import lombok.Getter;
 import lombok.Setter;
@@ -32,6 +33,13 @@ public class DespesasBean extends BaseBean implements Serializable {
 	@Inject
 	private TransacaoService transacaoService;
 
+	@Inject
+	private CategoriaService categoriaService;
+
+	@Getter
+	@Setter
+	private TransacaoVO transacaoVO;
+
 	@Getter
 	@Setter
 	private String mesAnoSelecionado;
@@ -47,6 +55,10 @@ public class DespesasBean extends BaseBean implements Serializable {
 		mesAnoSelecionado = simpleDateFormat.format(calendarAtual.getTime());
 
 		listTransacaoVO = transacaoService.listarTransacaoDespesas(mesAnoSelecionado);
+
+		listCategoriaVO = categoriaService.listarCategoriaDespesas();
+
+		transacaoVO = new TransacaoVO();
 
 	}
 
@@ -80,6 +92,21 @@ public class DespesasBean extends BaseBean implements Serializable {
 		mesAnoSelecionado = simpleDateFormat.format(calendarAtual.getTime());
 
 		listTransacaoVO = transacaoService.listarTransacaoDespesas(mesAnoSelecionado);
+
+	}
+
+	public void listenerSalvarDespesa() {
+		try {
+
+			transacaoService.adicionarTransacao(transacaoVO);
+
+			transacaoVO = new TransacaoVO();
+
+			addInfoMessage("Adicionado");
+
+		} catch (Exception e) {
+			addErrorMessage(e.getMessage());
+		}
 
 	}
 

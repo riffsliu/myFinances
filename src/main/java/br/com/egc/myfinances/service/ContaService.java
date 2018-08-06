@@ -42,7 +42,7 @@ public class ContaService implements Serializable {
 		ContaVO contaVO = new ContaVO();
 		contaVO.setDescricaoConta("corrente");
 		contaVO.setNomeConta("itau");
-		contaVO.setSaldoConta(new BigDecimal("0"));
+		contaVO.setSaldoAtual(new BigDecimal("0"));
 
 		contaDAO.criaConta(contaVO);
 	}

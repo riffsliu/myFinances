@@ -34,6 +34,7 @@
 			<!-- Main content -->
 			<section class="content container-fluid"> <h:form
 				id="formContent" prependId="false">
+				
 				<div class="row">
 					<div class="col-xs-12">
 						<div class="box">
@@ -47,7 +48,8 @@
 
 								<div class="box-header">
 									<h3>
-										<h:outputText value="#{extratoBean.contaVO.saldoConta}" />
+										<h:outputText value="#{extratoBean.contaVO.saldoInicial}" />
+										<h:outputText value="#{extratoBean.contaVO.saldoAtual}" />
 									</h3>
 
 									<p>
@@ -58,7 +60,7 @@
 									</h:commandLink>
 									<h:outputText value="#{extratoBean.mesAnoSelecionado}"
 										styleClass="box-title" />
-									<h:commandLink action="#{despesasBean.listenerMesProximo()}">
+									<h:commandLink action="#{extratoBean.listenerMesProximo()}">
 										<span class="glyphicon glyphicon-chevron-right"></span>
 									</h:commandLink>
 								</div>
@@ -77,6 +79,7 @@
 												<th>Descrição</th>
 												<th>Personalizada</th>
 												<th>Valor</th>
+												<th>Saldo</th>
 												<th>Categoria</th>
 
 											</tr>
@@ -93,6 +96,7 @@
 													<td><h:outputText
 															value="#{item.descricaoPersonalizada}"></h:outputText></td>
 													<td><h:outputText value="#{item.valorTransacao}"></h:outputText></td>
+													<td><h:outputText value="#{item.saldoDia}"></h:outputText></td>
 													<td><h:outputText
 															value="#{item.categoriaVO.descricaoCategoria}"></h:outputText></td>
 													<td><p:commandButton value="Remover"

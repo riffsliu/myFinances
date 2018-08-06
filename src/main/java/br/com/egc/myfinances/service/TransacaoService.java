@@ -1,6 +1,10 @@
 package br.com.egc.myfinances.service;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -59,7 +63,81 @@ public class TransacaoService extends BaseBean implements Serializable {
 
 	public List<TransacaoVO> listarTransacaoTodas(String mesAnoSelecionado) {
 
-		return transacaoDAO.listarTransacaoTodas(mesAnoSelecionado);
+		// List<TransacaoVO> list =
+		// transacaoDAO.listarTransacaoTodas(mesAnoSelecionado);
+		List<TransacaoVO> list = transacaoDAO.listarTransacaoTodas();
+
+		UsuarioVO usuarioVO = usuarioDAO.buscarUsuario(Util.getUsuarioNaSession().getEmailUsuario());
+
+		ContaVO contaVO = contaDAO.buscarContaPorId(Util.getContaNaSession().getContaPK());
+
+		List<TransacaoVO> listNova = new ArrayList<>();
+		int contador = 0;
+
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+		BigDecimal saldoDia = BigDecimal.ZERO;
+
+		TransacaoVO tSaldoInicial = new TransacaoVO();
+		tSaldoInicial.setDataTransacao(contaVO.getDataSaldoInicial());
+		tSaldoInicial.setDescricaoTransacao("SALDO DO DIA");
+		tSaldoInicial.setSaldoDia(contaVO.getSaldoInicial());
+		tSaldoInicial.setValorTransacao(contaVO.getSaldoInicial());
+		saldoDia = contaVO.getSaldoInicial();
+
+		for (int i = 0; i < list.size(); i++) {
+
+			TransacaoVO transacaoAtual = list.get(i);
+
+			if (contador == 0) {
+
+				listNova.add(tSaldoInicial);
+
+				saldoDia = saldoDia.add(transacaoAtual.getValorTransacao());
+
+				listNova.add(transacaoAtual);
+
+			} else {
+
+				TransacaoVO transacaoAnterior = list.get(i - 1);
+
+				String dataBaseRegistroAnterior = simpleDateFormat.format(transacaoAnterior.getDataTransacao());
+
+				if (simpleDateFormat.format(transacaoAtual.getDataTransacao()).equals(dataBaseRegistroAnterior)) {
+
+					saldoDia = saldoDia.add(transacaoAtual.getValorTransacao());
+
+					listNova.add(transacaoAtual);
+				} else {
+
+					TransacaoVO tSaldo = new TransacaoVO();
+					tSaldo.setDataTransacao(transacaoAnterior.getDataTransacao());
+					tSaldo.setDescricaoTransacao("SALDO DO DIA");
+					tSaldo.setSaldoDia(saldoDia);
+
+					listNova.add(tSaldo);
+
+					saldoDia = saldoDia.add(transacaoAtual.getValorTransacao());
+
+					listNova.add(transacaoAtual);
+				}
+			}
+
+			contador++;
+
+		}
+
+		simpleDateFormat = new SimpleDateFormat("MM-YYYY");
+		List<TransacaoVO> listNova2 = new ArrayList<>();
+		for (TransacaoVO transacaoVO : listNova) {
+
+			if (simpleDateFormat.format(transacaoVO.getDataTransacao()).equals(mesAnoSelecionado)) {
+				listNova2.add(transacaoVO);
+
+			}
+
+		}
+
+		return listNova2;
 
 	}
 
@@ -79,7 +157,7 @@ public class TransacaoService extends BaseBean implements Serializable {
 
 		transacaoVO.setCategoriaVO(categoriaDAO.buscarCategoriaPorId(transacaoVO.getCategoriaVO().getCategoriaPK()));
 
-		contaVO.setSaldoConta(contaVO.getSaldoConta().add(transacaoVO.getValorTransacao()));
+		contaVO.setSaldoAtual(contaVO.getSaldoAtual().add(transacaoVO.getValorTransacao()));
 
 		transacaoDAO.adicionarTransacao(transacaoVO);
 
@@ -90,7 +168,7 @@ public class TransacaoService extends BaseBean implements Serializable {
 	public void removerTransacao(TransacaoVO transacaoVO) {
 
 		ContaVO contaVO = contaDAO.buscarContaPorId(Util.getContaNaSession().getContaPK());
-		contaVO.setSaldoConta(contaVO.getSaldoConta().subtract(transacaoVO.getValorTransacao()));
+		contaVO.setSaldoAtual(contaVO.getSaldoAtual().subtract(transacaoVO.getValorTransacao()));
 
 		transacaoDAO.removerTransacao(transacaoVO);
 
