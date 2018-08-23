@@ -25,7 +25,7 @@ public class LoginBean implements Serializable {
 
 	@Getter
 	@Setter
-	private String emailUsuario;
+	private String emailUsuario = "e83carvalho@gmail.com";
 
 	@Getter
 	@Setter
