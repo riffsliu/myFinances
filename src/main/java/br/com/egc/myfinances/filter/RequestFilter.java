@@ -28,16 +28,20 @@ public class RequestFilter implements Filter {
 	@Override
 	public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)
 			throws IOException, ServletException {
-		System.out.println("RequestFilter.doFilter()");
+		// System.out.println("RequestFilter.doFilter()");
 
 		HttpServletRequest request = (HttpServletRequest) servletRequest;
 		HttpServletResponse response = (HttpServletResponse) servletResponse;
 		HttpSession session = request.getSession(true);
-		System.out.println(request.getRequestURI());
+		// System.out.println(request.getRequestURI());
 
 		String url = request.getRequestURI();
 
-		if (url.equals("/myFinances/login.xhtml") || url.equals("/myFinances/")) {
+		if (url.contains("/myFinances/javax.faces.resource/")) {
+
+			filterChain.doFilter(request, response);
+
+		} else if (url.equals("/myFinances/login.xhtml") || url.equals("/myFinances/")) {
 
 			session.setAttribute("USUARIO", null);
 
@@ -45,7 +49,7 @@ public class RequestFilter implements Filter {
 
 		} else if (url.contains("/myFinances/resources/")) {
 			filterChain.doFilter(request, response);
-			
+
 		} else {
 
 			UsuarioVO usuarioVO = (UsuarioVO) session.getAttribute("USUARIO");
@@ -61,7 +65,7 @@ public class RequestFilter implements Filter {
 
 		}
 
-		// filterChain.doFilter(request, response);
+//		filterChain.doFilter(request, response);
 
 	}
 

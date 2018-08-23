@@ -1,46 +1,62 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:h="http://java.sun.com/jsf/html"
-	>
-<head>
-<ui:include src="contentHead.xhtml" />
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
 
-</head>
-<body class="hold-transition login-page">
-	<div class="login-box">
-		<div class="login-logo">
-		</div>
-		<div class="login-box-body">
-			<p class="login-box-msg">Sign in to start your session</p>
-			<h:form id="form">
-				<div class="form-group has-feedback">
-					<h:inputText id="myEmail" value="#{loginBean.emailUsuario}" class="form-control" />
-					<span class="glyphicon glyphicon-envelope form-control-feedback"></span>
-				</div>
-				<div class="form-group has-feedback">
-					<h:inputSecret id="myPassword" value="#{loginBean.senhaUsuario}" class="form-control" />
-					<span class="glyphicon glyphicon-lock form-control-feedback"></span>
-				</div>
-				<div class="row">
-					<div class="col-xs-12">
-						<h:commandButton id="MySignIn" value="Sign In" class="btn btn-primary btn-block btn-flat" action="#{loginBean.actionEntrar()}"></h:commandButton>
-					</div>
-				</div>
-			</h:form>
-			<div class="social-auth-links text-center">
-				<p>- OR -</p>
-				<a href="#" class="btn btn-block btn-social btn-facebook btn-flat"><i
-					class="fa fa-facebook"></i> Sign in using Facebook</a> <a href="#"
-					class="btn btn-block btn-social btn-google btn-flat"><i
-					class="fa fa-google-plus"></i> Sign in using Google+</a>
-			</div>
-		</div>
-	</div>
-	<script src="./resources/bower_components/jquery/dist/jquery.min.js"></script>
-	<script	src="./resources/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-	<script src="./resources/plugins/iCheck/icheck.min.js"></script>
-	
-</body>
+<h:head>
+    <f:facet name="first">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+    </f:facet>
+    <title>PrimeFaces California</title>
+</h:head>
+
+<div class="login-topbar">
+    <h:link outcome="/dashboard" styleClass="logo">
+        <p:graphicImage name="images/logo.png" library="california-layout" />
+    </h:link>
+</div>
+<p:graphicImage styleClass="login-image" name="images/image-login.png" library="california-layout" />
+
+<h:body styleClass="login-body">
+	<h:form prependId="false">
+		    <div class="login-panel ui-fluid">
+		        <div class="ui-g">
+		            <div class="ui-g-12 login-icon-container">
+		                <p:graphicImage styleClass="login-icon" name="images/icon-login.png" library="california-layout" />
+		            </div>
+		            <div class="ui-g-12 ui-lg-12 ui-md-12 logo-container">
+		                <span class="login-summary">Sign in to California</span>
+		                <div class="login-detail">
+		                    <span>Welcome, please use the form to sign-in network.</span>
+		                </div>
+		            </div>
+		            <div class="ui-g-12 ui-lg-12 ui-md-12">
+		                <h:outputText value="E-mail address" />
+		                <p:inputText placeholder="Email" value="#{loginBean.emailUsuario}"/>
+		            </div>
+		            <div class="ui-g-12 ui-lg-12 ui-md-12">
+		                <h:outputText value="Password" />
+		                <p:password placeholder="Password" feedback="false" value="#{loginBean.senhaUsuario}"/>
+		            </div>
+		            <div class="ui-g-12 ui-lg-12 ui-md-12 chkbox-container">
+		                <p:selectBooleanCheckbox id="remember-me" />
+		                <p:outputLabel for="remember-me" value="Remember Me" />
+		                <a href="#">Reset Password</a>
+		            </div>
+		            <div class="ui-g-12 ui-lg-12 ui-md-12 button-container">
+		                <p:commandButton value="Sign in" styleClass="turquoise-btn" action="#{loginBean.actionEntrar()}"/>
+		
+		            </div>
+		        </div>
+		    </div>
+		
+		    <h:outputStylesheet name="css/layout-#{guestPreferences.theme}.css" library="california-layout" />
+    </h:form>
+</h:body>
+
 </html>

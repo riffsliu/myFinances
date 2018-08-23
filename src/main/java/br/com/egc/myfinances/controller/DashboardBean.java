@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
@@ -51,26 +52,43 @@ public class DashboardBean extends BaseBean implements Serializable {
 
 	public void initDashboard() {
 
-		contaVO = dashboardService.listarConta().get(0);
-
-		saldoAtual = contaVO.getSaldoAtual();
-
-		String mesAnoSelecionado;
-		Calendar calendarAtual;
-		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM-YYYY");
-
-		calendarAtual = Calendar.getInstance();
-
-		mesAnoSelecionado = simpleDateFormat.format(calendarAtual.getTime());
-
-		totalDespesas = dashboardService.buscarTotalDespesas(mesAnoSelecionado);
-		totalRendas = dashboardService.buscarTotalRendas(mesAnoSelecionado);
-		balanco = BigDecimal.ZERO;
-		balanco = totalRendas.add(totalDespesas);
-
-		Util.setContaNaSession(contaVO);
+		List<ContaVO> listContaVO =  dashboardService.listarConta();
 		
-		createAreaModel();
+		if(!listContaVO.isEmpty()) {
+			
+			contaVO = dashboardService.listarConta().get(0);
+			
+			saldoAtual = contaVO.getSaldoAtual();
+			
+			String mesAnoSelecionado;
+			Calendar calendarAtual;
+			SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM-YYYY");
+			
+			calendarAtual = Calendar.getInstance();
+			
+			mesAnoSelecionado = simpleDateFormat.format(calendarAtual.getTime());
+			
+			totalDespesas = dashboardService.buscarTotalDespesas(mesAnoSelecionado);
+			totalRendas = dashboardService.buscarTotalRendas(mesAnoSelecionado);
+			balanco = BigDecimal.ZERO;
+			balanco = totalRendas.add(totalDespesas);
+			
+			Util.setContaNaSession(contaVO);
+			
+			createAreaModel();
+
+		}else {
+			
+			saldoAtual = BigDecimal.ZERO;
+			totalDespesas = BigDecimal.ZERO;
+			totalRendas = BigDecimal.ZERO;
+			balanco = BigDecimal.ZERO;
+		}
+		
+		
+
+		
+
 
 	}
 

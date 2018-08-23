@@ -6,6 +6,16 @@
 	<artifactId>myFinances</artifactId>
 	<version>1.0.0-SNAPSHOT</version>
 	<packaging>war</packaging>
+	
+	<repositories>
+        <repository>
+            <id>prime-repo</id>
+            <name>PrimeFaces Maven Repository</name>
+            <url>http://repository.primefaces.org</url>
+        </repository>
+    </repositories>
+	
+	
 	<build>
 		<finalName>myFinances</finalName>
 		<plugins>
