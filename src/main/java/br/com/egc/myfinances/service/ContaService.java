@@ -7,10 +7,14 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
 
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.math.NumberUtils;
+
 import br.com.egc.myfinances.dao.ContaDAO;
 import br.com.egc.myfinances.entity.CategoriaPK;
 import br.com.egc.myfinances.entity.ContaPK;
 import br.com.egc.myfinances.entity.ContaVO;
+import br.com.egc.myfinances.util.Message;
 
 @Transactional
 public class ContaService implements Serializable {
@@ -28,29 +32,34 @@ public class ContaService implements Serializable {
 
 	}
 
-	public void salvarConta(ContaVO contaVO) {
+	public void adicionarConta(ContaVO contaVO) throws Exception {
 
-		ContaPK contaPK = new ContaPK(1L, contaDAO.nextIdConta(1L));
-		contaPK.setIdUsuario(1L);
-		contaVO.setContaPK(contaPK);
+		if (contaVO.getContaPK() == null) {
 
-		contaDAO.criaConta(contaVO);
+			if (StringUtils.isEmpty(contaVO.getNomeConta()) || StringUtils.isEmpty(contaVO.getDescricaoConta()) || contaVO.getDataSaldoInicial() == null || contaVO.getSaldoInicial() == null
+					|| contaVO.getSaldoAtual() == null) {
+				throw new Exception(Message.VALORES_OBRIGATORIOS);
+
+			}
+
+			ContaPK contaPK = new ContaPK(1L, contaDAO.nextIdConta(1L));
+			contaPK.setIdUsuario(1L);
+			contaVO.setContaPK(contaPK);
+
+			contaDAO.adicionarConta(contaVO);
+		} else {
+			contaDAO.atualizaConta(contaVO);
+
+		}
+
 	}
 
-	public void criaContaDefault() {
+	public void excluirConta(ContaVO contaVO) {
 
-		ContaVO contaVO = new ContaVO();
-		contaVO.setDescricaoConta("corrente");
-		contaVO.setNomeConta("itau");
-		contaVO.setSaldoAtual(new BigDecimal("0"));
+		contaVO = contaDAO.buscarContaPorId(contaVO.getContaPK());
 
-		contaDAO.criaConta(contaVO);
-	}
+		contaDAO.excluirConta(contaVO);
 
-	public void atualizarConta(ContaVO contaVO) {
-		
-		contaDAO.atualizaConta(contaVO);
-		
 	}
 
 }

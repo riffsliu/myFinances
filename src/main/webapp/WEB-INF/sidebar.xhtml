@@ -96,22 +96,27 @@
 					<pc:menu widgetVar="me">
 						<p:menuitem id="om_dashboard" value="Dashboard"
 							icon="fa fa-fw fa-home" outcome="/dashboard" />
-	
+
+
+						<p:menuitem id="myBankAccounts" value="Bank Accounts"
+							icon="fa fa-fw fa-book"
+							action="#{contaBean.actionBankAccounts()}" />
 						
-						<p:menuitem id="myBankAccounts" value="My Bank Accounts"
-							icon="fa fa-fw fa-book" outcome="/myBankAccounts" />
-						<p:menuitem id="myCategories" value="My Categories"
-							icon="fa fa-fw fa-book" outcome="/myCategories" />
-						<p:menuitem id="myTransactions" value="My Bank Transactions"
-							icon="fa fa-fw fa-book" outcome="/myTransactions" />
-						<p:menuitem id="myBankStatement" value="My Bank Statement"
-							icon="fa fa-fw fa-book" outcome="/myBankStatement" />
-							<p:menuitem id="processFile" value="Process File"
-							icon="fa fa-fw fa-book" outcome="/processFile" />
-							
+						<p:menuitem id="myCategories" value="Categories"
+							icon="fa fa-fw fa-book"
+							action="#{categoriaBean.actionCategories()}" />
+						
+						<p:menuitem id="myTransactions" value="Bank Transactions"
+							icon="fa fa-fw fa-book"
+							action="#{transacaoBean.actionTransactions()}" />
+						
+											
+						<p:menuitem id="processFile" value="Process File"
+							icon="fa fa-fw fa-book" action="#{processarArquivoBean.actionProcessFile()}"/>
+
 						<p:menuitem id="om_doc" value="Documentation"
 							icon="fa fa-fw fa-book" outcome="/docs" />
-						
+
 					</pc:menu>
 				</h:form>
 			</div>

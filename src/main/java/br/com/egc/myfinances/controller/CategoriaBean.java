@@ -42,7 +42,6 @@ public class CategoriaBean extends BaseBean implements Serializable {
 	@Setter
 	private TipoCategoriaEnum[] listTipoCategoriaEnum;
 
-	@PostConstruct
 	public void init() {
 		categoriaVO = new CategoriaVO();
 
@@ -52,6 +51,11 @@ public class CategoriaBean extends BaseBean implements Serializable {
 		listCategoriaRendas = categoriaService.listarCategoriaRendas();
 
 	}
+	
+	public void actionCategories() {
+		redirect("categories.xhtml");
+	}
+	
 
 	public void initCategoriaRendas() {
 		System.out.println("CategoriaBean.initCategoriaRendas()");

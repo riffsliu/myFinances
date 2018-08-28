@@ -26,7 +26,7 @@ import net.sf.ofx4j.io.OFXParseException;
 
 @SessionScoped
 @Named
-public class TransacaoBean implements Serializable {
+public class TransacaoBean extends BaseBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -82,12 +82,16 @@ public class TransacaoBean implements Serializable {
 
 	}
 
-	public void populaDefault() {
-
-		contaService.criaContaDefault();
-		centroCustoService.criaCentroCustoDefault();
-		categoriaService.criarCategoriaDefault();
-
+//	public void populaDefault() {
+//
+//		contaService.criaContaDefault();
+//		centroCustoService.criaCentroCustoDefault();
+//		categoriaService.criarCategoriaDefault();
+//
+//	}
+	
+	public void actionTransactions() {
+		redirect("transactions.xhtml");
 	}
 
 

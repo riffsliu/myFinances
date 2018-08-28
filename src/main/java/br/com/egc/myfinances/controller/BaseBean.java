@@ -11,6 +11,8 @@ import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.primefaces.context.RequestContext;
+
 import br.com.egc.myfinances.entity.UsuarioVO;
 
 @SessionScoped
@@ -20,7 +22,7 @@ public class BaseBean implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	public static void redirect(String url) {
-		
+
 		ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
 		try {
 			externalContext.redirect(externalContext.getRequestContextPath() + "/" + url);
@@ -28,28 +30,30 @@ public class BaseBean implements Serializable {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public static UsuarioVO getUsuarioLogado() {
 
 		try {
-			HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext()
-					.getRequest();
+			HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
 			HttpSession session = request.getSession();
-			
+
 			return (UsuarioVO) session.getAttribute("USUARIO");
-			
+
 		} catch (Exception e) {
 			return null;
 		}
 
 	}
-	
+
 	public static void addErrorMessage(String msg) {
-		FacesContext.getCurrentInstance().addMessage(null,
-				new FacesMessage(FacesMessage.SEVERITY_ERROR, msg, "Error!"));
+		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, msg, "Error!"));
 	}
 
 	public static void addInfoMessage(String msg) {
-		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, msg, "Error!"));
+		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, msg, "Sucesss!"));
+	}
+	
+	protected void openDialog(String widgetVar) {
+		RequestContext.getCurrentInstance().execute("PF('" + widgetVar + "').show()");
 	}
 }

@@ -1,34 +1,22 @@
 package br.com.egc.myfinances.controller;
 
-import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
 
-import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
-import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import org.primefaces.model.UploadedFile;
-
-import br.com.egc.myfinances.entity.CategoriaVO;
 import br.com.egc.myfinances.entity.ContaVO;
-import br.com.egc.myfinances.entity.TipoCategoriaEnum;
-import br.com.egc.myfinances.entity.TransacaoVO;
-import br.com.egc.myfinances.service.CategoriaService;
-import br.com.egc.myfinances.service.CentroCustoService;
 import br.com.egc.myfinances.service.ContaService;
-import br.com.egc.myfinances.service.LeitorOfxService;
-import br.com.egc.myfinances.service.TransacaoService;
+import br.com.egc.myfinances.util.Message;
+import br.com.egc.myfinances.util.URL;
 import lombok.Getter;
 import lombok.Setter;
-import net.sf.ofx4j.io.OFXParseException;
 
 @SessionScoped
 @Named
-public class ContaBean implements Serializable {
+public class ContaBean extends BaseBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -43,50 +31,79 @@ public class ContaBean implements Serializable {
 	@Setter
 	private List<ContaVO> listContaVO;
 
-	@PostConstruct
-	public void init() {
-		contaVO = new ContaVO();
+	@Getter
+	@Setter
+	private Boolean renderizaAdicionar;
 
+	private void init() throws Exception {
+		contaVO = new ContaVO();
 		listContaVO = contaService.listarConta();
+		renderizaAdicionar = Boolean.FALSE;
 
 	}
 
-	public void initContas() {
-		System.out.println("ContaBean.initContas()");
-		listContaVO = contaService.listarConta();
-		
+	public void actionBankAccounts() {
+		try {
+			init();
+			redirect(URL.BANK_ACCOUNT);
+		} catch (Exception e) {
+			addErrorMessage(e.getMessage());
+		}
 	}
 
 	public void listenerPrepararEdicao(ContaVO contaVO) {
-		
-		this.contaVO = contaVO;
-		
-		
+		try {
+			this.contaVO = contaVO;
+			renderizaAdicionar = Boolean.TRUE;
+		} catch (Exception e) {
+			addErrorMessage(e.getMessage());
+		}
+	}
+
+	public void listenerPrepararExclusao(ContaVO contaVO) {
+		try {
+			this.contaVO = contaVO;
+		} catch (Exception e) {
+			addErrorMessage(e.getMessage());
+		}
+	}
+
+	public void listenerInicializarConta() {
+		try {
+			contaVO = new ContaVO();
+			renderizaAdicionar = Boolean.TRUE;
+		} catch (Exception e) {
+			addErrorMessage(e.getMessage());
+		}
+	}
+
+	public void listenerAdicionarConta() {
+		try {
+			contaService.adicionarConta(contaVO);
+			init();
+			addInfoMessage(Message.CADASTRO_REALIZADO);
+		} catch (Exception e) {
+			addErrorMessage(e.getMessage());
+		}
+
+	}
+
+	public void listenerExcluirConta() {
+		try {
+			contaService.excluirConta(contaVO);
+			init();
+			addInfoMessage(Message.CADASTRO_EXCLUIDO);
+		} catch (Exception e) {
+			addErrorMessage(e.getMessage());
+		}
 		
 	}
-	
-	public void listenerSalvarConta() {
 
+	public void listenerCancelarAdicionarConta() {
 		try {
-
-			if(contaVO.getContaPK() ==null) {
-				contaService.salvarConta(contaVO);
-			}else {
-				contaService.atualizarConta(contaVO);
-				
-			}
-			
-
-			contaVO = new ContaVO();
-
-			listContaVO = contaService.listarConta();
-
-			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_INFO, "Conta created.", "Succesful"));
-
+			renderizaAdicionar = Boolean.FALSE;
 		} catch (Exception e) {
-			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage(), "Error"));
+			addErrorMessage(e.getMessage());
 		}
 
 	}

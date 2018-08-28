@@ -29,7 +29,7 @@ public class ContaDAO extends BaseDAO {
 
 	}
 
-	public void criaConta(ContaVO contaVO) {
+	public void adicionarConta(ContaVO contaVO) {
 
 		getEntityManager().persist(contaVO);
 
@@ -75,6 +75,12 @@ public class ContaDAO extends BaseDAO {
 	public void atualizaConta(ContaVO contaVO) {
 		
 		getEntityManager().merge(contaVO);
+		
+	}
+
+	public void excluirConta(ContaVO contaVO) {
+		
+		getEntityManager().remove(contaVO);
 		
 	}
 

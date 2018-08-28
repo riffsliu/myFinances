@@ -16,11 +16,14 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import org.hibernate.envers.Audited;
+
 import lombok.Getter;
 import lombok.Setter;
 
 @Entity
 @Table(name = "NEWTRANSACAO")
+@Audited
 public class TransacaoVO implements Serializable {
 
 	/**

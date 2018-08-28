@@ -23,7 +23,7 @@ import lombok.Setter;
 
 @SessionScoped
 @Named
-public class ConciliacaoBean extends BaseBean implements Serializable {
+public class ProcessarArquivoBean extends BaseBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -69,6 +69,10 @@ public class ConciliacaoBean extends BaseBean implements Serializable {
 	// file = null;
 	//
 	// }
+	
+	public void actionProcessFile() {
+		redirect("processFile.xhtml");
+	}
 
 	public void initLeituraOfx() {
 		
