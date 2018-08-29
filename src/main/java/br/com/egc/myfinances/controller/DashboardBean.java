@@ -13,6 +13,7 @@ import javax.inject.Named;
 import br.com.egc.myfinances.entity.ContaVO;
 import br.com.egc.myfinances.service.DashboardService;
 import br.com.egc.myfinances.service.Util;
+import br.com.egc.myfinances.util.Message;
 import lombok.Getter;
 
 @SessionScoped
@@ -66,6 +67,7 @@ public class DashboardBean extends BaseBean implements Serializable {
 			totalDespesas = BigDecimal.ZERO;
 			totalRendas = BigDecimal.ZERO;
 			balanco = BigDecimal.ZERO;
+
 		}
 
 	}

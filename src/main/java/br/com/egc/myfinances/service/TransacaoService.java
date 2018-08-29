@@ -61,7 +61,7 @@ public class TransacaoService extends BaseBean implements Serializable {
 
 	}
 
-	public List<TransacaoVO> listarTransacaoTodas(String mesAnoSelecionado) {
+	public List<TransacaoVO> listarTransacaoTodas(String mesAnoSelecionado) throws Exception {
 
 		// List<TransacaoVO> list =
 		// transacaoDAO.listarTransacaoTodas(mesAnoSelecionado);
@@ -146,7 +146,9 @@ public class TransacaoService extends BaseBean implements Serializable {
 		return transacaoDAO.listarTransacao(mesAnoSelecionado, categoriaPK);
 	}
 
-	public void adicionarTransacao(TransacaoVO transacaoVO) {
+	public void adicionarTransacao(TransacaoVO transacaoVO) throws Exception {
+		
+		
 
 		UsuarioVO usuarioVO = usuarioDAO.buscarUsuario(Util.getUsuarioNaSession().getEmailUsuario());
 
@@ -165,7 +167,7 @@ public class TransacaoService extends BaseBean implements Serializable {
 
 	}
 
-	public void removerTransacao(TransacaoVO transacaoVO) {
+	public void removerTransacao(TransacaoVO transacaoVO) throws Exception {
 
 		ContaVO contaVO = contaDAO.buscarContaPorId(Util.getContaNaSession().getContaPK());
 		contaVO.setSaldoAtual(contaVO.getSaldoAtual().subtract(transacaoVO.getValorTransacao()));

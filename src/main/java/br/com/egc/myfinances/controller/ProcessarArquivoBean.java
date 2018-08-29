@@ -71,10 +71,16 @@ public class ProcessarArquivoBean extends BaseBean implements Serializable {
 	// }
 	
 	public void actionProcessFile() {
-		redirect("processFile.xhtml");
+		try {
+			
+			init();
+			redirect("processFile.xhtml");
+		} catch (Exception e) {
+			addErrorMessage(e.getMessage());
+		}
 	}
 
-	public void initLeituraOfx() {
+	private void init() throws Exception{
 		
 		try {
 			
