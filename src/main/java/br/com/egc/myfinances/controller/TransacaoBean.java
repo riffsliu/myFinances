@@ -1,98 +1,137 @@
 package br.com.egc.myfinances.controller;
 
-import java.io.IOException;
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
 
 import javax.enterprise.context.SessionScoped;
-import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import org.primefaces.model.UploadedFile;
-
-import br.com.egc.myfinances.dto.ResumoDTO;
 import br.com.egc.myfinances.entity.ContaVO;
 import br.com.egc.myfinances.entity.TransacaoVO;
-import br.com.egc.myfinances.service.CategoriaService;
-import br.com.egc.myfinances.service.CentroCustoService;
-import br.com.egc.myfinances.service.ContaService;
-import br.com.egc.myfinances.service.LeitorOfxService;
 import br.com.egc.myfinances.service.TransacaoService;
 import lombok.Getter;
 import lombok.Setter;
-import net.sf.ofx4j.io.OFXParseException;
 
 @SessionScoped
 @Named
 public class TransacaoBean extends BaseBean implements Serializable {
 
-	private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 1L;
 
-	@Inject
-	private ContaService contaService;
+  @Inject
+  private TransacaoService transacaoService;
 
-	@Inject
-	private LeitorOfxService leitorOfxService;
+  @Getter
+  private ContaVO contaVO;
 
-	@Inject
-	private TransacaoService transacaoService;
+  @Getter
+  @Setter
+  private List<TransacaoVO> listTransacaoVO;
 
-	@Inject
-	private CategoriaService categoriaService;
+  private Calendar calendarAtual;
 
-	@Inject
-	private CentroCustoService centroCustoService;
+  @Getter
+  @Setter
+  private String mesAnoSelecionado;
 
-	//
-	@Getter
-	private ContaVO contaVO;
+  public void upload() {
+    // if (file != null) {
+    //
+    // FacesMessage message = new FacesMessage("Succesful", file.getFileName() + "
+    // is uploaded.");
+    // FacesContext.getCurrentInstance().addMessage(null, message);
+    //
+    // try {
+    //
+    //// List<TransacaoVO> listTransacaoVO =
+    // leitorOfxService.processarArquivoOfx(file.getInputstream());
+    //
+    //// transacaoService.adicionarListaTransacao(listTransacaoVO);
+    //
+    // } catch (IOException | OFXParseException e) {
+    // // TODO Auto-generated catch block
+    // e.printStackTrace();
+    // }
+    // }
+  }
 
-	@Getter
-	@Setter
-	private List<ResumoDTO> listResumoDTO;
+  public void listarConta() {
 
-	@Getter
-	@Setter
-	private UploadedFile file;
+    // contaVO = contaService.listarConta();
 
-	public void upload() {
-//		if (file != null) {
-//
-//			FacesMessage message = new FacesMessage("Succesful", file.getFileName() + " is uploaded.");
-//			FacesContext.getCurrentInstance().addMessage(null, message);
-//
-//			try {
-//
-////				List<TransacaoVO> listTransacaoVO = leitorOfxService.processarArquivoOfx(file.getInputstream());
-//
-////				transacaoService.adicionarListaTransacao(listTransacaoVO);
-//
-//			} catch (IOException | OFXParseException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
-//		}
-	}
+  }
 
-	public void listarConta() {
+  // public void populaDefault() {
+  //
+  // contaService.criaContaDefault();
+  // centroCustoService.criaCentroCustoDefault();
+  // categoriaService.criarCategoriaDefault();
+  //
+  // }
 
-//		contaVO = contaService.listarConta();
+  public void actionTransactions() {
 
-	}
+    try {
+      SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM-YYYY");
+      calendarAtual = Calendar.getInstance();
+      mesAnoSelecionado = simpleDateFormat.format(calendarAtual.getTime());
+      listTransacaoVO = transacaoService.listarTransacaoTodas(mesAnoSelecionado);
+      contaVO = getContaDaSessao();
+      redirect("transactions.xhtml");
+    } catch (Exception e) {
+      addErrorMessage(e.getMessage());
+    }
 
-//	public void populaDefault() {
-//
-//		contaService.criaContaDefault();
-//		centroCustoService.criaCentroCustoDefault();
-//		categoriaService.criarCategoriaDefault();
-//
-//	}
-	
-	public void actionTransactions() {
-		redirect("transactions.xhtml");
-	}
+  }
 
+  public void listenerMesAnterior() {
+
+    try {
+      SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM-YYYY");
+
+      calendarAtual.add(Calendar.MONTH, -1);
+
+      mesAnoSelecionado = simpleDateFormat.format(calendarAtual.getTime());
+
+      listTransacaoVO = transacaoService.listarTransacaoTodas(mesAnoSelecionado);
+    } catch (Exception e) {
+      addErrorMessage(e.getMessage());
+    }
+
+  }
+
+  public void listenerMesProximo() {
+
+    try {
+      SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM-YYYY");
+
+      calendarAtual.add(Calendar.MONTH, 1);
+
+      mesAnoSelecionado = simpleDateFormat.format(calendarAtual.getTime());
+
+      listTransacaoVO = transacaoService.listarTransacaoTodas(mesAnoSelecionado);
+    } catch (Exception e) {
+      addErrorMessage(e.getMessage());
+    }
+
+  }
+
+  public Boolean renderizaCssValorPositivo(BigDecimal valor) {
+    
+    if(valor==null) {
+      return Boolean.FALSE;
+    }
+    if (valor.compareTo(BigDecimal.ZERO) == -1) {
+      return Boolean.FALSE;
+    } else {
+      return Boolean.TRUE;
+
+    }
+
+  }
 
 }

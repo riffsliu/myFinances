@@ -1,25 +1,100 @@
-<ui:composition xmlns="http://www.w3.org/1999/xhtml"
-                xmlns:h="http://java.sun.com/jsf/html"
-                xmlns:f="http://java.sun.com/jsf/core"
-                xmlns:ui="http://java.sun.com/jsf/facelets"
-                xmlns:p="http://primefaces.org/ui"
-                template="/WEB-INF/template.xhtml">
-                
-    <ui:define name="title">Empty Page</ui:define>
-
-    <ui:define name="viewname">Empty</ui:define>
-
-    <ui:define name="content">
-        <div class="ui-g">
-            <div class="ui-g-12">
-                <div class="card">
-                    <h1>Empty Page</h1>
-                    <p>Use this page to start from scratch and place your custom content.</p>
-                    <p:button outcome="dashboard" value="Home" style="display:inline-block;margin-top:5px"/>
-                </div>
-            </div>
+<ui:composition
+  xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:ui="http://java.sun.com/jsf/facelets"
+  xmlns:p="http://primefaces.org/ui"
+  template="/WEB-INF/template.xhtml">
+  <ui:define name="title">Empty Page</ui:define>
+  <ui:define name="viewname">Empty</ui:define>
+  <ui:define name="content">
+    <div class="ui-g ui-fluid">
+      <div class="ui-g-12">
+        <div class="card card-w-title">
+          <h1>Contas</h1>
+          <p:dataTable
+            id="processFileDataTable"
+            var="item"
+            value="#{processarArquivoBean.listConciliacaoDTO}"
+            paginator="true"
+            rows="10">
+            <f:facet name="header">
+            </f:facet>
+            <p:column
+              headerText="Idx"
+              sortBy="#{item.index}">
+              <h:outputText value="#{item.index}" />
+            </p:column>
+            <p:column
+              headerText="Data"
+              sortBy="#{item.transacaoOfx.dataTransacao}">
+              <h:outputText value="#{item.transacaoOfx.dataTransacao}" />
+            </p:column>
+            <p:column
+              headerText="Tipo"
+              sortBy="#{item.transacaoOfx.tipoTransacao}">
+              <h:outputText value="#{item.transacaoOfx.tipoTransacao}" />
+            </p:column>
+            <p:column
+              headerText="Descrição"
+              sortBy="#{item.transacaoOfx.descricaoTransacao}">
+              <h:outputText value="#{item.transacaoOfx.descricaoTransacao}" />
+            </p:column>
+            <p:column
+              headerText="Descrição Personalizada"
+              sortBy="#{item.transacaoOfx.descricaoPersonalizada}">
+              <h:outputText value="#{item.transacaoOfx.descricaoPersonalizada}" />
+            </p:column>
+            <p:column
+              headerText="Valor"
+              sortBy="#{item.transacaoOfx.valorTransacao}">
+              <h:outputText value="#{item.transacaoOfx.valorTransacao}" />
+            </p:column>
+            <p:column
+              headerText="Categoria"
+              sortBy="#{item.xxx}">
+              <p:selectOneMenu
+                styleClass="form-control"
+                style="width: 100%;"
+                rendered="#{processarArquivoBean.renderizaListaDespesa(item.transacaoOfx)}"
+                value="#{item.transacaoOfx.categoriaVO}"
+                converter="#{categoriaConverter}">
+                <f:selectItem itemLabel="SELECIONE" />
+                <f:selectItems
+                  var="categoria"
+                  itemLabel="#{categoria.descricaoCategoria}"
+                  itemValue="#{categoria}"
+                  value="#{processarArquivoBean.listCategoriaDespesas}"></f:selectItems>
+              </p:selectOneMenu>
+              <p:selectOneMenu
+                styleClass="form-control"
+                style="width: 100%;"
+                rendered="#{!processarArquivoBean.renderizaListaDespesa(item.transacaoOfx)}"
+                value="#{item.transacaoOfx.categoriaVO}"
+                converter="#{categoriaConverter}">
+                <f:selectItem itemLabel="SELECIONE" />
+                <f:selectItems
+                  var="categoria"
+                  itemLabel="#{categoria.descricaoCategoria}"
+                  itemValue="#{categoria}"
+                  value="#{processarArquivoBean.listCategoriaRendas}"></f:selectItems>
+              </p:selectOneMenu>
+            </p:column>
+            <p:column headerText="Ações">
+              <p:panelGrid
+                columns="1"
+                styleClass="form-group ui-panelgrid-blank"
+                layout="grid">
+                <p:commandButton
+                  update="formPrincipal"
+                  icon="ui-icon-check"
+                  title="Atualizar"
+                  actionListener="#{processarArquivoBean.listenerConciliar(item)}" />
+              </p:panelGrid>
+            </p:column>
+          </p:dataTable>
         </div>
-        
-    </ui:define>
-
+      </div>
+    </div>
+  </ui:define>
 </ui:composition>

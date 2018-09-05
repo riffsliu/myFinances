@@ -1,0 +1,63 @@
+<ui:composition
+  xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:ui="http://java.sun.com/jsf/facelets"
+  xmlns:p="http://primefaces.org/ui">
+  <div class="ui-g-12 ui-md-12 ui-lg-3">
+    <div class="overview-box monthly-sales">
+      <div class="overview-title">CURRENT</div>
+      <i class="fa fa-arrow-circle-up" />
+      <div class="overview-numbers">
+        <strong><p:outputLabel value="#{dashboardBean.saldoAtual}"></p:outputLabel></strong>
+      </div>
+      <div class="overview-ratios">16% more than previous month</div>
+      <!-- <p:graphicImage name="images/icon-sales.png" library="california-layout" /> -->
+      <p:graphicImage
+        name="images/icon-bank-building.png"
+        library="california-layout" />
+    </div>
+  </div>
+  <div class="ui-g-12 ui-md-12 ui-lg-3">
+    <div class="overview-box monthly-views">
+      <div class="overview-title">
+        INCOMES <i class="fa fa-arrow-circle-down" />
+      </div>
+      <div class="overview-numbers">
+        <strong><p:outputLabel value="#{dashboardBean.totalRendas}"></p:outputLabel></strong>
+      </div>
+      <div class="overview-ratios">2% less than previous month</div>
+      <p:graphicImage
+        name="images/icon-views.png"
+        library="california-layout" />
+    </div>
+  </div>
+  <div class="ui-g-12 ui-md-12 ui-lg-3">
+    <div class="overview-box monthly-users">
+      <div class="overview-title">
+        OUTCOMES <i class="fa fa-arrow-circle-up" />
+      </div>
+      <div class="overview-numbers">
+        <strong><p:outputLabel value="#{dashboardBean.totalDespesas}"></p:outputLabel></strong>
+      </div>
+      <div class="overview-ratios">9% more than previous month</div>
+      <p:graphicImage
+        name="images/icon-users.png"
+        library="california-layout" />
+    </div>
+  </div>
+  <div class="ui-g-12 ui-md-12 ui-lg-3">
+    <div class="overview-box monthly-users">
+      <div class="overview-title">
+        BALANCE <i class="fa fa-arrow-circle-up" />
+      </div>
+      <div class="overview-numbers">
+        <strong><p:outputLabel value="#{dashboardBean.balanco}"></p:outputLabel></strong>
+      </div>
+      <div class="overview-ratios">9% more than previous month</div>
+      <p:graphicImage
+        name="images/icon-users.png"
+        library="california-layout" />
+    </div>
+  </div>
+</ui:composition>

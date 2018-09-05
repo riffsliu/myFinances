@@ -92,6 +92,13 @@ public class ResumoBean extends BaseBean implements Serializable {
 		redirect("newResumo.xhtml");
 
 	}
+	public void actionSummary() {
+	  
+	  init();
+	  
+	  redirect("summary.xhtml");
+	  
+	}
 
 	public void actionResumoPorCategoria(Long idCategoria, String mesAnoSelecionado) {
 

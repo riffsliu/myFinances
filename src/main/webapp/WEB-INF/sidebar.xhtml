@@ -1,127 +1,136 @@
-<ui:composition xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:p="http://primefaces.org/ui"
-	xmlns:pc="http://primefaces.org/california">
-
-	<div
-		class="layout-sidebar #{guestPreferences.darkMenu ? 'layout-sidebar-dark' : ''} #{guestPreferences.gradientMenu ? 'layout-sidebar-gradient': ''}">
-		<div id="nano-container" class="nano">
-			<div class="nano-content sidebar-scroll-content">
-				<ui:fragment rendered="#{guestPreferences.profileMode == 'inline'}">
-					<div class="user-profile">
-						<a id="sidebar-profile-button" href="#"> <p:graphicImage
-								name="images/avatar.png" library="california-layout" /> <span
-							class="sidebar-profile-name">Pauline Harrell</span> <span
-							class="sidebar-profile-role">Administrator</span>
-						</a>
-						<ul id="sidebar-usermenu" class="usermenu">
-							<li><a href="#"> <i class="fa fa-fw fa-user"></i> <span
-									class="topbar-item-name">Profile</span>
-							</a></li>
-							<li><a href="#"> <i class="fa fa-fw fa-cog"></i> <span
-									class="topbar-item-name">Settings</span> <i
-									class="layout-menuitem-toggler fa fa-fw fa-angle-down"></i>
-							</a>
-								<ul>
-									<li role="menuitem"><a href="#"> <i
-											class="fa fa-fw fa-paint-brush"></i> <span>Change</span>
-									</a></li>
-									<li role="menuitem"><a href="#"> <i
-											class="fa fa-fw fa-star-o"></i> <span>Favorites</span>
-									</a></li>
-									<li role="menuitem"><a href="#"> <i
-											class="fa fa-fw fa-lock"></i> <span>Lock Screen</span>
-									</a></li>
-									<li role="menuitem"><a href="#"> <i
-											class="fa fa-fw fa-picture-o"></i> <span>Wallpaper</span>
-									</a></li>
-								</ul></li>
-							<li><a href="#"> <i class="fa fa-fw fa-envelope-o"></i>
-									<span class="topbar-item-name">Messages</span> <i
-									class="layout-menuitem-toggler fa fa-fw fa-angle-down"></i>
-							</a>
-								<ul>
-									<li role="menuitem"><a href="#" class="topbar-message">
-											<p:graphicImage name="images/avatar1.png"
-												library="california-layout" width="25" /> <span>Give
-												me a call</span>
-									</a></li>
-									<li role="menuitem"><a href="#" class="topbar-message">
-											<p:graphicImage name="images/avatar2.png"
-												library="california-layout" width="25" /> <span>Reports
-												attached</span>
-									</a></li>
-									<li role="menuitem"><a href="#" class="topbar-message">
-											<p:graphicImage name="images/avatar3.png"
-												library="california-layout" width="25" /> <span>About
-												your invoice</span>
-									</a></li>
-									<li role="menuitem"><a href="#" class="topbar-message">
-											<p:graphicImage name="images/avatar2.png"
-												library="california-layout" width="25" /> <span>Meeting
-												today</span>
-									</a></li>
-									<li role="menuitem"><a href="#" class="topbar-message">
-											<p:graphicImage name="images/avatar4.png"
-												library="california-layout" width="25" /> <span>Out
-												of office</span>
-									</a></li>
-								</ul></li>
-							<li><a href="#"> <i class="fa fa-fw fa-bell-o"></i> <span
-									class="topbar-item-name">Notifications</span> <i
-									class="layout-menuitem-toggler fa fa-fw fa-angle-down"></i>
-							</a>
-								<ul>
-									<li role="menuitem"><a href="#"> <i
-											class="fa fa-fw fa-tasks"></i> <span>Pending tasks</span>
-									</a></li>
-									<li role="menuitem"><a href="#"> <i
-											class="fa fa-fw fa-calendar-check-o"></i> <span>Meeting
-												today</span>
-									</a></li>
-									<li role="menuitem"><a href="#"> <i
-											class="fa fa-fw fa-download"></i> <span>Download</span>
-									</a></li>
-									<li role="menuitem"><a href="#"> <i
-											class="fa fa-fw fa-plane"></i> <span>Book flight</span>
-									</a></li>
-								</ul></li>
-						</ul>
-					</div>
-				</ui:fragment>
-
-				<h:form id="menuform">
-					<pc:menu widgetVar="me">
-						<p:menuitem id="om_dashboard" value="Dashboard"
-							icon="fa fa-fw fa-home" outcome="/dashboard" />
-
-
-						<p:menuitem id="myBankAccounts" value="Bank Accounts"
-							icon="fa fa-fw fa-book"
-							action="#{contaBean.actionBankAccounts()}" />
-						
-						<p:menuitem id="myCategories" value="Categories"
-							icon="fa fa-fw fa-book"
-							action="#{categoriaBean.actionCategories()}" />
-						
-						<p:menuitem id="myTransactions" value="Bank Transactions"
-							icon="fa fa-fw fa-book"
-							action="#{transacaoBean.actionTransactions()}" />
-						
-											
-						<p:menuitem id="processFile" value="Process File"
-							icon="fa fa-fw fa-book" action="#{processarArquivoBean.actionProcessFile()}"/>
-
-						<p:menuitem id="om_doc" value="Documentation"
-							icon="fa fa-fw fa-book" outcome="/docs" />
-
-					</pc:menu>
-				</h:form>
-			</div>
-		</div>
-
-	</div>
-
+<ui:composition
+  xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:ui="http://java.sun.com/jsf/facelets"
+  xmlns:p="http://primefaces.org/ui"
+  xmlns:pc="http://primefaces.org/california">
+  <div class="layout-sidebar #{guestPreferences.darkMenu ? 'layout-sidebar-dark' : ''} #{guestPreferences.gradientMenu ? 'layout-sidebar-gradient': ''}">
+    <div
+      id="nano-container"
+      class="nano">
+      <div class="nano-content sidebar-scroll-content">
+        <ui:fragment rendered="#{guestPreferences.profileMode == 'inline'}">
+          <div class="user-profile">
+            <a
+              id="sidebar-profile-button"
+              href="#"> <p:graphicImage
+                name="images/avatar.png"
+                library="california-layout" /> <span class="sidebar-profile-name">Pauline Harrell</span> <span class="sidebar-profile-role">Administrator</span>
+            </a>
+            <ul
+              id="sidebar-usermenu"
+              class="usermenu">
+              <li><a href="#"> <i class="fa fa-fw fa-user"></i> <span class="topbar-item-name">Profile</span>
+              </a></li>
+              <li><a href="#"> <i class="fa fa-fw fa-cog"></i> <span class="topbar-item-name">Settings</span> <i class="layout-menuitem-toggler fa fa-fw fa-angle-down"></i>
+              </a>
+                <ul>
+                  <li role="menuitem"><a href="#"> <i class="fa fa-fw fa-paint-brush"></i> <span>Change</span>
+                  </a></li>
+                  <li role="menuitem"><a href="#"> <i class="fa fa-fw fa-star-o"></i> <span>Favorites</span>
+                  </a></li>
+                  <li role="menuitem"><a href="#"> <i class="fa fa-fw fa-lock"></i> <span>Lock Screen</span>
+                  </a></li>
+                  <li role="menuitem"><a href="#"> <i class="fa fa-fw fa-picture-o"></i> <span>Wallpaper</span>
+                  </a></li>
+                </ul></li>
+              <li><a href="#"> <i class="fa fa-fw fa-envelope-o"></i> <span class="topbar-item-name">Messages</span> <i
+                  class="layout-menuitem-toggler fa fa-fw fa-angle-down"></i>
+              </a>
+                <ul>
+                  <li role="menuitem"><a
+                    href="#"
+                    class="topbar-message"> <p:graphicImage
+                        name="images/avatar1.png"
+                        library="california-layout"
+                        width="25" /> <span>Give me a call</span>
+                  </a></li>
+                  <li role="menuitem"><a
+                    href="#"
+                    class="topbar-message"> <p:graphicImage
+                        name="images/avatar2.png"
+                        library="california-layout"
+                        width="25" /> <span>Reports attached</span>
+                  </a></li>
+                  <li role="menuitem"><a
+                    href="#"
+                    class="topbar-message"> <p:graphicImage
+                        name="images/avatar3.png"
+                        library="california-layout"
+                        width="25" /> <span>About your invoice</span>
+                  </a></li>
+                  <li role="menuitem"><a
+                    href="#"
+                    class="topbar-message"> <p:graphicImage
+                        name="images/avatar2.png"
+                        library="california-layout"
+                        width="25" /> <span>Meeting today</span>
+                  </a></li>
+                  <li role="menuitem"><a
+                    href="#"
+                    class="topbar-message"> <p:graphicImage
+                        name="images/avatar4.png"
+                        library="california-layout"
+                        width="25" /> <span>Out of office</span>
+                  </a></li>
+                </ul></li>
+              <li><a href="#"> <i class="fa fa-fw fa-bell-o"></i> <span class="topbar-item-name">Notifications</span> <i
+                  class="layout-menuitem-toggler fa fa-fw fa-angle-down"></i>
+              </a>
+                <ul>
+                  <li role="menuitem"><a href="#"> <i class="fa fa-fw fa-tasks"></i> <span>Pending tasks</span>
+                  </a></li>
+                  <li role="menuitem"><a href="#"> <i class="fa fa-fw fa-calendar-check-o"></i> <span>Meeting today</span>
+                  </a></li>
+                  <li role="menuitem"><a href="#"> <i class="fa fa-fw fa-download"></i> <span>Download</span>
+                  </a></li>
+                  <li role="menuitem"><a href="#"> <i class="fa fa-fw fa-plane"></i> <span>Book flight</span>
+                  </a></li>
+                </ul></li>
+            </ul>
+          </div>
+        </ui:fragment>
+        <h:form id="menuform">
+          <pc:menu widgetVar="me">
+            <p:menuitem
+              id="om_dashboard"
+              value="Dashboard"
+              icon="fa fa-fw fa-home"
+              outcome="/dashboard" />
+            <p:menuitem
+              id="myBankAccounts"
+              value="Bank Accounts"
+              icon="fa fa-fw fa-book"
+              action="#{contaBean.actionBankAccounts()}" />
+            <p:menuitem
+              id="myCategories"
+              value="Categories"
+              icon="fa fa-fw fa-book"
+              action="#{categoriaBean.actionCategories()}" />
+            <p:menuitem
+              id="myTransactions"
+              value="Bank Transactions"
+              icon="fa fa-fw fa-book"
+              action="#{transacaoBean.actionTransactions()}" />
+            <p:menuitem
+              id="processFile"
+              value="Process File"
+              icon="fa fa-fw fa-book"
+              action="#{processarArquivoBean.actionProcessFile()}" />
+            <p:menuitem
+              id="summary"
+              value="Summary"
+              icon="fa fa-fw fa-book"
+              action="#{resumoBean.actionSummary()}" />
+            <p:menuitem
+              id="om_doc"
+              value="Documentation"
+              icon="fa fa-fw fa-book"
+              outcome="/docs" />
+          </pc:menu>
+        </h:form>
+      </div>
+    </div>
+  </div>
 </ui:composition>

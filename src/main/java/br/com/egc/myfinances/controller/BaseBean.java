@@ -13,47 +13,61 @@ import javax.servlet.http.HttpSession;
 
 import org.primefaces.context.RequestContext;
 
+import br.com.egc.myfinances.entity.ContaVO;
 import br.com.egc.myfinances.entity.UsuarioVO;
+import br.com.egc.myfinances.service.Util;
 
 @SessionScoped
 @Named
 public class BaseBean implements Serializable {
 
-	private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 1L;
 
-	public static void redirect(String url) {
+  public static void redirect(String url) {
 
-		ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
-		try {
-			externalContext.redirect(externalContext.getRequestContextPath() + "/" + url);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
+    ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
+    try {
+      externalContext.redirect(externalContext.getRequestContextPath() + "/" + url);
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+  }
 
-	public static UsuarioVO getUsuarioLogado() {
+  public static UsuarioVO getUsuarioLogado() {
 
-		try {
-			HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-			HttpSession session = request.getSession();
+    try {
+      HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+      HttpSession session = request.getSession();
 
-			return (UsuarioVO) session.getAttribute("USUARIO");
+      return (UsuarioVO) session.getAttribute("USUARIO");
 
-		} catch (Exception e) {
-			return null;
-		}
+    } catch (Exception e) {
+      return null;
+    }
 
-	}
+  }
 
-	public static void addErrorMessage(String msg) {
-		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, msg, "Error!"));
-	}
+  public static ContaVO getContaDaSessao() {
 
-	public static void addInfoMessage(String msg) {
-		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, msg, "Sucesss!"));
-	}
-	
-	protected void openDialog(String widgetVar) {
-		RequestContext.getCurrentInstance().execute("PF('" + widgetVar + "').show()");
-	}
+    try {
+
+      return Util.getContaNaSession();
+
+    } catch (Exception e) {
+      return null;
+    }
+
+  }
+
+  public static void addErrorMessage(String msg) {
+    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, msg, "Error!"));
+  }
+
+  public static void addInfoMessage(String msg) {
+    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, msg, "Sucesss!"));
+  }
+
+  protected void openDialog(String widgetVar) {
+    RequestContext.getCurrentInstance().execute("PF('" + widgetVar + "').show()");
+  }
 }

@@ -35,6 +35,8 @@ public class TransacaoService extends BaseBean implements Serializable {
 
 	@Inject
 	private ContaDAO contaDAO;
+	
+	private ContaService contaService;
 
 	@Inject
 	private UsuarioDAO usuarioDAO;
@@ -176,6 +178,12 @@ public class TransacaoService extends BaseBean implements Serializable {
 
 		contaDAO.atualizaConta(contaVO);
 
+	}
+	
+	public ContaVO listarConta() {
+	  
+	  return contaService.listarConta().get(0);
+	  
 	}
 
 }

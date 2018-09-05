@@ -1,610 +1,561 @@
-<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
-    xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
-
-    <ui:define name="title">Dashboard</ui:define>
-
-    <ui:define name="viewname">Dashboard</ui:define>
-
-    <ui:define name="head">
-        <script type="text/javascript">
-            //<![CDATA[
-            function skinChart() {
-                this.cfg.shadow = false;
-                this.cfg.title = '';
-                this.cfg.seriesColors = ['#00acac', '#3e96e7'];
-                this.cfg.grid = {
-                    background: '#ffffff',
-                    borderColor: '#ffffff',
-                    gridLineColor: '#EEEEEE',
-                    shadow: false
-                };
-                this.cfg.axesDefaults = {
-                    rendererOptions: {
-                        textColor: '#212121'
-                    }
-                };
-                this.cfg.seriesDefaults = {
-                    shadow: false,
-                    lineWidth: 1,
-                    markerOptions: {
-                        shadow: false,
-                        size: 7,
-                        style: 'circle'
-                    }
-                }
-            }
-            //]]>
-        </script>
-        <style type="text/css">
-            .main-content {
-                padding: 0;
-            }
-        </style>
-    </ui:define>
-
-    <ui:define name="content">
-		<f:metadata>
-			<f:viewAction action="#{dashboardBean.initDashboard()}"></f:viewAction>
-		</f:metadata>
-		<div class="dashboard">
-            <div class="ui-g">
-                <div class="ui-g-12 ui-md-12 ui-lg-3">
-                    <div class="overview-box monthly-sales">
-                        <div class="overview-title">CURRENT</div>
-                        <i class="fa fa-arrow-circle-up" />
-                        <div class="overview-numbers">
-                            <strong><p:outputLabel value="#{dashboardBean.saldoAtual}"></p:outputLabel></strong>
-                        </div>
-                        <div class="overview-ratios">16% more than previous month</div>
-                        <!-- <p:graphicImage name="images/icon-sales.png" library="california-layout" /> -->
-                        <p:graphicImage name="images/icon-bank-building.png" library="california-layout" />
-                    </div>
-                </div>
-                <div class="ui-g-12 ui-md-12 ui-lg-3">
-                    <div class="overview-box monthly-views">
-                        <div class="overview-title">INCOMES
-                            <i class="fa fa-arrow-circle-down" />
-                        </div>
-                        <div class="overview-numbers">
-                            <strong><p:outputLabel value="#{dashboardBean.totalRendas}"></p:outputLabel></strong></div>
-                        <div class="overview-ratios">2% less than previous month</div>
-                        <p:graphicImage name="images/icon-views.png" library="california-layout" />
-                    </div>
-                </div>
-                <div class="ui-g-12 ui-md-12 ui-lg-3">
-                    <div class="overview-box monthly-users">
-                        <div class="overview-title">OUTCOMES
-                            <i class="fa fa-arrow-circle-up" />
-                        </div>
-                        <div class="overview-numbers">
-                            <strong><p:outputLabel value="#{dashboardBean.totalDespesas}"></p:outputLabel></strong></div>
-                        <div class="overview-ratios">9% more than previous month </div>
-                        <p:graphicImage name="images/icon-users.png" library="california-layout" />
-                    </div>
-                </div>
-                <div class="ui-g-12 ui-md-12 ui-lg-3">
-                    <div class="overview-box monthly-users">
-                        <div class="overview-title">BALANCE
-                            <i class="fa fa-arrow-circle-up" />
-                        </div>
-                        <div class="overview-numbers">
-                            <strong><p:outputLabel value="#{dashboardBean.balanco}"></p:outputLabel></strong></div>
-                        <div class="overview-ratios">9% more than previous month </div>
-                        <p:graphicImage name="images/icon-users.png" library="california-layout" />
-                    </div>
-                </div>
-                
-
-                <div class="ui-g-12 ui-md-6 ui-lg-3">
-                    <div class="stats">
-                        <div class="stats-icon">
-                            <p:graphicImage name="images/icon-message.png" library="california-layout" styleClass="message-icon" />
-                        </div>
-                        <div class="stats-numbers">150</div>
-                        <div class="stats-title">Unread Messages</div>
-                        <div class="stats-subtitle">You stared
-                            <span>5</span> messages today</div>
-                    </div>
-                </div>
-                <div class="ui-g-12 ui-md-6 ui-lg-3">
-                    <div class="stats">
-                        <div class="stats-icon">
-                            <p:graphicImage name="images/icon-doc.png" library="california-layout" styleClass="doc-icon" />
-                        </div>
-                        <div class="stats-numbers">532</div>
-                        <div class="stats-title">Files Synced</div>
-                        <div class="stats-subtitle">
-                            <span>21%</span> more than yesterday</div>
-                    </div>
-                </div>
-                <div class="ui-g-12 ui-md-6 ui-lg-3">
-                    <div class="stats">
-                        <div class="stats-icon">
-                            <p:graphicImage name="images/icon-mark.png" library="california-layout" styleClass="mark-icon" />
-                        </div>
-                        <div class="stats-numbers">450</div>
-                        <div class="stats-title">Check-ins</div>
-                        <div class="stats-subtitle">
-                            <span>12%</span> less than yesterday</div>
-                    </div>
-                </div>
-                <div class="ui-g-12 ui-md-6 ui-lg-3">
-                    <div class="stats">
-                        <div class="stats-icon">
-                            <p:graphicImage name="images/icon-profile.png" library="california-layout" styleClass="profile-icon" />
-                        </div>
-                        <div class="stats-numbers">974</div>
-                        <div class="stats-title">Users Online</div>
-                        <div class="stats-subtitle">
-                            <span>35210</span> total page view today</div>
-                    </div>
-                </div>
-
-                <div class="ui-g-12 ui-md-12 ui-lg-4">
-                    <p:panel styleClass="weekly-tasks" header="Weekly Tasks">
-                        <ul>
-                            <li>
-                                <p:selectBooleanCheckbox />
-                                <span>Sales Reports</span>
-                                <div class="weekly-task-status">
-                                    <span class="day">TODAY</span>
-                                    <i class="fa fa-shopping-cart" />
-                                </div>
-                            </li>
-                            <li>
-                                <p:selectBooleanCheckbox />
-                                <span>Pay Invoices</span>
-                                <div class="weekly-task-status">
-                                    <span class="day">TODAY</span>
-                                    <i class="fa fa-file" />
-                                </div>
-                            </li>
-                            <li>
-                                <p:selectBooleanCheckbox />
-                                <span>Kate's Birthday</span>
-                                <div class="weekly-task-status">
-                                    <span class="day">2 DAYS</span>
-                                    <i class="fa fa-birthday-cake" />
-                                </div>
-                            </li>
-                            <li>
-                                <p:selectBooleanCheckbox />
-                                <span>Client Meeting</span>
-                                <div class="weekly-task-status">
-                                    <span class="day">3 DAYS</span>
-                                    <i class="fa fa-users" />
-                                </div>
-                            </li>
-                            <li>
-                                <p:selectBooleanCheckbox />
-                                <span>New Themes</span>
-                                <div class="weekly-task-status">
-                                    <span class="day">3 DAYS</span>
-                                    <i class="fa fa-photo" />
-                                </div>
-                            </li>
-                            <li>
-                                <p:selectBooleanCheckbox />
-                                <span>Flight Ticket</span>
-                                <div class="weekly-task-status">
-                                    <span class="day">3 DAYS</span>
-                                    <i class="fa fa-plane" />
-                                </div>
-                            </li>
-                            <li>
-                                <p:selectBooleanCheckbox />
-                                <span>Backup Store</span>
-                                <div class="weekly-task-status">
-                                    <span class="day">5 DAYS</span>
-                                    <i class="fa fa-cloud-upload" />
-                                </div>
-                            </li>
-                        </ul>
-                    </p:panel>
-                </div>
-                <div class="ui-g-12 ui-md-12 ui-lg-4 ui-fluid">
-                    <p:panel styleClass="resolution-center" header="Resolution Center">
-                        <p:outputLabel for="email" value="E-mail Address" />
-                        <p:inputText id="email" placeholder="Email" />
-
-                        <p:outputLabel for="message" value="Message" />
-                        <p:inputTextarea id="message" rows="5" placeholder="Write your message..." autoResize="false" />
-
-                        <p:commandButton type="button" value="Send" />
-                    </p:panel>
-                </div>
-                <div class="ui-g-12 ui-md-12 ui-lg-4">
-                    <p:panel styleClass="team" header="Team">
-                        <ul>
-                            <li>
-                                <p:graphicImage name="images/avatar-john.png" library="california-layout" />
-                                <div class="team-box">
-                                    <span class="team-member">John Swisher</span>
-                                    <span class="team-member-role">Design</span>
-                                </div>
-                                <a href="#">
-                                    <i class="fa fa-slack"></i>
-                                </a>
-                                <a href="#">
-                                    <i class="fa fa-skype"></i>
-                                </a>
-                            </li>
-                            <li>
-                                <p:graphicImage name="images/avatar-warren.png" library="california-layout" />
-                                <div class="team-box">
-                                    <span class="team-member">Warren Shaw</span>
-                                    <span class="team-member-role">Development</span>
-                                </div>
-                                <a href="#">
-                                    <i class="fa fa-slack"></i>
-                                </a>
-                                <a href="#">
-                                    <i class="fa fa-skype"></i>
-                                </a>
-                            </li>
-                            <li>
-                                <p:graphicImage name="images/avatar-brenda.png" library="california-layout" />
-                                <div class="team-box">
-                                    <span class="team-member">Brenda Soto</span>
-                                    <span class="team-member-role">Development</span>
-                                </div>
-                                <a href="#">
-                                    <i class="fa fa-slack"></i>
-                                </a>
-                                <a href="#">
-                                    <i class="fa fa-skype"></i>
-                                </a>
-                            </li>
-                            <li>
-                                <p:graphicImage name="images/avatar-arlene.png" library="california-layout" />
-                                <div class="team-box">
-                                    <span class="team-member">Arlene Welch</span>
-                                    <span class="team-member-role">Business</span>
-                                </div>
-                                <a href="#">
-                                    <i class="fa fa-slack"></i>
-                                </a>
-                                <a href="#">
-                                    <i class="fa fa-skype"></i>
-                                </a>
-                            </li>
-                        </ul>
-                    </p:panel>
-                </div>
-
-                <div class="ui-g-12 ui-md-12 ui-lg-6">
-                    <p:panel styleClass="chart" header="Chart">
-                        <p:chart id="line" type="line" model="#{chartDemoView.lineModel1}" responsive="true" />
-                    </p:panel>
-
-                    <p:panel styleClass="chat" header="Chat">
-                        <ul>
-                            <li class="message-from">
-                                <div class="message-meta">
-                                    <p:graphicImage name="images/avatar-dani.png" library="california-layout" />
-                                    <span class="name">Dani Daniel</span>
-                                    <span class="time">27 mins ago</span>
-                                </div>
-                                <div class="message">
-                                    <span>Hey Micheal, I heard there is a task about unexpected event occured near San Mateo recently.
-                                        Want to collabrate?</span>
-                                </div>
-                            </li>
-
-                            <li class="message-own">
-                                <div class="message">
-                                    <span>I’m busy today but we can work on it on Sunday afternoon. Does that sounds good for you?
-                                    </span>
-                                </div>
-                                <div class="message-meta">
-                                    <p:graphicImage name="images/avatar-micheal.png" library="california-layout" />
-                                    <span class="name">Micheal Evan</span>
-                                    <span class="time">22 mins ago</span>
-                                </div>
-                            </li>
-
-                            <li class="message-from">
-                                <div class="message-meta">
-                                    <p:graphicImage name="images/avatar-dani.png" library="california-layout" />
-                                    <span class="name">Dani Daniel</span>
-                                    <span class="time">21 mins ago</span>
-                                </div>
-                                <div class="message">
-                                    <span>OK! That sounds great. 👍 </span>
-                                </div>
-                            </li>
-                        </ul>
-
-                        <div class="write-message">
-                            <i class="fa fa-paperclip" />
-                            <input type="text" />
-                        </div>
-                    </p:panel>
-
-                    <p:panel styleClass="daily-sales">
-                        <f:facet name="header">
-                            <div class="panel-heading-title">Daily Sales Stats</div>
-                        </f:facet>
-
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th style="text-align:center">Country</th>
-                                    <th>Total</th>
-                                    <th>Change</th>
-                                    <th>Status</th>
-                                    <th>View</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>
-                                        <p:graphicImage name="images/flag-france.png" library="california-layout" />
-                                        <span>France</span>
-                                    </td>
-                                    <td>85681</td>
-                                    <td>24%</td>
-                                    <td>
-                                        <i class="fa fa-angle-up" />
-                                    </td>
-                                    <td>
-                                        <p:commandButton type="button" icon="fa fa-search" title="View"/>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <p:graphicImage name="images/flag-uk.png" library="california-layout" />
-                                        <span>UK</span>
-                                    </td>
-                                    <td>56123</td>
-                                    <td>21%</td>
-                                    <td>
-                                        <i class="fa fa-angle-up" />
-                                    </td>
-                                    <td>
-                                        <p:commandButton type="button" icon="fa fa-search" title="View"/>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <p:graphicImage name="images/flag-brazil.png" library="california-layout" />
-                                        <span>Brazil</span>
-                                    </td>
-                                    <td>1252</td>
-                                    <td>2%</td>
-                                    <td>
-                                        <i class="fa fa-angle-down" />
-                                    </td>
-                                    <td>
-                                        <p:commandButton type="button" icon="fa fa-search" title="View"/>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <p:graphicImage name="images/flag-usa.png" library="california-layout" />
-                                        <span>USA</span>
-                                    </td>
-                                    <td>236</td>
-                                    <td>79%</td>
-                                    <td>
-                                        <i class="fa fa-angle-up" />
-                                    </td>
-                                    <td>
-                                        <p:commandButton type="button" icon="fa fa-search" title="View"/>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <p:graphicImage name="images/flag-japan.png" library="california-layout" />
-                                        <span>Japan</span>
-                                    </td>
-                                    <td>73</td>
-                                    <td>90%</td>
-                                    <td>
-                                        <i class="fa fa-angle-down" />
-                                    </td>
-                                    <td>
-                                        <p:commandButton type="button" icon="fa fa-search" title="View"/>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <p:graphicImage name="images/flag-germany.png" library="california-layout" />
-                                        <span>Germany</span>
-                                    </td>
-                                    <td>49</td>
-                                    <td>42%</td>
-                                    <td>
-                                        <i class="fa fa-angle-down" />
-                                    </td>
-                                    <td>
-                                        <p:commandButton type="button" icon="fa fa-search" title="View"/>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <p:graphicImage name="images/flag-holland.png" library="california-layout" />
-                                        <span>Holland</span>
-                                    </td>
-                                    <td>73</td>
-                                    <td>3%</td>
-                                    <td>
-                                        <i class="fa fa-angle-up" />
-                                    </td>
-                                    <td>
-                                        <p:commandButton type="button" icon="fa fa-search" title="View"/>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <p:graphicImage name="images/flag-canada.png" library="california-layout" />
-                                        <span>Canada</span>
-                                    </td>
-                                    <td>40</td>
-                                    <td>16%</td>
-                                    <td>
-                                        <i class="fa fa-angle-up" />
-                                    </td>
-                                    <td>
-                                        <p:commandButton type="button" icon="fa fa-search" title="View"/>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-
-                    </p:panel>
-                </div>
-                <div class="ui-g-12 ui-md-12 ui-lg-6">
-                    <p:panel styleClass="timeline">
-                        <f:facet name="header">
-                            <div class="panel-heading-title">Timeline</div>
-                        </f:facet>
-                        <div class="timeline-line"></div>
-                        <ul>
-                            <li class="odd">
-                                <div class="timeline-message">
-                                    <span class="love">Brenda Soto liked your post</span>
-                                </div>
-                                <div class="timeline-icon">
-                                    <p:graphicImage name="images/icon-love.png" library="california-layout" />
-                                    <span class="timeline-time">6:12 am</span>
-                                </div>
-                                <div class="clearfix"></div>
-                            </li>
-
-                            <li class="even">
-                                <div class="timeline-icon">
-                                    <span>7:44 am</span>
-                                    <p:graphicImage name="images/icon-event.png" library="california-layout" />
-                                </div>
-                                <div class="timeline-message">
-                                    <p:graphicImage name="images/bg-message2.png" library="california-layout" styleClass="event" />
-                                    <span class="event">Unexpected event happened near San Mateo</span>
-                                </div>
-                                <div class="clearfix"></div>
-                            </li>
-
-                            <li class="odd">
-                                <div class="timeline-message">
-                                    <span class="checked">Warren Shaw finished Task #21</span>
-                                </div>
-                                <div class="timeline-icon">
-                                    <p:graphicImage name="images/icon-checked.png" library="california-layout" />
-                                    <span>8:20 am</span>
-                                </div>
-                                <div class="clearfix"></div>
-                            </li>
-
-                            <li class="even">
-                                <div class="timeline-icon">
-                                    <span>2:12 pm</span>
-                                    <p:graphicImage name="images/icon-checked.png" library="california-layout" />
-                                </div>
-                                <div class="timeline-message">
-                                    <span class="checked">John Swisher finished Task #66</span>
-                                </div>
-                                <div class="clearfix"></div>
-                            </li>
-
-                            <li>
-                                <div class="timeline-icon">
-
-
-                                </div>
-                                <div class="timeline-message">
-                                </div>
-                            </li>
-
-                            <li class="odd">
-                                <div class="timeline-icon">
-                                    <p:graphicImage name="images/icon-event.png" library="california-layout" />
-                                    <span>2:58 am</span>
-                                </div>
-                                <div class="timeline-message">
-                                    <p:graphicImage name="images/bg-message1.png" library="california-layout" styleClass="event" />
-                                    <span class="event">Unexpected event happened near Santa Rosa</span>
-                                </div>
-                                <div class="clearfix"></div>
-                            </li>
-
-                            <li class="even">
-                                <div class="timeline-icon">
-                                    <span>5:41 am</span>
-                                    <p:graphicImage name="images/icon-checked.png" library="california-layout" />
-                                </div>
-                                <div class="timeline-message">
-                                    <span class="checked">John Swisher finished Task #66</span>
-                                </div>
-                                <div class="clearfix"></div>
-                            </li>
-
-                            <li class="odd">
-                                <div class="timeline-icon">
-                                    <p:graphicImage name="images/icon-event.png" library="california-layout" />
-                                    <span>11:12 pm</span>
-                                </div>
-                                <div class="timeline-message">
-                                    <p:graphicImage name="images/bg-message.png" library="california-layout" styleClass="event" />
-                                    <span class="event">Unexpected event happened near Vallejo</span>
-                                </div>
-                                <div class="clearfix"></div>
-                            </li>
-                        </ul>
-                    </p:panel>
-
-                    <p:panel header="Events" styleClass="schedule">
-                        <p:schedule id="schedule" value="#{scheduleView.eventModel}" />
-                    </p:panel>
-                </div>
-
-                <div class="ui-g-12 ui-md-12 ui-lg-6">
-                    <p:dataTable var="car" value="#{dtSelectionView.cars7}" selectionMode="single" reflow="true" selection="#{dtSelectionView.selectedCar}"
-                        rowKey="#{car.id}" paginator="true" rows="10">
-                        <f:facet name="header">
-                            <div class="panel-heading-title">Inventory List</div>
-                        </f:facet>
-                        <p:column headerText="ID" sortBy="#{car.id}">
-                            <h:outputText value="#{car.id}" />
-                        </p:column>
-
-                        <p:column headerText="Year" sortBy="#{car.year}">
-                            <h:outputText value="#{car.year}" />
-                        </p:column>
-
-                        <p:column headerText="Brand" sortBy="#{car.brand}">
-                            <h:outputText value="#{car.brand}" />
-                        </p:column>
-
-                        <p:column headerText="Color" sortBy="#{car.color}">
-                            <h:outputText value="#{car.color}" />
-                        </p:column>
-                    </p:dataTable>
-                </div>
-                <div class="ui-g-12 ui-md-12 ui-lg-6">
-                    <p:panel styleClass="profile-details ui-g-12">
-                        <p:graphicImage name="images/image-profile.png" library="california-layout" />
-                        <p:graphicImage name="images/profile-avatar.png" library="california-layout" styleClass="profile-avatar" />
-                        <span class="profile-name">Pauline Harrell</span>
-                        <span class="profile-role">Administrator</span>
-                        <p:commandButton type="button" value="Edit Profile" />
-                        <div class="ui-g-12">
-                            <div class="profile-statistics-panel ui-g-4">
-                                <span class="profile-statistics">1098</span>
-                                <span class="statistics-title">Articles</span>
-                            </div>
-                            <div class="profile-statistics-panel ui-g-4">
-                                <span class="profile-statistics">22,681</span>
-                                <span class="statistics-title">Followers</span>
-                            </div>
-                            <div class="profile-statistics-panel ui-g-4">
-                                <span class="profile-statistics">880</span>
-                                <span class="statistics-title">Following</span>
-                            </div>
-                        </div>
-                    </p:panel>
-                </div>
+<ui:composition
+  xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:ui="http://java.sun.com/jsf/facelets"
+  xmlns:p="http://primefaces.org/ui"
+  template="/WEB-INF/template.xhtml">
+  <ui:define name="title">Dashboard</ui:define>
+  <ui:define name="viewname">Dashboard</ui:define>
+  <ui:define name="head">
+    <script type="text/javascript">
+					//<![CDATA[
+					function skinChart() {
+						this.cfg.shadow = false;
+						this.cfg.title = '';
+						this.cfg.seriesColors = [ '#00acac', '#3e96e7' ];
+						this.cfg.grid = {
+							background : '#ffffff',
+							borderColor : '#ffffff',
+							gridLineColor : '#EEEEEE',
+							shadow : false
+						};
+						this.cfg.axesDefaults = {
+							rendererOptions : {
+								textColor : '#212121'
+							}
+						};
+						this.cfg.seriesDefaults = {
+							shadow : false,
+							lineWidth : 1,
+							markerOptions : {
+								shadow : false,
+								size : 7,
+								style : 'circle'
+							}
+						}
+					}
+					//]]>
+				</script>
+    <style type="text/css">
+.main-content {
+	padding: 0;
+}
+</style>
+  </ui:define>
+  <ui:define name="content">
+    <f:metadata>
+      <f:viewAction action="#{dashboardBean.initDashboard()}"></f:viewAction>
+    </f:metadata>
+    <div class="dashboard">
+      <div class="ui-g">
+        <ui:include src="/contentDashboard.xhtml" />
+        <div class="ui-g-12 ui-md-6 ui-lg-3">
+          <div class="stats">
+            <div class="stats-icon">
+              <p:graphicImage
+                name="images/icon-message.png"
+                library="california-layout"
+                styleClass="message-icon" />
             </div>
+            <div class="stats-numbers">150</div>
+            <div class="stats-title">Unread Messages</div>
+            <div class="stats-subtitle">
+              You stared <span>5</span> messages today
+            </div>
+          </div>
         </div>
-    </ui:define>
-
+        <div class="ui-g-12 ui-md-6 ui-lg-3">
+          <div class="stats">
+            <div class="stats-icon">
+              <p:graphicImage
+                name="images/icon-doc.png"
+                library="california-layout"
+                styleClass="doc-icon" />
+            </div>
+            <div class="stats-numbers">532</div>
+            <div class="stats-title">Files Synced</div>
+            <div class="stats-subtitle">
+              <span>21%</span> more than yesterday
+            </div>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-md-6 ui-lg-3">
+          <div class="stats">
+            <div class="stats-icon">
+              <p:graphicImage
+                name="images/icon-mark.png"
+                library="california-layout"
+                styleClass="mark-icon" />
+            </div>
+            <div class="stats-numbers">450</div>
+            <div class="stats-title">Check-ins</div>
+            <div class="stats-subtitle">
+              <span>12%</span> less than yesterday
+            </div>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-md-6 ui-lg-3">
+          <div class="stats">
+            <div class="stats-icon">
+              <p:graphicImage
+                name="images/icon-profile.png"
+                library="california-layout"
+                styleClass="profile-icon" />
+            </div>
+            <div class="stats-numbers">974</div>
+            <div class="stats-title">Users Online</div>
+            <div class="stats-subtitle">
+              <span>35210</span> total page view today
+            </div>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-md-12 ui-lg-4">
+          <p:panel
+            styleClass="weekly-tasks"
+            header="Weekly Tasks">
+            <ul>
+              <li><p:selectBooleanCheckbox /> <span>Sales Reports</span>
+                <div class="weekly-task-status">
+                  <span class="day">TODAY</span> <i class="fa fa-shopping-cart" />
+                </div></li>
+              <li><p:selectBooleanCheckbox /> <span>Pay Invoices</span>
+                <div class="weekly-task-status">
+                  <span class="day">TODAY</span> <i class="fa fa-file" />
+                </div></li>
+              <li><p:selectBooleanCheckbox /> <span>Kate's Birthday</span>
+                <div class="weekly-task-status">
+                  <span class="day">2 DAYS</span> <i class="fa fa-birthday-cake" />
+                </div></li>
+              <li><p:selectBooleanCheckbox /> <span>Client Meeting</span>
+                <div class="weekly-task-status">
+                  <span class="day">3 DAYS</span> <i class="fa fa-users" />
+                </div></li>
+              <li><p:selectBooleanCheckbox /> <span>New Themes</span>
+                <div class="weekly-task-status">
+                  <span class="day">3 DAYS</span> <i class="fa fa-photo" />
+                </div></li>
+              <li><p:selectBooleanCheckbox /> <span>Flight Ticket</span>
+                <div class="weekly-task-status">
+                  <span class="day">3 DAYS</span> <i class="fa fa-plane" />
+                </div></li>
+              <li><p:selectBooleanCheckbox /> <span>Backup Store</span>
+                <div class="weekly-task-status">
+                  <span class="day">5 DAYS</span> <i class="fa fa-cloud-upload" />
+                </div></li>
+            </ul>
+          </p:panel>
+        </div>
+        <div class="ui-g-12 ui-md-12 ui-lg-4 ui-fluid">
+          <p:panel
+            styleClass="resolution-center"
+            header="Resolution Center">
+            <p:outputLabel
+              for="email"
+              value="E-mail Address" />
+            <p:inputText
+              id="email"
+              placeholder="Email" />
+            <p:outputLabel
+              for="message"
+              value="Message" />
+            <p:inputTextarea
+              id="message"
+              rows="5"
+              placeholder="Write your message..."
+              autoResize="false" />
+            <p:commandButton
+              type="button"
+              value="Send" />
+          </p:panel>
+        </div>
+        <div class="ui-g-12 ui-md-12 ui-lg-4">
+          <p:panel
+            styleClass="team"
+            header="Team">
+            <ul>
+              <li><p:graphicImage
+                  name="images/avatar-john.png"
+                  library="california-layout" />
+                <div class="team-box">
+                  <span class="team-member">John Swisher</span> <span class="team-member-role">Design</span>
+                </div> <a href="#"> <i class="fa fa-slack"></i>
+              </a> <a href="#"> <i class="fa fa-skype"></i>
+              </a></li>
+              <li><p:graphicImage
+                  name="images/avatar-warren.png"
+                  library="california-layout" />
+                <div class="team-box">
+                  <span class="team-member">Warren Shaw</span> <span class="team-member-role">Development</span>
+                </div> <a href="#"> <i class="fa fa-slack"></i>
+              </a> <a href="#"> <i class="fa fa-skype"></i>
+              </a></li>
+              <li><p:graphicImage
+                  name="images/avatar-brenda.png"
+                  library="california-layout" />
+                <div class="team-box">
+                  <span class="team-member">Brenda Soto</span> <span class="team-member-role">Development</span>
+                </div> <a href="#"> <i class="fa fa-slack"></i>
+              </a> <a href="#"> <i class="fa fa-skype"></i>
+              </a></li>
+              <li><p:graphicImage
+                  name="images/avatar-arlene.png"
+                  library="california-layout" />
+                <div class="team-box">
+                  <span class="team-member">Arlene Welch</span> <span class="team-member-role">Business</span>
+                </div> <a href="#"> <i class="fa fa-slack"></i>
+              </a> <a href="#"> <i class="fa fa-skype"></i>
+              </a></li>
+            </ul>
+          </p:panel>
+        </div>
+        <div class="ui-g-12 ui-md-12 ui-lg-6">
+          <p:panel
+            styleClass="chart"
+            header="Chart">
+            <p:chart
+              id="line"
+              type="line"
+              model="#{chartDemoView.lineModel1}"
+              responsive="true" />
+          </p:panel>
+          <p:panel
+            styleClass="chat"
+            header="Chat">
+            <ul>
+              <li class="message-from">
+                <div class="message-meta">
+                  <p:graphicImage
+                    name="images/avatar-dani.png"
+                    library="california-layout" />
+                  <span class="name">Dani Daniel</span> <span class="time">27 mins ago</span>
+                </div>
+                <div class="message">
+                  <span>Hey Micheal, I heard there is a task about unexpected event occured near San Mateo recently. Want to collabrate?</span>
+                </div>
+              </li>
+              <li class="message-own">
+                <div class="message">
+                  <span>I’m busy today but we can work on it on Sunday afternoon. Does that sounds good for you? </span>
+                </div>
+                <div class="message-meta">
+                  <p:graphicImage
+                    name="images/avatar-micheal.png"
+                    library="california-layout" />
+                  <span class="name">Micheal Evan</span> <span class="time">22 mins ago</span>
+                </div>
+              </li>
+              <li class="message-from">
+                <div class="message-meta">
+                  <p:graphicImage
+                    name="images/avatar-dani.png"
+                    library="california-layout" />
+                  <span class="name">Dani Daniel</span> <span class="time">21 mins ago</span>
+                </div>
+                <div class="message">
+                  <span>OK! That sounds great. 👍 </span>
+                </div>
+              </li>
+            </ul>
+            <div class="write-message">
+              <i class="fa fa-paperclip" /> <input type="text" />
+            </div>
+          </p:panel>
+          <p:panel styleClass="daily-sales">
+            <f:facet name="header">
+              <div class="panel-heading-title">Daily Sales Stats</div>
+            </f:facet>
+            <table>
+              <thead>
+                <tr>
+                  <th style="text-align: center">Country</th>
+                  <th>Total</th>
+                  <th>Change</th>
+                  <th>Status</th>
+                  <th>View</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><p:graphicImage
+                      name="images/flag-france.png"
+                      library="california-layout" /> <span>France</span></td>
+                  <td>85681</td>
+                  <td>24%</td>
+                  <td><i class="fa fa-angle-up" /></td>
+                  <td><p:commandButton
+                      type="button"
+                      icon="fa fa-search"
+                      title="View" /></td>
+                </tr>
+                <tr>
+                  <td><p:graphicImage
+                      name="images/flag-uk.png"
+                      library="california-layout" /> <span>UK</span></td>
+                  <td>56123</td>
+                  <td>21%</td>
+                  <td><i class="fa fa-angle-up" /></td>
+                  <td><p:commandButton
+                      type="button"
+                      icon="fa fa-search"
+                      title="View" /></td>
+                </tr>
+                <tr>
+                  <td><p:graphicImage
+                      name="images/flag-brazil.png"
+                      library="california-layout" /> <span>Brazil</span></td>
+                  <td>1252</td>
+                  <td>2%</td>
+                  <td><i class="fa fa-angle-down" /></td>
+                  <td><p:commandButton
+                      type="button"
+                      icon="fa fa-search"
+                      title="View" /></td>
+                </tr>
+                <tr>
+                  <td><p:graphicImage
+                      name="images/flag-usa.png"
+                      library="california-layout" /> <span>USA</span></td>
+                  <td>236</td>
+                  <td>79%</td>
+                  <td><i class="fa fa-angle-up" /></td>
+                  <td><p:commandButton
+                      type="button"
+                      icon="fa fa-search"
+                      title="View" /></td>
+                </tr>
+                <tr>
+                  <td><p:graphicImage
+                      name="images/flag-japan.png"
+                      library="california-layout" /> <span>Japan</span></td>
+                  <td>73</td>
+                  <td>90%</td>
+                  <td><i class="fa fa-angle-down" /></td>
+                  <td><p:commandButton
+                      type="button"
+                      icon="fa fa-search"
+                      title="View" /></td>
+                </tr>
+                <tr>
+                  <td><p:graphicImage
+                      name="images/flag-germany.png"
+                      library="california-layout" /> <span>Germany</span></td>
+                  <td>49</td>
+                  <td>42%</td>
+                  <td><i class="fa fa-angle-down" /></td>
+                  <td><p:commandButton
+                      type="button"
+                      icon="fa fa-search"
+                      title="View" /></td>
+                </tr>
+                <tr>
+                  <td><p:graphicImage
+                      name="images/flag-holland.png"
+                      library="california-layout" /> <span>Holland</span></td>
+                  <td>73</td>
+                  <td>3%</td>
+                  <td><i class="fa fa-angle-up" /></td>
+                  <td><p:commandButton
+                      type="button"
+                      icon="fa fa-search"
+                      title="View" /></td>
+                </tr>
+                <tr>
+                  <td><p:graphicImage
+                      name="images/flag-canada.png"
+                      library="california-layout" /> <span>Canada</span></td>
+                  <td>40</td>
+                  <td>16%</td>
+                  <td><i class="fa fa-angle-up" /></td>
+                  <td><p:commandButton
+                      type="button"
+                      icon="fa fa-search"
+                      title="View" /></td>
+                </tr>
+              </tbody>
+            </table>
+          </p:panel>
+        </div>
+        <div class="ui-g-12 ui-md-12 ui-lg-6">
+          <p:panel styleClass="timeline">
+            <f:facet name="header">
+              <div class="panel-heading-title">Timeline</div>
+            </f:facet>
+            <div class="timeline-line"></div>
+            <ul>
+              <li class="odd">
+                <div class="timeline-message">
+                  <span class="love">Brenda Soto liked your post</span>
+                </div>
+                <div class="timeline-icon">
+                  <p:graphicImage
+                    name="images/icon-love.png"
+                    library="california-layout" />
+                  <span class="timeline-time">6:12 am</span>
+                </div>
+                <div class="clearfix"></div>
+              </li>
+              <li class="even">
+                <div class="timeline-icon">
+                  <span>7:44 am</span>
+                  <p:graphicImage
+                    name="images/icon-event.png"
+                    library="california-layout" />
+                </div>
+                <div class="timeline-message">
+                  <p:graphicImage
+                    name="images/bg-message2.png"
+                    library="california-layout"
+                    styleClass="event" />
+                  <span class="event">Unexpected event happened near San Mateo</span>
+                </div>
+                <div class="clearfix"></div>
+              </li>
+              <li class="odd">
+                <div class="timeline-message">
+                  <span class="checked">Warren Shaw finished Task #21</span>
+                </div>
+                <div class="timeline-icon">
+                  <p:graphicImage
+                    name="images/icon-checked.png"
+                    library="california-layout" />
+                  <span>8:20 am</span>
+                </div>
+                <div class="clearfix"></div>
+              </li>
+              <li class="even">
+                <div class="timeline-icon">
+                  <span>2:12 pm</span>
+                  <p:graphicImage
+                    name="images/icon-checked.png"
+                    library="california-layout" />
+                </div>
+                <div class="timeline-message">
+                  <span class="checked">John Swisher finished Task #66</span>
+                </div>
+                <div class="clearfix"></div>
+              </li>
+              <li>
+                <div class="timeline-icon"></div>
+                <div class="timeline-message"></div>
+              </li>
+              <li class="odd">
+                <div class="timeline-icon">
+                  <p:graphicImage
+                    name="images/icon-event.png"
+                    library="california-layout" />
+                  <span>2:58 am</span>
+                </div>
+                <div class="timeline-message">
+                  <p:graphicImage
+                    name="images/bg-message1.png"
+                    library="california-layout"
+                    styleClass="event" />
+                  <span class="event">Unexpected event happened near Santa Rosa</span>
+                </div>
+                <div class="clearfix"></div>
+              </li>
+              <li class="even">
+                <div class="timeline-icon">
+                  <span>5:41 am</span>
+                  <p:graphicImage
+                    name="images/icon-checked.png"
+                    library="california-layout" />
+                </div>
+                <div class="timeline-message">
+                  <span class="checked">John Swisher finished Task #66</span>
+                </div>
+                <div class="clearfix"></div>
+              </li>
+              <li class="odd">
+                <div class="timeline-icon">
+                  <p:graphicImage
+                    name="images/icon-event.png"
+                    library="california-layout" />
+                  <span>11:12 pm</span>
+                </div>
+                <div class="timeline-message">
+                  <p:graphicImage
+                    name="images/bg-message.png"
+                    library="california-layout"
+                    styleClass="event" />
+                  <span class="event">Unexpected event happened near Vallejo</span>
+                </div>
+                <div class="clearfix"></div>
+              </li>
+            </ul>
+          </p:panel>
+          <p:panel
+            header="Events"
+            styleClass="schedule">
+            <p:schedule
+              id="schedule"
+              value="#{scheduleView.eventModel}" />
+          </p:panel>
+        </div>
+        <div class="ui-g-12 ui-md-12 ui-lg-6">
+          <p:dataTable
+            var="car"
+            value="#{dtSelectionView.cars7}"
+            selectionMode="single"
+            reflow="true"
+            selection="#{dtSelectionView.selectedCar}"
+            rowKey="#{car.id}"
+            paginator="true"
+            rows="10">
+            <f:facet name="header">
+              <div class="panel-heading-title">Inventory List</div>
+            </f:facet>
+            <p:column
+              headerText="ID"
+              sortBy="#{car.id}">
+              <h:outputText value="#{car.id}" />
+            </p:column>
+            <p:column
+              headerText="Year"
+              sortBy="#{car.year}">
+              <h:outputText value="#{car.year}" />
+            </p:column>
+            <p:column
+              headerText="Brand"
+              sortBy="#{car.brand}">
+              <h:outputText value="#{car.brand}" />
+            </p:column>
+            <p:column
+              headerText="Color"
+              sortBy="#{car.color}">
+              <h:outputText value="#{car.color}" />
+            </p:column>
+          </p:dataTable>
+        </div>
+        <div class="ui-g-12 ui-md-12 ui-lg-6">
+          <p:panel styleClass="profile-details ui-g-12">
+            <p:graphicImage
+              name="images/image-profile.png"
+              library="california-layout" />
+            <p:graphicImage
+              name="images/profile-avatar.png"
+              library="california-layout"
+              styleClass="profile-avatar" />
+            <span class="profile-name">Pauline Harrell</span>
+            <span class="profile-role">Administrator</span>
+            <p:commandButton
+              type="button"
+              value="Edit Profile" />
+            <div class="ui-g-12">
+              <div class="profile-statistics-panel ui-g-4">
+                <span class="profile-statistics">1098</span> <span class="statistics-title">Articles</span>
+              </div>
+              <div class="profile-statistics-panel ui-g-4">
+                <span class="profile-statistics">22,681</span> <span class="statistics-title">Followers</span>
+              </div>
+              <div class="profile-statistics-panel ui-g-4">
+                <span class="profile-statistics">880</span> <span class="statistics-title">Following</span>
+              </div>
+            </div>
+          </p:panel>
+        </div>
+      </div>
+    </div>
+  </ui:define>
 </ui:composition>
