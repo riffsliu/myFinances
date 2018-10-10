@@ -8,207 +8,169 @@
   <ui:define name="title">Empty Page</ui:define>
   <ui:define name="viewname">Empty</ui:define>
   <ui:define name="content">
-    <div class="ui-g ui-fluid">
-      <div class="ui-g-12">
-        <div class="card card-w-title">
-          <h1>Summary</h1>
-          <p:dataTable
-            var="team"
-            value="#{resumoBean.listResumoDTO}"
-            class="table">
-            <f:facet name="header">
-            Resultado
-        </f:facet>
-            <p:columnGroup type="header">
-              <p:row>
-                <p:column
-                  rowspan="2"
-                  headerText="Descrição" />
-                <p:column
-                  colspan="12"
-                  headerText="Resultado" />
-              </p:row>
-              <p:row>
-                <p:column
-                  headerText="Jan"
-                  style="text-align:right;font-size: 15px;" />
-                <p:column
-                  headerText="Fev"
-                  style="text-align:right;font-size: 15px;" />
-                <p:column
-                  headerText="Mar"
-                  style="text-align:right;font-size: 15px;" />
-                <p:column
-                  headerText="Abr"
-                  style="text-align:right;font-size: 15px;" />
-                <p:column
-                  headerText="Mai"
-                  style="text-align:right;font-size: 15px;" />
-                <p:column
-                  headerText="Jun"
-                  style="text-align:right;font-size: 15px;" />
-                <p:column
-                  headerText="Jul"
-                  style="text-align:right;font-size: 15px;" />
-                <p:column
-                  headerText="Ago"
-                  style="text-align:right;font-size: 15px;" />
-                <p:column
-                  headerText="Set"
-                  style="text-align:right;font-size: 15px;" />
-                <p:column
-                  headerText="Out"
-                  style="text-align:right;font-size: 15px;" />
-                <p:column
-                  headerText="Nov"
-                  style="text-align:right;font-size: 15px;" />
-                <p:column
-                  headerText="Dez"
-                  style="text-align:right;font-size: 15px;" />
-              </p:row>
-            </p:columnGroup>
-            <p:subTable
-              var="stats"
-              value="#{team.listResumoDTO}">
+    <h:form
+      prependId="false"
+      id="formSummary">
+      <!-- <div class="ui-g ui-fluid"> -->
+      <!-- <div class="ui-g-12">
+        <div class="card card-w-title"> -->
+      <div class="card card-w-title">
+        <!-- <h1>Selecione a opção do semestre</h1> -->
+        <p:selectOneRadio
+          valueChangeListener="#{resumoBean.listenerRenderizaDataTablePorSemestre}"
+          layout="responsive"
+          columns="2"
+          value="#{resumoBean.opcaoSemestre}">
+          <f:selectItem
+            itemLabel="1º Semestre"
+            itemValue="1" />
+          <f:selectItem
+            itemLabel="2º Semestre"
+            itemValue="2" />
+          <p:ajax
+            event="change"
+            update="formSummary"></p:ajax>
+        </p:selectOneRadio>
+      </div>
+      <div class="ui-g">
+        <div class="ui-g-12">
+          <div class="card card-w-title">
+            <h1>Summary</h1>
+            <p:dataTable
+              id="summaryDataTable1"
+              var="item"
+              value="#{resumoBean.listResumoDTO}"
+              reflow="true"
+              rendered="#{resumoBean.renderizaDataTablePrimeiroSemestre}">
               <f:facet name="header">
-                <h:outputText value="#{team.descricaoCategoria}" />
+        Summary
+      </f:facet>
+              <p:column
+                headerText="Categoria"
+                style="width:150px;">
+                <h:outputText value="#{item.descricaoCategoria}">
+                </h:outputText>
+              </p:column>
+              <p:column headerText="Jan">
+                <h:outputText
+                  value="#{item.mes01}"
+                  style="color:#{resumoBean.definindoStyleClass(item.mes01)}">
+                  <f:convertNumber pattern="#,##0.00;" />
+                </h:outputText>
+              </p:column>
+              <p:column headerText="Fev">
+                <h:outputText
+                  value="#{item.mes02}"
+                  style="color:#{resumoBean.definindoStyleClass(item.mes02)}">
+                  <f:convertNumber pattern="#,##0.00;" />
+                </h:outputText>
+              </p:column>
+              <p:column headerText="Mar">
+                <h:outputText
+                  value="#{item.mes03}"
+                  style="color:#{resumoBean.definindoStyleClass(item.mes03)}">
+                  <f:convertNumber pattern="#,##0.00;" />
+                </h:outputText>
+              </p:column>
+              <p:column headerText="Abr">
+                <h:outputText
+                  value="#{item.mes04}"
+                  style="color:#{resumoBean.definindoStyleClass(item.mes04)}">
+                  <f:convertNumber pattern="#,##0.00;" />
+                </h:outputText>
+              </p:column>
+              <p:column headerText="Mai">
+                <h:outputText
+                  value="#{item.mes05}"
+                  style="color:#{resumoBean.definindoStyleClass(item.mes05)}">
+                  <f:convertNumber pattern="#,##0.00;" />
+                </h:outputText>
+              </p:column>
+              <p:column headerText="Jun">
+                <h:outputText
+                  value="#{item.mes06}"
+                  style="color:#{resumoBean.definindoStyleClass(item.mes06)}">
+                  <f:convertNumber pattern="#,##0.00;" />
+                </h:outputText>
+              </p:column>
+              <p:column headerText="Jul">
+                <h:outputText
+                  value="#{item.mes07}"
+                  style="color:#{resumoBean.definindoStyleClass(item.mes07)}">
+                  <f:convertNumber pattern="#,##0.00;" />
+                </h:outputText>
+              </p:column>
+              <f:facet name="footer">
+                <h:outputText value="" />
               </f:facet>
+            </p:dataTable>
+            <p:dataTable
+              id="summaryDataTable2"
+              var="item"
+              value="#{resumoBean.listResumoDTO}"
+              reflow="true"
+              rendered="#{resumoBean.renderizaDataTableSegundoSemestre}">
+              <f:facet name="header">
+        Summary
+      </f:facet>
               <p:column
-                headerText="Descrição Categoria"
-                style="text-align:right;font-size: 15px;">
-                <p:outputLabel value="#{stats.descricaoCategoria}"></p:outputLabel>
+                headerText="Categoria"
+                style="width:150px;">
+                <h:outputText value="#{item.descricaoCategoria}">
+                </h:outputText>
               </p:column>
-              <p:column
-                headerText="Jan"
-                style="text-align:right;font-size: 15px;">
-                <p:outputLabel value="#{stats.mes01}">
+              <p:column headerText="Jul">
+                <h:outputText
+                  value="#{item.mes07}"
+                  style="color:#{resumoBean.definindoStyleClass(item.mes07)}">
                   <f:convertNumber pattern="#,##0.00;" />
-                </p:outputLabel>
+                </h:outputText>
               </p:column>
-              <p:column
-                headerText="Fev"
-                style="text-align:right;font-size: 15px;">
-                <p:outputLabel value="#{stats.mes02}">
+              <p:column headerText="Ago">
+                <h:outputText
+                  value="#{item.mes08}"
+                  style="color:#{resumoBean.definindoStyleClass(item.mes08)}">
                   <f:convertNumber pattern="#,##0.00;" />
-                </p:outputLabel>
+                </h:outputText>
               </p:column>
-              <p:column
-                headerText="Mar"
-                style="text-align:right;font-size: 15px;">
-                <p:outputLabel value="#{stats.mes03}">
+              <p:column headerText="Set">
+                <h:outputText
+                  value="#{item.mes09}"
+                  style="color:#{resumoBean.definindoStyleClass(item.mes09)}">
                   <f:convertNumber pattern="#,##0.00;" />
-                </p:outputLabel>
+                </h:outputText>
               </p:column>
-              <p:column
-                headerText="Abr"
-                style="text-align:right;font-size: 15px;">
-                <p:outputLabel value="#{stats.mes04}">
+              <p:column headerText="Out">
+                <h:outputText
+                  value="#{item.mes10}"
+                  style="color:#{resumoBean.definindoStyleClass(item.mes10)}">
                   <f:convertNumber pattern="#,##0.00;" />
-                </p:outputLabel>
+                </h:outputText>
               </p:column>
-              <p:column
-                headerText="Mai"
-                style="text-align:right;font-size: 15px;">
-                <p:outputLabel value="#{stats.mes05}">
+              <p:column headerText="Nov">
+                <h:outputText
+                  value="#{item.mes11}"
+                  style="color:#{resumoBean.definindoStyleClass(item.mes11)}">
                   <f:convertNumber pattern="#,##0.00;" />
-                </p:outputLabel>
+                </h:outputText>
               </p:column>
-              <p:column
-                headerText="Jun"
-                style="text-align:right;font-size: 15px;">
-                <p:outputLabel value="#{stats.mes06}">
+              <p:column headerText="Dez">
+                <h:outputText
+                  value="#{item.mes12}"
+                  style="color:#{resumoBean.definindoStyleClass(item.mes12)}">
                   <f:convertNumber pattern="#,##0.00;" />
-                </p:outputLabel>
+                </h:outputText>
               </p:column>
-              <p:column
-                headerText="Jul"
-                style="text-align:right;font-size: 15px;">
-                <p:outputLabel value="#{stats.mes07}">
-                  <f:convertNumber pattern="#,##0.00;" />
-                </p:outputLabel>
-              </p:column>
-              <p:column
-                headerText="Ago"
-                style="text-align:right;font-size: 15px;">
-                <p:outputLabel value="#{stats.mes08}">
-                  <f:convertNumber pattern="#,##0.00;" />
-                </p:outputLabel>
-              </p:column>
-              <p:column
-                headerText="Set"
-                style="text-align:right;font-size: 15px;">
-                <p:outputLabel value="#{stats.mes09}">
-                  <f:convertNumber pattern="#,##0.00;" />
-                </p:outputLabel>
-              </p:column>
-              <p:column
-                headerText="Out"
-                style="text-align:right;font-size: 15px;">
-                <p:outputLabel value="#{stats.mes10}">
-                  <f:convertNumber pattern="#,##0.00;" />
-                </p:outputLabel>
-              </p:column>
-              <p:column
-                headerText="Nov"
-                style="text-align:right;font-size: 15px;">
-                <p:outputLabel value="#{stats.mes11}">
-                  <f:convertNumber pattern="#,##0.00;" />
-                </p:outputLabel>
-              </p:column>
-              <p:column
-                headerText="Dez"
-                style="text-align:right;font-size: 15px;">
-                <p:outputLabel value="#{stats.mes12}">
-                  <f:convertNumber pattern="#,##0.00;" />
-                </p:outputLabel>
-              </p:column>
-              <p:columnGroup type="footer">
-                <p:row>
-                  <p:column
-                    footerText="Totals: "
-                    style="text-align:right;font-size: 15px;" />
-                  <p:column
-                    footerText="#{team.totalMes01}"
-                    style="text-align:right;font-size: 15px;"></p:column>
-                  <p:column
-                    footerText="#{team.totalMes02}"
-                    style="text-align:right;font-size: 15px;"></p:column>
-                  <p:column
-                    footerText="#{team.totalMes03}"
-                    style="text-align:right;font-size: 15px;"></p:column>
-                  <p:column
-                    footerText="#{team.totalMes04}"
-                    style="text-align:right;font-size: 15px;"></p:column>
-                  <p:column
-                    footerText="#{team.totalMes05}"
-                    style="text-align:right;font-size: 15px;"></p:column>
-                  <p:column
-                    footerText="#{team.totalMes06}"
-                    style="text-align:right;font-size: 15px;"></p:column>
-                  <p:column
-                    footerText="#{team.totalMes07}"
-                    style="text-align:right;font-size: 15px;"></p:column>
-                  <p:column
-                    footerText="#{team.totalMes08}"
-                    style="text-align:right;font-size: 15px;"></p:column>
-                  <p:column
-                    footerText="#{team.totalMes09}"
-                    style="text-align:right;font-size: 15px;"></p:column>
-                  <p:column
-                    footerText="#{team.totalMes10}"
-                    style="text-align:right;font-size: 15px;"></p:column>
-                  <p:column
-                    footerText="#{team.totalMes11}"
-                    style="text-align:right;font-size: 15px;"></p:column>
-                  <p:column
-                    footerText="#{team.totalMes12}"
-                    style="text-align:right;font-size: 15px;"></p:column>
-                </p:row>
-              </p:columnGroup>
-            </p:subTable>
-          </p:dataTable>
+              <f:facet name="footer">
+                <h:outputText value="" />
+              </f:facet>
+            </p:dataTable>
+            <!-- </div>
+      </div> -->
+            <!-- </div> -->
+          </div>
         </div>
       </div>
-    </div>
+    </h:form>
   </ui:define>
 </ui:composition>

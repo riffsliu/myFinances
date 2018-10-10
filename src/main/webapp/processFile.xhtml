@@ -38,12 +38,14 @@
 							paginator="true" rows="10">
 							<f:facet name="header">
 							</f:facet>
-							<p:column headerText="Idx" sortBy="#{item.index}">
+							<!-- <p:column headerText="Idx" sortBy="#{item.index}">
 								<h:outputText value="#{item.index}" />
-							</p:column>
+							</p:column> -->
 							<p:column headerText="Data"
 								sortBy="#{item.transacaoOfx.dataTransacao}">
-								<h:outputText value="#{item.transacaoOfx.dataTransacao}" />
+								<h:outputText value="#{item.transacaoOfx.dataTransacao}">
+									<f:convertDateTime locale="pt" pattern="dd/MM/yyyy" />
+								</h:outputText>
 							</p:column>
 							<p:column headerText="Tipo"
 								sortBy="#{item.transacaoOfx.tipoTransacao}">
@@ -55,8 +57,8 @@
 							</p:column>
 							<p:column headerText="Descrição Personalizada"
 								sortBy="#{item.transacaoOfx.descricaoPersonalizada}">
-								<h:outputText
-									value="#{item.transacaoOfx.descricaoPersonalizada}" />
+								<p:inputText value="#{item.transacaoOfx.descricaoPersonalizada}"
+									maxlength="20" />
 							</p:column>
 							<p:column headerText="Valor"
 								sortBy="#{item.transacaoOfx.valorTransacao}">

@@ -38,7 +38,7 @@ public class LeitorOfxService implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public List<ConciliacaoDTO> processarArquivoOfx(InputStream inputStreamFile) throws IOException, OFXParseException {
+	public List<ConciliacaoDTO> processarArquivoOfx(InputStream inputStreamFile) throws Exception {
 
 		CategoriaVO categoriaDespesaPadraoVO = categoriaDAO.buscarCategoriaDespesaPadrao(Util.getUsuarioNaSession().getIdUsuario());
 		CategoriaVO categoriaReceitaPadraoVO = categoriaDAO.buscarCategoriaReceitaPadrao(Util.getUsuarioNaSession().getIdUsuario());
@@ -104,15 +104,15 @@ public class LeitorOfxService implements Serializable {
 					}
 
 					
-					TransacaoVO transacaoVO = transacaoDAO.buscarTransacaoParaConciliacao(transacaoOfx.getValorTransacao(), transacaoOfx.getDescricaoTransacao(), transacaoOfx.getDataTransacao());
+					List<TransacaoVO> listTransacaoVO = transacaoDAO.buscarTransacaoParaConciliacao(transacaoOfx.getValorTransacao(), transacaoOfx.getDescricaoTransacao(), transacaoOfx.getDataTransacao());
 
-					if (transacaoVO == null) {
+					if (listTransacaoVO.isEmpty()) {
 						
 						ConciliacaoDTO conciliacaoDTO = new ConciliacaoDTO();
 
 						conciliacaoDTO.setIndex(index);
 
-						System.out.println("idx" + conciliacaoDTO.getIndex());
+						//System.out.println("idx" + conciliacaoDTO.getIndex());
 
 
 						// conciliacaoDTO.setTransacaoVO(transacaoVO);

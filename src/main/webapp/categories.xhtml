@@ -1,25 +1,161 @@
-<ui:composition xmlns="http://www.w3.org/1999/xhtml"
-                xmlns:h="http://java.sun.com/jsf/html"
-                xmlns:f="http://java.sun.com/jsf/core"
-                xmlns:ui="http://java.sun.com/jsf/facelets"
-                xmlns:p="http://primefaces.org/ui"
-                template="/WEB-INF/template.xhtml">
-                
-    <ui:define name="title">Empty Page</ui:define>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/template.xhtml">
 
-    <ui:define name="viewname">Empty</ui:define>
+	<ui:define name="title">Empty Page</ui:define>
 
-    <ui:define name="content">
-        <div class="ui-g">
-            <div class="ui-g-12">
-                <div class="card">
-                    <h1>Empty Page</h1>
-                    <p>Use this page to start from scratch and place your custom content.</p>
-                    <p:button outcome="dashboard" value="Home" style="display:inline-block;margin-top:5px"/>
-                </div>
-            </div>
-        </div>
-        
-    </ui:define>
+	<ui:define name="viewname">Empty</ui:define>
+
+	<ui:define name="content">
+		<h:form prependId="false" id="formPrincipal">
+			<p:growl id="growl" showDetail="true" autoUpdate="true" />
+
+			<p:tabView>
+				<p:tab title="Incomes" id="tabIncomes">
+
+					<p:panel rendered="#{categoriaBean.renderizaAdicionarRenda}">
+						<div class="ui-g ui-fluid">
+							<div class="ui-g-12">
+								<div class="card card-w-title">
+									<h1>Adicionar</h1>
+									<p:panelGrid columns="1" styleClass="form-group ui-panelgrid-blank" layout="grid">
+										<p:outputLabel value="Descrição *" />
+										<p:inputText value="#{categoriaBean.categoriaVO.descricaoCategoria}" />
+										<p:outputLabel value="Descrição Resumida *" />
+										<p:inputText value="#{categoriaBean.categoriaVO.descricaoResumida}" />
+
+
+										<p:commandButton id="submitAdicionarIncomes" value="Adicionar"
+											actionListener="#{categoriaBean.listenerAdicionarCategoriaRenda()}" update="formPrincipal" />
+										<p:commandButton id="submitCancelarIncomes" value="Cancelar"
+											actionListener="#{categoriaBean.listenerCancelarAdicionarCategoriaRenda()}" update="formPrincipal"
+											styleClass="secondary-btn" />
+									</p:panelGrid>
+								</div>
+							</div>
+						</div>
+					</p:panel>
+					<p:panel rendered="#{!categoriaBean.renderizaAdicionarRenda}">
+						<div class="ui-g ui-fluid">
+							<div class="ui-g-12">
+								<div class="card card-w-title">
+									<h1>Incomes</h1>
+									<p:dataTable id="dataTableIncomes" var="item" value="#{categoriaBean.listCategoriaRendas}" paginator="true"
+										rows="10">
+										<f:facet name="header">
+											<p:commandButton id="submitButton" value="+"
+												actionListener="#{categoriaBean.listenerInicializarCategoriaRenda()}" update="formPrincipal"
+												styleClass="GreenButton" />
+										</f:facet>
+										<p:column headerText="Descrição" sortBy="#{item.descricaoCategoria}">
+											<h:outputText value="#{item.descricaoCategoria}" />
+										</p:column>
+										<p:column headerText="Descrição Resumida" sortBy="#{item.descricaoResumida}">
+											<h:outputText value="#{item.descricaoResumida}" />
+										</p:column>
+
+										<p:column headerText="Ações">
+											<p:panelGrid columns="2" styleClass="form-group ui-panelgrid-blank" layout="grid">
+												<p:commandButton update="formPrincipal" icon="ui-icon-search" title="Visualizar"
+													actionListener="#{categoriaBean.listenerPrepararEdicao(item)}" />
+												<p:commandButton icon="ui-icon-close" title="Excluir" onclick="PF('dlgExcluir').show();"
+													actionListener="#{categoriaBean.listenerPrepararExclusao(item)}" />
+											</p:panelGrid>
+										</p:column>
+									</p:dataTable>
+								</div>
+							</div>
+						</div>
+					</p:panel>
+
+
+				</p:tab>
+
+
+				<p:tab title="Outcomes" id="tabOutcomes">
+					<p:panel rendered="#{categoriaBean.renderizaAdicionarDespesa}">
+						<div class="ui-g ui-fluid">
+							<div class="ui-g-12">
+								<div class="card card-w-title">
+									<h1>Adicionar</h1>
+									<p:panelGrid columns="1" styleClass="form-group ui-panelgrid-blank" layout="grid">
+										<p:outputLabel value="Descrição *" />
+										<p:inputText value="#{categoriaBean.categoriaVO.descricaoCategoria}" />
+										<p:outputLabel value="Descrição Resumida *" />
+										<p:inputText value="#{categoriaBean.categoriaVO.descricaoResumida}" />
+
+
+										<p:commandButton id="submitAdicionarOutcomes" value="Adicionar"
+											actionListener="#{categoriaBean.listenerAdicionarCategoriaDespesa()}" update="formPrincipal" />
+										<p:commandButton id="submitCancelarOutcomes" value="Cancelar"
+											actionListener="#{categoriaBean.listenerCancelarAdicionarCategoriaDespesa()}" update="formPrincipal"
+											styleClass="secondary-btn" />
+									</p:panelGrid>
+								</div>
+							</div>
+						</div>
+					</p:panel>
+					<p:panel rendered="#{!categoriaBean.renderizaAdicionarDespesa}">
+						<div class="ui-g ui-fluid">
+							<div class="ui-g-12">
+								<div class="card card-w-title">
+									<h1>Outcomes</h1>
+									<p:dataTable id="dataTableOutcomes" var="item" value="#{categoriaBean.listCategoriaDespesas}" paginator="true"
+										rows="10">
+										<f:facet name="header">
+											<p:commandButton id="submitButton" value="+"
+												actionListener="#{categoriaBean.listenerInicializarCategoriaDespesa()}" update="formPrincipal"
+												styleClass="GreenButton" />
+										</f:facet>
+										<p:column headerText="Descrição" sortBy="#{item.descricaoCategoria}">
+											<h:outputText value="#{item.descricaoCategoria}" />
+										</p:column>
+										<p:column headerText="Descrição Resumida" sortBy="#{item.descricaoResumida}">
+											<h:outputText value="#{item.descricaoResumida}" />
+										</p:column>
+
+										<p:column headerText="Ações">
+											<p:panelGrid columns="2" styleClass="form-group ui-panelgrid-blank" layout="grid">
+												<p:commandButton update="formPrincipal" icon="ui-icon-search" title="Visualizar"
+													actionListener="#{categoriaBean.listenerPrepararEdicao(item)}" />
+												<p:commandButton icon="ui-icon-close" title="Excluir" onclick="PF('dlgExcluir').show();"
+													actionListener="#{categoriaBean.listenerPrepararExclusao(item)}" />
+											</p:panelGrid>
+										</p:column>
+									</p:dataTable>
+								</div>
+							</div>
+						</div>
+					</p:panel>
+
+
+
+				</p:tab>
+			</p:tabView>
+
+			<p:dialog id="dlgExcluir" header="Atenção" widgetVar="dlgExcluir" modal="true" closable="false">
+				<h:form prependId="false" id="formExcluir">
+					<div class="ui-g ui-fluid">
+						<div class="ui-g-12">
+							<div class="card card-w-title">
+								<p:panelGrid columns="1" styleClass="form-group ui-panelgrid-blank" layout="grid">
+									<h3>Todas as transações vinculadas a esta categoria serão excluidas; Tem certeja que deseja excluir a
+										categoria selecionada?</h3>
+								</p:panelGrid>
+								<p:panelGrid columns="2" styleClass="form-group ui-panelgrid-blank" layout="grid">
+									<p:commandButton value="Sim" styleClass="ui-confirmdialog-yes" icon="ui-icon-check"
+										actionListener="#{categoriaBean.listenerExcluirCategoria()}" onclick="PF('dlgExcluir').hide();"
+										update="formPrincipal" />
+									<p:commandButton value="Não" styleClass="ui-confirmdialog-no" update="formPrincipal" icon="ui-icon-close"
+										onclick="PF('dlgExcluir').hide();" />
+								</p:panelGrid>
+							</div>
+						</div>
+					</div>
+				</h:form>
+			</p:dialog>
+		</h:form>
+
+	</ui:define>
 
 </ui:composition>

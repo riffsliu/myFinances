@@ -1,180 +1,102 @@
-<ui:composition
-  xmlns="http://www.w3.org/1999/xhtml"
-  xmlns:h="http://java.sun.com/jsf/html"
-  xmlns:f="http://java.sun.com/jsf/core"
-  xmlns:ui="http://java.sun.com/jsf/facelets"
-  xmlns:p="http://primefaces.org/ui"
-  template="/WEB-INF/template.xhtml">
-  <ui:define name="title">Bank Account</ui:define>
-  <ui:define name="viewname">Bank account</ui:define>
-  <ui:define name="content">
-    <h:form
-      prependId="false"
-      id="formPrincipal">
-      <p:growl
-        id="growl"
-        showDetail="true"
-        autoUpdate="true" />
-      <p:panel rendered="#{contaBean.renderizaAdicionar}">
-        <div class="ui-g ui-fluid">
-          <div class="ui-g-12">
-            <div class="card card-w-title">
-              <h1>Adicionar</h1>
-              <p:panelGrid
-                columns="1"
-                styleClass="form-group ui-panelgrid-blank"
-                layout="grid">
-                <p:outputLabel value="Nome Conta*" />
-                <p:inputText value="#{contaBean.contaVO.nomeConta}" />
-                <p:outputLabel value="Descrição Conta*" />
-                <p:inputText value="#{contaBean.contaVO.descricaoConta}" />
-                <p:outputLabel value="Saldo Inicial*" />
-                <p:inputNumber
-                  value="#{contaBean.contaVO.saldoInicial}"
-                  decimalSeparator=","
-                  thousandSeparator="." />
-                <p:outputLabel value="Data Saldo Inicial*" />
-                <p:calendar
-                  value="#{contaBean.contaVO.dataSaldoInicial}"
-                  locale="pt"
-                  pattern="dd/MM/yyyy" />
-                <p:outputLabel value="Saldo Atual*" />
-                <p:inputNumber
-                  value="#{contaBean.contaVO.saldoAtual}"
-                  decimalSeparator=","
-                  thousandSeparator="." />
-                <p:spacer></p:spacer>
-                <p:commandButton
-                  id="submitAdicionar"
-                  value="Adicionar"
-                  actionListener="#{contaBean.listenerAdicionarConta()}"
-                  update="formPrincipal" />
-                <p:commandButton
-                  id="submitCancelar"
-                  value="Cancelar"
-                  actionListener="#{contaBean.listenerCancelarAdicionarConta()}"
-                  update="formPrincipal"
-                  styleClass="secondary-btn" />
-              </p:panelGrid>
-            </div>
-          </div>
-        </div>
-      </p:panel>
-      <p:panel rendered="#{!contaBean.renderizaAdicionar}">
-        <div class="ui-g ui-fluid">
-          <div class="ui-g-12">
-            <div class="card card-w-title">
-              <h1>Contas</h1>
-              <p:dataTable
-                id="bankDataTable"
-                var="item"
-                value="#{contaBean.listContaVO}"
-                paginator="true"
-                rows="10">
-                <f:facet name="header">
-                  <p:commandButton
-                    id="submitButton"
-                    value="+"
-                    actionListener="#{contaBean.listenerInicializarConta()}"
-                    update="formPrincipal"
-                    styleClass="GreenButton" />
-                </f:facet>
-                <p:column
-                  headerText="Nome Conta"
-                  sortBy="#{item.nomeConta}">
-                  <h:outputText value="#{item.nomeConta}" />
-                </p:column>
-                <p:column
-                  headerText="Descrição Conta"
-                  sortBy="#{item.descricaoConta}">
-                  <h:outputText value="#{item.descricaoConta}" />
-                </p:column>
-                <p:column
-                  headerText="Saldo Inicial"
-                  sortBy="#{item.saldoInicial}">
-                  <h:outputText value="#{item.saldoInicial}">
-                    <f:convertNumber pattern="#,##0.00;" />
-                  </h:outputText>
-                </p:column>
-                <p:column
-                  headerText="Data Saldo Inicial"
-                  sortBy="#{item.dataSaldoInicial}">
-                  <h:outputText value="#{item.dataSaldoInicial}">
-                    <f:convertDateTime
-                      locale="pt"
-                      pattern="dd/MM/yyyy" />
-                  </h:outputText>
-                </p:column>
-                <p:column
-                  headerText="Saldo Atual"
-                  sortBy="#{item.saldoAtual}">
-                  <h:outputText value="#{item.saldoAtual}">
-                    <f:convertNumber pattern="#,##0.00;" />
-                  </h:outputText>
-                </p:column>
-                <p:column headerText="Ações">
-                  <p:panelGrid
-                    columns="2"
-                    styleClass="form-group ui-panelgrid-blank"
-                    layout="grid">
-                    <p:commandButton
-                      update="formPrincipal"
-                      icon="ui-icon-search"
-                      title="Visualizar"
-                      actionListener="#{contaBean.listenerPrepararEdicao(item)}" />
-                    <p:commandButton
-                      icon="ui-icon-close"
-                      title="Excluir"
-                      onclick="PF('dlgExcluir').show();"
-                      actionListener="#{contaBean.listenerPrepararExclusao(item)}" />
-                  </p:panelGrid>
-                </p:column>
-              </p:dataTable>
-            </div>
-          </div>
-        </div>
-      </p:panel>
-      <p:dialog
-        id="dlgExcluir"
-        header="Atenção"
-        widgetVar="dlgExcluir"
-        modal="true"
-        closable="false">
-        <h:form
-          prependId="false"
-          id="formExcluirConta">
-          <div class="ui-g ui-fluid">
-            <div class="ui-g-12">
-              <div class="card card-w-title">
-                <p:panelGrid
-                  columns="1"
-                  styleClass="form-group ui-panelgrid-blank"
-                  layout="grid">
-                  <h3>Todas as transações vinculadas a esta conta serão excluidas; Tem certeja que deseja excluir a conta selecionada?</h3>
-                </p:panelGrid>
-                <p:panelGrid
-                  columns="2"
-                  styleClass="form-group ui-panelgrid-blank"
-                  layout="grid">
-                  <p:commandButton
-                    value="Sim"
-                    styleClass="ui-confirmdialog-yes"
-                    icon="ui-icon-check"
-                    actionListener="#{contaBean.listenerExcluirConta()}"
-                    onclick="PF('dlgExcluir').hide();"
-                    update="formPrincipal" />
-                  <p:commandButton
-                    value="Não"
-                    styleClass="ui-confirmdialog-no"
-                    update="formPrincipal"
-                    icon="ui-icon-close"
-                    onclick="PF('dlgExcluir').hide();" />
-                </p:panelGrid>
-              </div>
-            </div>
-          </div>
-        </h:form>
-      </p:dialog>
-    </h:form>
-  </ui:define>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/template.xhtml">
+	<ui:define name="title">Bank Account</ui:define>
+	<ui:define name="viewname">Bank account</ui:define>
+	<ui:define name="content">
+		<h:form prependId="false" id="formPrincipal">
+			<p:growl id="growl" showDetail="true" autoUpdate="true" />
+			<p:panel rendered="#{contaBean.renderizaAdicionar}">
+				<div class="ui-g ui-fluid">
+					<div class="ui-g-12">
+						<div class="card card-w-title">
+							<h1>Adicionar</h1>
+							<p:panelGrid columns="1" styleClass="form-group ui-panelgrid-blank" layout="grid">
+								<p:outputLabel value="Nome Conta*" />
+								<p:inputText value="#{contaBean.contaVO.nomeConta}" />
+								<p:outputLabel value="Descrição Conta*" />
+								<p:inputText value="#{contaBean.contaVO.descricaoConta}" />
+								<p:outputLabel value="Saldo Inicial*" />
+								<p:inputNumber value="#{contaBean.contaVO.saldoInicial}" decimalSeparator="," thousandSeparator="." />
+								<p:outputLabel value="Data Saldo Inicial*" />
+								<p:calendar value="#{contaBean.contaVO.dataSaldoInicial}" locale="pt" pattern="dd/MM/yyyy" />
+								<p:outputLabel value="Saldo Atual*" />
+								<p:inputNumber value="#{contaBean.contaVO.saldoAtual}" decimalSeparator="," thousandSeparator="." />
+								<p:spacer></p:spacer>
+								<p:commandButton id="submitAdicionar" value="Adicionar" actionListener="#{contaBean.listenerAdicionarConta()}"
+									update="formPrincipal" />
+								<p:commandButton id="submitCancelar" value="Cancelar"
+									actionListener="#{contaBean.listenerCancelarAdicionarConta()}" update="formPrincipal"
+									styleClass="secondary-btn" />
+							</p:panelGrid>
+						</div>
+					</div>
+				</div>
+			</p:panel>
+			<p:panel rendered="#{!contaBean.renderizaAdicionar}">
+				<div class="ui-g ui-fluid">
+					<div class="ui-g-12">
+						<div class="card card-w-title">
+							<h1>Contas</h1>
+							<p:dataTable id="bankDataTable" var="item" value="#{contaBean.listContaVO}" paginator="true" rows="10">
+								<f:facet name="header">
+									<p:commandButton id="submitButton" value="+" actionListener="#{contaBean.listenerInicializarConta()}"
+										update="formPrincipal" styleClass="GreenButton" />
+								</f:facet>
+								<p:column headerText="Nome Conta" sortBy="#{item.nomeConta}">
+									<h:outputText value="#{item.nomeConta}" />
+								</p:column>
+								<p:column headerText="Descrição Conta" sortBy="#{item.descricaoConta}">
+									<h:outputText value="#{item.descricaoConta}" />
+								</p:column>
+								<p:column headerText="Saldo Inicial" sortBy="#{item.saldoInicial}">
+									<h:outputText value="#{item.saldoInicial}">
+										<f:convertNumber pattern="#,##0.00;" />
+									</h:outputText>
+								</p:column>
+								<p:column headerText="Data Saldo Inicial" sortBy="#{item.dataSaldoInicial}">
+									<h:outputText value="#{item.dataSaldoInicial}">
+										<f:convertDateTime locale="pt" pattern="dd/MM/yyyy" />
+									</h:outputText>
+								</p:column>
+								<p:column headerText="Saldo Atual" sortBy="#{item.saldoAtual}">
+									<h:outputText value="#{item.saldoAtual}">
+										<f:convertNumber pattern="#,##0.00;" />
+									</h:outputText>
+								</p:column>
+								<p:column headerText="Ações">
+									<p:panelGrid columns="2" styleClass="form-group ui-panelgrid-blank" layout="grid">
+										<p:commandButton update="formPrincipal" icon="ui-icon-search" title="Visualizar"
+											actionListener="#{contaBean.listenerPrepararEdicao(item)}" />
+										<p:commandButton icon="ui-icon-close" title="Excluir" onclick="PF('dlgExcluir').show();"
+											actionListener="#{contaBean.listenerPrepararExclusao(item)}" />
+									</p:panelGrid>
+								</p:column>
+							</p:dataTable>
+						</div>
+					</div>
+				</div>
+			</p:panel>
+			<p:dialog id="dlgExcluir" header="Atenção" widgetVar="dlgExcluir" modal="true" closable="false">
+				<h:form prependId="false" id="formExcluirConta">
+					<div class="ui-g ui-fluid">
+						<div class="ui-g-12">
+							<div class="card card-w-title">
+								<p:panelGrid columns="1" styleClass="form-group ui-panelgrid-blank" layout="grid">
+									<h3>Todas as transações vinculadas a esta conta serão excluidas; Tem certeja que deseja excluir a conta
+										selecionada?</h3>
+								</p:panelGrid>
+								<p:panelGrid columns="2" styleClass="form-group ui-panelgrid-blank" layout="grid">
+									<p:commandButton value="Sim" styleClass="ui-confirmdialog-yes" icon="ui-icon-check"
+										actionListener="#{contaBean.listenerExcluirConta()}" onclick="PF('dlgExcluir').hide();" update="formPrincipal" />
+									<p:commandButton value="Não" styleClass="ui-confirmdialog-no" update="formPrincipal" icon="ui-icon-close"
+										onclick="PF('dlgExcluir').hide();" />
+								</p:panelGrid>
+							</div>
+						</div>
+					</div>
+				</h:form>
+			</p:dialog>
+		</h:form>
+	</ui:define>
 </ui:composition>

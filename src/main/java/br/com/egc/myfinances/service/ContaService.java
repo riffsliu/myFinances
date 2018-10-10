@@ -19,47 +19,47 @@ import br.com.egc.myfinances.util.Message;
 @Transactional
 public class ContaService implements Serializable {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	@Inject
-	private ContaDAO contaDAO;
+  /**
+   * 
+   */
+  private static final long serialVersionUID = 1L;
+  @Inject
+  private ContaDAO contaDAO;
 
-	public List<ContaVO> listarConta() {
+  public List<ContaVO> listarConta() {
 
-		return contaDAO.listarConta();
+    return contaDAO.listarConta();
 
-	}
+  }
 
-	public void adicionarConta(ContaVO contaVO) throws Exception {
+  public void adicionarConta(ContaVO contaVO) throws Exception {
 
-		if (contaVO.getContaPK() == null) {
+    if (contaVO.getContaPK() == null) {
 
-			if (StringUtils.isEmpty(contaVO.getNomeConta()) || StringUtils.isEmpty(contaVO.getDescricaoConta()) || contaVO.getDataSaldoInicial() == null || contaVO.getSaldoInicial() == null
-					|| contaVO.getSaldoAtual() == null) {
-				throw new Exception(Message.VALORES_OBRIGATORIOS);
+      if (StringUtils.isEmpty(contaVO.getNomeConta()) || StringUtils.isEmpty(contaVO.getDescricaoConta()) || contaVO.getDataSaldoInicial() == null
+          || contaVO.getSaldoInicial() == null || contaVO.getSaldoAtual() == null) {
+        throw new Exception(Message.VALORES_OBRIGATORIOS);
 
-			}
+      }
 
-			ContaPK contaPK = new ContaPK(1L, contaDAO.nextIdConta(1L));
-			contaPK.setIdUsuario(1L);
-			contaVO.setContaPK(contaPK);
+      ContaPK contaPK = new ContaPK(1L, contaDAO.nextIdConta(1L));
+      contaPK.setIdUsuario(1L);
+      contaVO.setContaPK(contaPK);
 
-			contaDAO.adicionarConta(contaVO);
-		} else {
-			contaDAO.atualizaConta(contaVO);
+      contaDAO.adicionarConta(contaVO);
+    } else {
+      contaDAO.atualizaConta(contaVO);
 
-		}
+    }
 
-	}
+  }
 
-	public void excluirConta(ContaVO contaVO) {
+  public void excluirConta(ContaVO contaVO) {
 
-		contaVO = contaDAO.buscarContaPorId(contaVO.getContaPK());
+    contaVO = contaDAO.buscarContaPorId(contaVO.getContaPK());
 
-		contaDAO.excluirConta(contaVO);
+    contaDAO.excluirConta(contaVO);
 
-	}
+  }
 
 }

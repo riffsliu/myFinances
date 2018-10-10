@@ -14,6 +14,7 @@ import br.com.egc.myfinances.entity.CategoriaVO;
 import br.com.egc.myfinances.entity.ContaVO;
 import br.com.egc.myfinances.entity.TipoCategoriaEnum;
 import br.com.egc.myfinances.service.CategoriaService;
+import br.com.egc.myfinances.util.Message;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -21,114 +22,177 @@ import lombok.Setter;
 @Named
 public class CategoriaBean extends BaseBean implements Serializable {
 
-	private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 1L;
 
-	@Inject
-	private CategoriaService categoriaService;
+  @Inject
+  private CategoriaService categoriaService;
 
-	@Getter
-	@Setter
-	private CategoriaVO categoriaVO;
+  @Getter
+  @Setter
+  private CategoriaVO categoriaVO;
 
-	@Getter
-	@Setter
-	private List<CategoriaVO> listCategoriaRendas;
+  @Getter
+  @Setter
+  private List<CategoriaVO> listCategoriaRendas;
 
-	@Getter
-	@Setter
-	private List<CategoriaVO> listCategoriaDespesas;
+  @Getter
+  @Setter
+  private List<CategoriaVO> listCategoriaDespesas;
 
-	@Getter
-	@Setter
-	private TipoCategoriaEnum[] listTipoCategoriaEnum;
+  @Getter
+  @Setter
+  private TipoCategoriaEnum[] listTipoCategoriaEnum;
 
-	public void init() {
-		categoriaVO = new CategoriaVO();
+//  @Getter
+//  @Setter
+//  private Boolean renderizaAdicionar;
 
-		listTipoCategoriaEnum = TipoCategoriaEnum.values();
+  @Getter
+  @Setter
+  private Boolean renderizaAdicionarRenda;
 
-		listCategoriaDespesas = categoriaService.listarCategoriaDespesas();
-		listCategoriaRendas = categoriaService.listarCategoriaRendas();
+  @Getter
+  @Setter
+  private Boolean renderizaAdicionarDespesa;
 
-	}
-	
-	public void actionCategories() {
-		redirect("categories.xhtml");
-	}
-	
+  public void init() {
+    categoriaVO = new CategoriaVO();
 
-	public void initCategoriaRendas() {
-		System.out.println("CategoriaBean.initCategoriaRendas()");
-		listCategoriaRendas = categoriaService.listarCategoriaRendas();
+    listTipoCategoriaEnum = TipoCategoriaEnum.values();
 
-	}
+    listCategoriaDespesas = categoriaService.listarCategoriaDespesas();
+    listCategoriaRendas = categoriaService.listarCategoriaRendas();
+    renderizaAdicionarDespesa = Boolean.FALSE;
+    renderizaAdicionarRenda = Boolean.FALSE;
 
-	public void initCategoriaDespesas() {
-		System.out.println("CategoriaBean.actionCategoriaDespesas()");
-		listCategoriaDespesas = categoriaService.listarCategoriaDespesas();
-	}
+  }
 
-	public void listenerSalvarCategoriaDespesa() {
+  public void actionCategories() {
+    init();
+    redirect("categories.xhtml");
+  }
 
-		try {
+  public void initCategoriaRendas() {
+    System.out.println("CategoriaBean.initCategoriaRendas()");
+    listCategoriaRendas = categoriaService.listarCategoriaRendas();
 
-			categoriaVO.setTipoCategoriaEnum(TipoCategoriaEnum.DESPESAS);
+  }
 
-			if (categoriaVO.getCategoriaPK() == null) {
-				categoriaService.salvarCategoria(categoriaVO);
+  public void initCategoriaDespesas() {
+    System.out.println("CategoriaBean.actionCategoriaDespesas()");
+    listCategoriaDespesas = categoriaService.listarCategoriaDespesas();
+  }
 
-			} else {
-				categoriaService.atualizarCategoria(categoriaVO);
+  public void listenerSalvarCategoriaDespesa() {
 
-			}
+    try {
 
-			categoriaVO = new CategoriaVO();
+      categoriaVO.setTipoCategoriaEnum(TipoCategoriaEnum.DESPESAS);
 
-			listCategoriaDespesas = categoriaService.listarCategoriaDespesas();
+      if (categoriaVO.getCategoriaPK() == null) {
+        categoriaService.salvarCategoria(categoriaVO);
 
-			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_INFO, "Categoria created.", "Succesful"));
+      } else {
+        categoriaService.atualizarCategoria(categoriaVO);
 
-		} catch (Exception e) {
-			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage(), "Error"));
-		}
+      }
 
-	}
+      categoriaVO = new CategoriaVO();
 
-	public void listenerSalvarCategoriaRenda() {
+      listCategoriaDespesas = categoriaService.listarCategoriaDespesas();
 
-		try {
-			categoriaVO.setTipoCategoriaEnum(TipoCategoriaEnum.RENDAS);
+      FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Categoria created.", "Succesful"));
 
-			if (categoriaVO.getCategoriaPK() == null) {
-				categoriaService.salvarCategoria(categoriaVO);
+    } catch (Exception e) {
+      FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage(), "Error"));
+    }
 
-			} else {
-				categoriaService.atualizarCategoria(categoriaVO);
+  }
 
-			}
+  public void listenerAdicionarCategoriaDespesa() {
+    
+    try {
+      categoriaVO.setTipoCategoriaEnum(TipoCategoriaEnum.DESPESAS);
+      categoriaService.adicionarCategoria(categoriaVO);
+      init();
+      addInfoMessage(Message.CADASTRO_REALIZADO);
+    } catch (Exception e) {
+      addErrorMessage(e.getMessage());
+    }
+    
+  }
+  public void listenerAdicionarCategoriaRenda() {
 
-			categoriaVO = new CategoriaVO();
+    try {
+      categoriaVO.setTipoCategoriaEnum(TipoCategoriaEnum.RENDAS);
+      categoriaService.adicionarCategoria(categoriaVO);
+      init();
+      addInfoMessage(Message.CADASTRO_REALIZADO);
+    } catch (Exception e) {
+      addErrorMessage(e.getMessage());
+    }
 
-			listCategoriaRendas = categoriaService.listarCategoriaRendas();
+  }
 
-			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_INFO, "Categoria created.", "Succesful"));
+  public void listenerPrepararEdicao(CategoriaVO categoriaVO) {
 
-		} catch (Exception e) {
-			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage(), "Error"));
-		}
+    this.categoriaVO = categoriaVO;
 
-	}
+  }
 
-	
+  public void listenerPrepararExclusao(CategoriaVO categoriaVO) {
 
-	public void listenerPrepararEdicao(CategoriaVO categoriaVO) {
+    this.categoriaVO = categoriaVO;
 
-		this.categoriaVO = categoriaVO;
+  }
 
-	}
+  public void listenerCancelarAdicionarCategoriaRenda() {
+    try {
+      renderizaAdicionarRenda = Boolean.FALSE;
+    } catch (Exception e) {
+      addErrorMessage(e.getMessage());
+    }
+
+  }
+
+  public void listenerCancelarAdicionarCategoriaDespesa() {
+    try {
+      renderizaAdicionarDespesa = Boolean.FALSE;
+    } catch (Exception e) {
+      addErrorMessage(e.getMessage());
+    }
+    
+  }
+
+  public void listenerInicializarCategoriaRenda() {
+    try {
+      categoriaVO = new CategoriaVO();
+      renderizaAdicionarRenda = Boolean.TRUE;
+    } catch (Exception e) {
+      addErrorMessage(e.getMessage());
+    }
+
+  }
+
+  public void listenerInicializarCategoriaDespesa() {
+    try {
+      categoriaVO = new CategoriaVO();
+      renderizaAdicionarDespesa = Boolean.TRUE;
+    } catch (Exception e) {
+      addErrorMessage(e.getMessage());
+    }
+    
+  }
+
+  public void listenerExcluirCategoria() {
+    try {
+      categoriaService.excluirCategoria(categoriaVO);
+      init();
+      addInfoMessage(Message.CADASTRO_EXCLUIDO);
+    } catch (Exception e) {
+      addErrorMessage(e.getMessage());
+    }
+
+  }
 
 }

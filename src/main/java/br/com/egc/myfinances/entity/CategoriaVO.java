@@ -61,6 +61,9 @@ public class CategoriaVO implements Serializable {
 	
 	
 	
+	@Getter
+	@Setter
+	private String descricaoResumida;
 
 	@Getter
 	@Setter

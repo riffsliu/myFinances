@@ -21,7 +21,8 @@ public class LoginBean extends BaseBean implements Serializable {
 
 	@Getter
 	@Setter
-	private String emailUsuario = "e83carvalho@gmail.com";
+//	private String emailUsuario = "e83carvalho@gmail.com";
+	private String emailUsuario;
 
 	@Getter
 	@Setter
