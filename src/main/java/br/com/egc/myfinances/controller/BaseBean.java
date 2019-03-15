@@ -2,6 +2,7 @@ package br.com.egc.myfinances.controller;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
@@ -69,5 +70,19 @@ public class BaseBean implements Serializable {
 
   protected void openDialog(String widgetVar) {
     RequestContext.getCurrentInstance().execute("PF('" + widgetVar + "').show()");
+  }
+  
+  public Boolean renderizaCssValorPositivo(BigDecimal valor) {
+
+    if (valor == null) {
+      return Boolean.FALSE;
+    }
+    if (valor.compareTo(BigDecimal.ZERO) == -1) {
+      return Boolean.FALSE;
+    } else {
+      return Boolean.TRUE;
+
+    }
+
   }
 }

@@ -1,0 +1,107 @@
+<ui:composition
+  xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:ui="http://java.sun.com/jsf/facelets"
+  xmlns:p="http://primefaces.org/ui"
+  template="/WEB-INF/template.xhtml">
+  <ui:define name="title">Empty Page</ui:define>
+  <ui:define name="viewname">Empty</ui:define>
+  <ui:define name="content">
+    <h:form
+      prependId="false"
+      id="formPrincipal">
+      <p:growl
+        id="growl"
+        showDetail="true"
+        autoUpdate="true" />
+      <div class="dashboard">
+        <div class="ui-g">
+          <ui:include src="/contentDashboard.xhtml" />
+        </div>
+      </div>
+      <div class="ui-g ui-fluid">
+        <div class="ui-g-12">
+          <div class="card card-w-title"></div>
+        </div>
+      </div>
+      <div class="ui-g ui-fluid">
+        <div class="ui-g-12">
+          <div class="card card-w-title">
+            <h1>Transactions</h1>
+            <p:dataTable
+              id="transactionDataTable"
+              var="item"
+              value="#{resumoBean.listTransacaoVO}"
+              reflow="true">
+              <f:facet name="header">
+              </f:facet>
+              <p:column headerText="Data">
+                <h:outputText value="#{item.dataTransacao}">
+                  <f:convertDateTime pattern="dd/MM/yyyy" />
+                </h:outputText>
+              </p:column>
+              <p:column headerText="Descrição">
+                <h:outputText
+                  value="#{item.descricaoTransacao}"
+                  id="descricao" />
+                <p:tooltip
+                  for="descricao"
+                  value="#{item.descricaoPersonalizada}"></p:tooltip>
+              </p:column>
+              <p:column headerText="Valor">
+                <h:outputText
+                  value="#{item.valorTransacao}"
+                  style="color:red"
+                  rendered="#{!resumoBean.renderizaCssValorPositivo(item.valorTransacao)}">
+                  <f:convertNumber pattern="#,##0.00;" />
+                </h:outputText>
+                <h:outputText
+                  value="#{item.valorTransacao}"
+                  rendered="#{resumoBean.renderizaCssValorPositivo(item.valorTransacao)}">
+                  <f:convertNumber pattern="#,##0.00;" />
+                </h:outputText>
+              </p:column>
+
+              <p:column headerText="Categoria">
+                <h:outputText value="#{item.categoriaVO.descricaoCategoria}" />
+              </p:column>
+              <p:column headerText="Categoria">
+                <p:selectOneMenu
+                  styleClass="form-control"
+                  style="width: 100%;"
+                  value="#{item.categoriaVO}"
+                  converter="#{categoriaConverter}">
+
+                  <f:selectItems
+                    var="categoria"
+                    itemLabel="#{categoria.descricaoCategoria}"
+                    itemValue="#{categoria}"
+                    value="#{resumoBean.listCategoriaVO}"></f:selectItems>
+                </p:selectOneMenu>
+              </p:column>
+            </p:dataTable>
+          </div>
+        </div>
+      </div>
+      <div class="ui-g ui-fluid">
+        <div class="ui-g-12">
+          <div class="card card-w-title">
+            <p:commandButton
+              action="#{resumoBean.listenerAtualizarTransacao()}"
+              value="Atualizar"
+              update="formPrincipal">
+            </p:commandButton>
+            <p:spacer></p:spacer>
+            <p:commandButton
+              action="#{resumoBean.actionSummary()}"
+              value="Voltar"
+              update="formPrincipal">
+            </p:commandButton>
+
+          </div>
+        </div>
+      </div>
+    </h:form>
+  </ui:define>
+</ui:composition>

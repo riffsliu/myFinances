@@ -11,40 +11,17 @@
     <h:form
       prependId="false"
       id="formSummary">
-      <!-- <div class="ui-g ui-fluid"> -->
-      <!-- <div class="ui-g-12">
-        <div class="card card-w-title"> -->
-      <div class="card card-w-title">
-        <!-- <h1>Selecione a opção do semestre</h1> -->
-        <p:selectOneRadio
-          valueChangeListener="#{resumoBean.listenerRenderizaDataTablePorSemestre}"
-          layout="responsive"
-          columns="2"
-          value="#{resumoBean.opcaoSemestre}">
-          <f:selectItem
-            itemLabel="1º Semestre"
-            itemValue="1" />
-          <f:selectItem
-            itemLabel="2º Semestre"
-            itemValue="2" />
-          <p:ajax
-            event="change"
-            update="formSummary"></p:ajax>
-        </p:selectOneRadio>
-      </div>
       <div class="ui-g">
         <div class="ui-g-12">
           <div class="card card-w-title">
-            <h1>Summary</h1>
             <p:dataTable
               id="summaryDataTable1"
               var="item"
               value="#{resumoBean.listResumoDTO}"
-              reflow="true"
-              rendered="#{resumoBean.renderizaDataTablePrimeiroSemestre}">
+              reflow="true">
               <f:facet name="header">
-        Summary
-      </f:facet>
+                Summary
+              </f:facet>
               <p:column
                 headerText="Categoria"
                 style="width:150px;">
@@ -52,122 +29,81 @@
                 </h:outputText>
               </p:column>
               <p:column headerText="Jan">
-                <h:outputText
+                <p:commandLink
+                  action="#{resumoBean.actionResumoPorCategoria(item.idCategoria,'01')}"
                   value="#{item.mes01}"
-                  style="color:#{resumoBean.definindoStyleClass(item.mes01)}">
-                  <f:convertNumber pattern="#,##0.00;" />
-                </h:outputText>
+                  style="color:#{resumoBean.definindoStyleClass(item.mes01)}" />
               </p:column>
               <p:column headerText="Fev">
-                <h:outputText
+                <p:commandLink
+                  action="#{resumoBean.actionResumoPorCategoria(item.idCategoria,'02')}"
                   value="#{item.mes02}"
-                  style="color:#{resumoBean.definindoStyleClass(item.mes02)}">
-                  <f:convertNumber pattern="#,##0.00;" />
-                </h:outputText>
+                  style="color:#{resumoBean.definindoStyleClass(item.mes02)}" />
               </p:column>
               <p:column headerText="Mar">
-                <h:outputText
+                <p:commandLink
+                  action="#{resumoBean.actionResumoPorCategoria(item.idCategoria,'03')}"
                   value="#{item.mes03}"
-                  style="color:#{resumoBean.definindoStyleClass(item.mes03)}">
-                  <f:convertNumber pattern="#,##0.00;" />
-                </h:outputText>
+                  style="color:#{resumoBean.definindoStyleClass(item.mes03)}" />
               </p:column>
               <p:column headerText="Abr">
-                <h:outputText
+                <p:commandLink
+                  action="#{resumoBean.actionResumoPorCategoria(item.idCategoria,'04')}"
                   value="#{item.mes04}"
-                  style="color:#{resumoBean.definindoStyleClass(item.mes04)}">
-                  <f:convertNumber pattern="#,##0.00;" />
-                </h:outputText>
+                  style="color:#{resumoBean.definindoStyleClass(item.mes04)}" />
               </p:column>
               <p:column headerText="Mai">
-                <h:outputText
+                <p:commandLink
+                  action="#{resumoBean.actionResumoPorCategoria(item.idCategoria,'05')}"
                   value="#{item.mes05}"
-                  style="color:#{resumoBean.definindoStyleClass(item.mes05)}">
-                  <f:convertNumber pattern="#,##0.00;" />
-                </h:outputText>
+                  style="color:#{resumoBean.definindoStyleClass(item.mes05)}" />
               </p:column>
               <p:column headerText="Jun">
-                <h:outputText
+                <p:commandLink
+                  action="#{resumoBean.actionResumoPorCategoria(item.idCategoria,'06')}"
                   value="#{item.mes06}"
-                  style="color:#{resumoBean.definindoStyleClass(item.mes06)}">
-                  <f:convertNumber pattern="#,##0.00;" />
-                </h:outputText>
+                  style="color:#{resumoBean.definindoStyleClass(item.mes06)}" />
               </p:column>
               <p:column headerText="Jul">
-                <h:outputText
+                <p:commandLink
+                  action="#{resumoBean.actionResumoPorCategoria(item.idCategoria,'07')}"
                   value="#{item.mes07}"
-                  style="color:#{resumoBean.definindoStyleClass(item.mes07)}">
-                  <f:convertNumber pattern="#,##0.00;" />
-                </h:outputText>
-              </p:column>
-              <f:facet name="footer">
-                <h:outputText value="" />
-              </f:facet>
-            </p:dataTable>
-            <p:dataTable
-              id="summaryDataTable2"
-              var="item"
-              value="#{resumoBean.listResumoDTO}"
-              reflow="true"
-              rendered="#{resumoBean.renderizaDataTableSegundoSemestre}">
-              <f:facet name="header">
-        Summary
-      </f:facet>
-              <p:column
-                headerText="Categoria"
-                style="width:150px;">
-                <h:outputText value="#{item.descricaoCategoria}">
-                </h:outputText>
-              </p:column>
-              <p:column headerText="Jul">
-                <h:outputText
-                  value="#{item.mes07}"
-                  style="color:#{resumoBean.definindoStyleClass(item.mes07)}">
-                  <f:convertNumber pattern="#,##0.00;" />
-                </h:outputText>
+                  style="color:#{resumoBean.definindoStyleClass(item.mes07)}" />
               </p:column>
               <p:column headerText="Ago">
-                <h:outputText
+                <p:commandLink
+                  action="#{resumoBean.actionResumoPorCategoria(item.idCategoria,'08')}"
                   value="#{item.mes08}"
-                  style="color:#{resumoBean.definindoStyleClass(item.mes08)}">
-                  <f:convertNumber pattern="#,##0.00;" />
-                </h:outputText>
+                  style="color:#{resumoBean.definindoStyleClass(item.mes08)}" />
               </p:column>
               <p:column headerText="Set">
-                <h:outputText
+                <p:commandLink
+                  action="#{resumoBean.actionResumoPorCategoria(item.idCategoria,'09')}"
                   value="#{item.mes09}"
-                  style="color:#{resumoBean.definindoStyleClass(item.mes09)}">
-                  <f:convertNumber pattern="#,##0.00;" />
-                </h:outputText>
+                  style="color:#{resumoBean.definindoStyleClass(item.mes09)}" />
               </p:column>
               <p:column headerText="Out">
-                <h:outputText
+                <p:commandLink
+                  action="#{resumoBean.actionResumoPorCategoria(item.idCategoria,'10')}"
                   value="#{item.mes10}"
-                  style="color:#{resumoBean.definindoStyleClass(item.mes10)}">
-                  <f:convertNumber pattern="#,##0.00;" />
-                </h:outputText>
+                  style="color:#{resumoBean.definindoStyleClass(item.mes10)}" />
               </p:column>
               <p:column headerText="Nov">
-                <h:outputText
+                <p:commandLink
+                  action="#{resumoBean.actionResumoPorCategoria(item.idCategoria,'11')}"
                   value="#{item.mes11}"
-                  style="color:#{resumoBean.definindoStyleClass(item.mes11)}">
-                  <f:convertNumber pattern="#,##0.00;" />
-                </h:outputText>
+                  style="color:#{resumoBean.definindoStyleClass(item.mes11)}" />
               </p:column>
               <p:column headerText="Dez">
-                <h:outputText
+                <p:commandLink
+                  action="#{resumoBean.actionResumoPorCategoria(item.idCategoria,'12')}"
                   value="#{item.mes12}"
-                  style="color:#{resumoBean.definindoStyleClass(item.mes12)}">
-                  <f:convertNumber pattern="#,##0.00;" />
-                </h:outputText>
+                  style="color:#{resumoBean.definindoStyleClass(item.mes12)}" />
               </p:column>
               <f:facet name="footer">
                 <h:outputText value="" />
               </f:facet>
             </p:dataTable>
-            <!-- </div>
-      </div> -->
-            <!-- </div> -->
           </div>
         </div>
       </div>

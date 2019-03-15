@@ -139,5 +139,11 @@ public class CategoriaService implements Serializable {
     }
 
   }
+  
+  public CategoriaVO buscarCategoriaPorId(CategoriaPK categoriaPK) {
+
+    return categoriaDAO.buscarCategoriaPorId(categoriaPK);
+
+  }
 
 }

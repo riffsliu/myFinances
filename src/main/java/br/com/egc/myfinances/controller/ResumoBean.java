@@ -79,7 +79,7 @@ public class ResumoBean extends BaseBean implements Serializable {
 
   @Getter
   @Setter
-  private String mesAnoSelecionado;
+  private String mesSelecionado;
 
   private Calendar calendarAtual;
 
@@ -116,9 +116,11 @@ public class ResumoBean extends BaseBean implements Serializable {
 
   }
 
-  public void actionResumoPorCategoria(Long idCategoria, String mesAnoSelecionado) {
+  public void actionResumoPorCategoria(Long idCategoria, String mesSelecionado) {
 
-    this.mesAnoSelecionado = mesAnoSelecionado;
+    
+    
+    this.mesSelecionado = mesSelecionado;
 
     this.idCategoria = idCategoria;
 
@@ -126,9 +128,9 @@ public class ResumoBean extends BaseBean implements Serializable {
     categoriaPK.setIdUsuario(getUsuarioLogado().getIdUsuario());
     categoriaPK.setIdCategoria(idCategoria);
 
-    listTransacaoVO = transacaoService.listarTransacao(mesAnoSelecionado, categoriaPK);
+    listTransacaoVO = transacaoService.listarTransacao(mesSelecionado+"-"+this.anoSelecionado, categoriaPK);
 
-    categoriaVO = listTransacaoVO.get(0).getCategoriaVO();
+    categoriaVO = categoriaService.buscarCategoriaPorId(categoriaPK);
 
     if (categoriaVO.getTipoCategoriaEnum().equals(TipoCategoriaEnum.DESPESAS)) {
       listCategoriaVO = categoriaService.listarCategoriaDespesas();
@@ -139,7 +141,7 @@ public class ResumoBean extends BaseBean implements Serializable {
 
     System.out.println("ResumoBean.actionResumoPorCategoria()");
 
-    redirect("resumoPorCategoria.xhtml");
+    redirect("summaryByCategory.xhtml");
 
   }
 
@@ -175,7 +177,7 @@ public class ResumoBean extends BaseBean implements Serializable {
     categoriaPK.setIdUsuario(getUsuarioLogado().getIdUsuario());
     categoriaPK.setIdCategoria(idCategoria);
 
-    listTransacaoVO = transacaoService.listarTransacao(mesAnoSelecionado, categoriaPK);
+    listTransacaoVO = transacaoService.listarTransacao(mesSelecionado+"-"+anoSelecionado, categoriaPK);
 
   }
 

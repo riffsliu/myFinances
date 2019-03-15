@@ -86,19 +86,7 @@ public class TransacaoBean extends BaseBean implements Serializable {
 
   }
 
-  public Boolean renderizaCssValorPositivo(BigDecimal valor) {
-
-    if (valor == null) {
-      return Boolean.FALSE;
-    }
-    if (valor.compareTo(BigDecimal.ZERO) == -1) {
-      return Boolean.FALSE;
-    } else {
-      return Boolean.TRUE;
-
-    }
-
-  }
+ 
 
   public Boolean renderizaRemoverTransacao(TransacaoVO transacaoVO) {
 
